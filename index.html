@@ -4,17 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     
-    <!-- iOS PWA 設定 -->
+    <!-- PWA 設定 -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="澳洲之旅">
-
-    <!-- Android / Chrome PWA 設定 -->
     <meta name="theme-color" content="#F2F2F7">
     
     <title>2026 澳洲之旅</title>
 
-    <!-- 內嵌 App 圖示 (藍底飛機圖案) -->
+    <!-- App Icon (藍底飛機圖案) -->
     <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='120' fill='%23007AFF'/%3E%3Ctext x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' font-size='280'%3E✈️%3C/text%3E%3C/svg%3E">
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='120' fill='%23007AFF'/%3E%3Ctext x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' font-size='280'%3E✈️%3C/text%3E%3C/svg%3E">
 
@@ -30,7 +28,8 @@
             --safe-area-top: env(safe-area-inset-top);
         }
 
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; user-select: none; }
+        /* 基礎樣式和響應式設計 */
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
         body {
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
@@ -41,16 +40,14 @@
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            /* 修正全螢幕模式下的狀態列遮擋 */
             padding-top: var(--safe-area-top);
         }
 
-        /* 內容顯示區 */
         .view-container {
             flex: 1;
             overflow-y: auto;
             overflow-x: hidden;
-            padding: 20px 16px 100px 16px; /* 底部留白給導航列 */
+            padding: 20px 16px 100px 16px; 
             display: none;
             opacity: 0;
             transition: opacity 0.2s ease;
@@ -59,22 +56,12 @@
         .view-container.active {
             display: block;
             opacity: 1;
-            animation: fadeIn 0.3s ease-out;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(5px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* 大標題 */
-        .header-large {
-            padding: 20px 0 10px 4px;
-        }
+        .header-large { padding: 20px 0 10px 4px; }
         .header-large h1 { font-size: 34px; font-weight: 800; margin: 0; color: var(--text); letter-spacing: -0.5px; }
         .header-large p { font-size: 13px; color: var(--subtext); margin: 4px 0 0 2px; font-weight: 600; text-transform: uppercase; }
 
-        /* 卡片設計 */
         .card {
             background: var(--card);
             border-radius: 16px;
@@ -83,39 +70,30 @@
             box-shadow: 0 2px 8px rgba(0,0,0,0.04);
         }
 
-        /* 倒數計時卡片 */
+        /* 倒數計時卡片 (無變動) */
         .hero-card {
             background: linear-gradient(135deg, #0A84FF, #0055D4);
-            color: white;
-            text-align: center;
-            padding: 30px 20px;
-            border-radius: 22px;
-            margin-bottom: 24px;
-            box-shadow: 0 8px 20px rgba(10, 132, 255, 0.3);
-            position: relative;
-            overflow: hidden;
+            color: white; text-align: center; padding: 30px 20px; border-radius: 22px;
+            margin-bottom: 24px; box-shadow: 0 8px 20px rgba(10, 132, 255, 0.3);
+            position: relative; overflow: hidden;
         }
         .hero-card::after {
-            content: "✈️";
-            font-size: 100px;
-            position: absolute;
-            right: -20px;
-            bottom: -30px;
-            opacity: 0.2;
-            transform: rotate(-10deg);
+            content: "✈️"; font-size: 100px; position: absolute; right: -20px; bottom: -30px;
+            opacity: 0.2; transform: rotate(-10deg);
         }
         .countdown { font-size: 42px; font-weight: 800; line-height: 1; margin: 5px 0; }
         .countdown span { font-size: 16px; font-weight: 500; opacity: 0.8; }
 
-        /* 行程時間軸 */
+        /* 行程時間軸 - 容器 */
         .timeline-row { display: flex; gap: 12px; margin-bottom: 20px; position: relative; }
         .timeline-row:last-child { margin-bottom: 0; }
         /* 連接線 */
         .timeline-row:not(:last-child)::before {
-            content: ''; position: absolute; left: 22px; top: 35px; bottom: -25px;
+            content: ''; position: absolute; left: 22px; top: 35px; bottom: -20px;
             width: 2px; background: var(--divider); z-index: 0;
         }
         
+        /* 行程時間軸 - 日期圓圈 */
         .t-date {
             background: #E5E5EA; color: #3A3A3C;
             width: 44px; height: 44px; border-radius: 12px;
@@ -127,79 +105,94 @@
         .t-date span { font-size: 10px; font-weight: 500; opacity: 0.6; margin-top: -2px; }
 
         .t-content { flex: 1; padding-top: 2px; }
-        .t-title { font-size: 17px; font-weight: 600; color: var(--text); margin-bottom: 2px; }
-        .t-desc { font-size: 14px; color: #636366; line-height: 1.4; }
-        .t-tag {
-            display: inline-block; font-size: 11px; font-weight: 700;
-            padding: 2px 6px; border-radius: 4px; margin-top: 4px;
-            background: #E0F2FE; color: #0284C7;
+        .t-title { font-size: 17px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+
+        /* 新增：活動列表樣式 */
+        .activity-list {
+            display: flex; flex-direction: column; gap: 8px;
+            border-left: 2px solid #F0F0F0; /* 視覺上區隔當天的活動 */
+            padding-left: 10px;
+        }
+        .activity-item {
+            display: flex; align-items: center; justify-content: space-between;
+            font-size: 14px;
+            color: #636366;
+            padding: 4px 0;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.1s;
+        }
+        .activity-item:active {
+            background-color: #F8F8F8;
         }
 
-        /* 票券夾 */
+        .activity-time {
+            font-weight: 700;
+            color: var(--primary);
+            flex-shrink: 0;
+            width: 50px;
+        }
+        .activity-name {
+            flex-grow: 1;
+            margin-right: 10px;
+            color: var(--text);
+            font-weight: 500;
+        }
+        .map-icon {
+            font-size: 16px;
+            color: #34C759; /* Google Map green */
+            cursor: pointer;
+            flex-shrink: 0;
+            padding: 2px 4px;
+            border-radius: 4px;
+            /* 讓圖標看起來可點擊 */
+            background-color: rgba(52, 199, 89, 0.1); 
+        }
+
+        /* 其他原有樣式 (無變動) */
+        .city-section { margin-top: 24px; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; }
+        .city-name { font-size: 22px; font-weight: 800; color: var(--text); }
+        .city-hotel { font-size: 12px; color: var(--subtext); background: white; padding: 4px 8px; border-radius: 6px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+
         .ticket {
             background: white; border-radius: 16px; overflow: hidden;
             display: flex; margin-bottom: 16px;
-            border: 1px solid rgba(0,0,0,0.05);
-            position: relative;
+            border: 1px solid rgba(0,0,0,0.05); position: relative;
             box-shadow: 0 2px 8px rgba(0,0,0,0.02);
         }
-        /* 票券缺口效果 */
         .ticket::before, .ticket::after {
             content: ''; position: absolute; height: 20px; width: 20px; background: var(--bg);
-            border-radius: 50%; top: 50%; margin-top: -10px;
-            box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+            border-radius: 50%; top: 50%; margin-top: -10px; box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
         }
         .ticket::before { left: -10px; }
         .ticket::after { right: -10px; }
-
         .t-left {
             width: 80px; display: flex; align-items: center; justify-content: center;
-            background: #F9F9F9; border-right: 2px dashed #E5E5EA;
-            font-size: 32px;
+            background: #F9F9F9; border-right: 2px dashed #E5E5EA; font-size: 32px;
         }
         .t-right { flex: 1; padding: 16px 20px; }
         .t-name { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
         .t-detail { font-size: 13px; color: var(--subtext); display: flex; justify-content: space-between; }
         .status { color: #34C759; font-weight: 600; font-size: 12px; display: flex; align-items: center; gap: 4px; }
 
-        /* 底部導航 */
         .tab-bar {
             position: fixed; bottom: 0; left: 0; right: 0;
             background: rgba(255,255,255,0.85);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-top: 0.5px solid rgba(0,0,0,0.2);
-            display: flex; justify-content: space-around;
-            padding-top: 10px;
-            padding-bottom: max(10px, var(--safe-area-bottom));
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-top: 0.5px solid rgba(0,0,0,0.2); display: flex; justify-content: space-around;
+            padding-top: 10px; padding-bottom: max(10px, var(--safe-area-bottom));
             z-index: 100;
         }
-        .tab {
-            display: flex; flex-direction: column; align-items: center;
-            width: 50px; cursor: pointer; color: #999;
-            transition: color 0.2s, transform 0.1s;
-        }
+        .tab { display: flex; flex-direction: column; align-items: center; width: 50px; cursor: pointer; color: #999; transition: color 0.2s, transform 0.1s; }
         .tab:active { transform: scale(0.95); }
         .tab.active { color: var(--primary); }
         .tab-icon { font-size: 24px; margin-bottom: 3px; }
         .tab-label { font-size: 10px; font-weight: 500; }
-
-        /* 城市標題條 */
-        .city-section { margin-top: 24px; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; }
-        .city-name { font-size: 22px; font-weight: 800; color: var(--text); }
-        .city-hotel { font-size: 12px; color: var(--subtext); background: white; padding: 4px 8px; border-radius: 6px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
-
-        /* 重點提示 */
-        .alert-box {
-            background: #FFF8E1; border-left: 4px solid #FFC107;
-            padding: 12px; border-radius: 8px; font-size: 13px; color: #5D4037;
-            margin-bottom: 16px; line-height: 1.5;
-        }
     </style>
 </head>
 <body>
 
-    <!-- 1. 首頁 View -->
+    <!-- 1. 首頁 View (無變動) -->
     <div id="view-home" class="view-container active">
         <div class="header-large">
             <p>2026 澳洲東岸三城</p>
@@ -244,11 +237,11 @@
         </div>
     </div>
 
-    <!-- 2. 行程 View -->
+    <!-- 2. 行程 View (已更新為詳細列表及地圖連結) -->
     <div id="view-trip" class="view-container">
         <div class="header-large">
             <p>ITINERARY</p>
-            <h1>行程總覽</h1>
+            <h1>行程總覽 (點擊📍導航)</h1>
         </div>
 
         <!-- 布里斯本 -->
@@ -257,26 +250,71 @@
             <span class="city-hotel">Royal Albert Hotel</span>
         </div>
         <div class="card">
+            <!-- Day 1 -->
             <div class="timeline-row">
                 <div class="t-date"><span>1/27</span>二</div>
                 <div class="t-content">
-                    <div class="t-title">分批抵達</div>
-                    <div class="t-desc">12:00 第一梯抵達；22:00 您抵達 (Uber 會合)</div>
+                    <div class="t-title">分批抵達與休息</div>
+                    <div class="activity-list">
+                        <div class="activity-item" onclick="navigateToMap('Brisbane Airport International')">
+                            <span class="activity-time">22:00</span>
+                            <span class="activity-name">您抵達布里斯本機場</span>
+                            <span class="map-icon">📍</span>
+                        </div>
+                        <div class="activity-item" onclick="navigateToMap('Royal Albert Hotel, Brisbane')">
+                            <span class="activity-time">23:00</span>
+                            <span class="activity-name">入住 Royal Albert Hotel</span>
+                            <span class="map-icon">📍</span>
+                        </div>
+                    </div>
                 </div>
             </div>
+            <!-- Day 2 -->
             <div class="timeline-row">
                 <div class="t-date"><span>1/28</span>三</div>
                 <div class="t-content">
-                    <div class="t-title">河岸漫遊</div>
-                    <div class="t-desc">南岸公園、免費渡輪、Howard Smith Wharves 晚餐</div>
+                    <div class="t-title">河岸漫遊與美食</div>
+                    <div class="activity-list">
+                        <div class="activity-item" onclick="navigateToMap('South Bank Parklands, Brisbane')">
+                            <span class="activity-time">10:00</span>
+                            <span class="activity-name">南岸公園散步 (免費泳池)</span>
+                            <span class="map-icon">📍</span>
+                        </div>
+                        <div class="activity-item" onclick="navigateToMap('Brisbane CityHopper')">
+                            <span class="activity-time">14:00</span>
+                            <span class="activity-name">搭乘免費紅色渡輪</span>
+                            <span class="map-icon">📍</span>
+                        </div>
+                        <div class="activity-item" onclick="navigateToMap('Howard Smith Wharves, Brisbane')">
+                            <span class="activity-time">18:30</span>
+                            <span class="activity-name">Howard Smith Wharves 晚餐</span>
+                            <span class="map-icon">📍</span>
+                        </div>
+                    </div>
                 </div>
             </div>
+            <!-- Day 3 -->
             <div class="timeline-row">
                 <div class="t-date highlight"><span>1/29</span>四</div>
                 <div class="t-content">
-                    <div class="t-title">鐘塔 & 移動</div>
-                    <div class="t-desc">10:30 市政廳導覽，14:30 取車往黃金海岸</div>
-                    <span class="t-tag">15:30 自駕出發</span>
+                    <div class="t-title">鐘塔、取車與移動</div>
+                    <div class="activity-list">
+                        <div class="activity-item" onclick="navigateToMap('Brisbane City Hall, Brisbane')">
+                            <span class="activity-time">10:30</span>
+                            <span class="activity-name">市政廳免費導覽 (鐘樓)</span>
+                            <span class="map-icon">📍</span>
+                        </div>
+                        <div class="activity-item" onclick="navigateToMap('Budget Car Rental 53 Albert St')">
+                            <span class="activity-time">14:30</span>
+                            <span class="activity-name">Budget 取車 (53 Albert St)</span>
+                            <span class="map-icon">📍</span>
+                        </div>
+                        <div class="activity-item" onclick="navigateToMap('Grande Florida, Gold Coast')">
+                            <span class="activity-time">15:30</span>
+                            <span class="activity-name">自駕前往黃金海岸 Grande Florida</span>
+                            <span class="map-icon">📍</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -287,18 +325,42 @@
             <span class="city-hotel">Grande Florida</span>
         </div>
         <div class="card">
+            <!-- Day 4 -->
             <div class="timeline-row">
                 <div class="t-date"><span>1/30</span>五</div>
                 <div class="t-content">
-                    <div class="t-title">陽光與夜市</div>
-                    <div class="t-desc">衝浪者天堂，晚上 Miami Marketta 夜市</div>
+                    <div class="t-title">陽光、沙灘與夜市</div>
+                    <div class="activity-list">
+                        <div class="activity-item" onclick="navigateToMap('Surfers Paradise, Gold Coast')">
+                            <span class="activity-time">11:00</span>
+                            <span class="activity-name">衝浪者天堂海邊活動</span>
+                            <span class="map-icon">📍</span>
+                        </div>
+                        <div class="activity-item" onclick="navigateToMap('Miami Marketta, Gold Coast')">
+                            <span class="activity-time">19:00</span>
+                            <span class="activity-name">Miami Marketta 夜市美食</span>
+                            <span class="map-icon">📍</span>
+                        </div>
+                    </div>
                 </div>
             </div>
+            <!-- Day 5 -->
             <div class="timeline-row">
                 <div class="t-date highlight"><span>1/31</span>六</div>
                 <div class="t-content">
-                    <div class="t-title">無尾熊早餐</div>
-                    <div class="t-desc">08:00 庫倫賓 (已預約)，下午 Burleigh Heads</div>
+                    <div class="t-title">近距離接觸動物</div>
+                    <div class="activity-list">
+                        <div class="activity-item" onclick="navigateToMap('Currumbin Wildlife Sanctuary')">
+                            <span class="activity-time">08:00</span>
+                            <span class="activity-name">庫倫賓無尾熊早餐 (已預約)</span>
+                            <span class="map-icon">📍</span>
+                        </div>
+                        <div class="activity-item" onclick="navigateToMap('Burleigh Heads National Park')">
+                            <span class="activity-time">15:00</span>
+                            <span class="activity-name">Burleigh Heads 國家公園健行</span>
+                            <span class="map-icon">📍</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -309,25 +371,71 @@
             <span class="city-hotel">Holiday Inn</span>
         </div>
         <div class="card">
+            <!-- Day 6 -->
             <div class="timeline-row">
                 <div class="t-date highlight"><span>2/1</span>日</div>
                 <div class="t-content">
-                    <div class="t-title">飛行移動</div>
-                    <div class="t-desc">14:30 機場還車，17:05 VA970 飛雪梨</div>
+                    <div class="t-title">飛行移動與入住</div>
+                    <div class="activity-list">
+                        <div class="activity-item" onclick="navigateToMap('Gold Coast Airport')">
+                            <span class="activity-time">14:30</span>
+                            <span class="activity-name">黃金海岸機場還車</span>
+                            <span class="map-icon">📍</span>
+                        </div>
+                        <div class="activity-item" onclick="navigateToMap('Holiday Inn Darling Harbour, Sydney')">
+                            <span class="activity-time">20:30</span>
+                            <span class="activity-name">入住 Holiday Inn 達令港</span>
+                            <span class="map-icon">📍</span>
+                        </div>
+                    </div>
                 </div>
             </div>
+            <!-- Day 7 -->
             <div class="timeline-row">
                 <div class="t-date"><span>2/2</span>一</div>
                 <div class="t-content">
-                    <div class="t-title">港灣地標</div>
-                    <div class="t-desc">歌劇院、岩石區、達令港</div>
+                    <div class="t-title">經典港灣地標</div>
+                    <div class="activity-list">
+                        <div class="activity-item" onclick="navigateToMap('Sydney Opera House')">
+                            <span class="activity-time">10:00</span>
+                            <span class="activity-name">雪梨歌劇院參觀</span>
+                            <span class="map-icon">📍</span>
+                        </div>
+                        <div class="activity-item" onclick="navigateToMap('The Rocks, Sydney')">
+                            <span class="activity-time">14:00</span>
+                            <span class="activity-name">岩石區市集漫步</span>
+                            <span class="map-icon">📍</span>
+                        </div>
+                        <div class="activity-item" onclick="navigateToMap('Darling Harbour, Sydney')">
+                            <span class="activity-time">18:00</span>
+                            <span class="activity-name">達令港晚餐與夜景</span>
+                            <span class="map-icon">📍</span>
+                        </div>
+                    </div>
                 </div>
             </div>
+            <!-- Day 8 -->
             <div class="timeline-row">
                 <div class="t-date"><span>2/3</span>二</div>
                 <div class="t-content">
-                    <div class="t-title">藍山探險</div>
-                    <div class="t-desc">三姐妹岩、景觀纜車一日遊</div>
+                    <div class="t-title">藍山國家公園</div>
+                    <div class="activity-list">
+                        <div class="activity-item" onclick="navigateToMap('Katoomba Station')">
+                            <span class="activity-time">08:00</span>
+                            <span class="activity-name">從中央車站搭火車出發</span>
+                            <span class="map-icon">📍</span>
+                        </div>
+                        <div class="activity-item" onclick="navigateToMap('Three Sisters, Blue Mountains')">
+                            <span class="activity-time">11:00</span>
+                            <span class="activity-name">三姐妹岩觀景台</span>
+                            <span class="map-icon">📍</span>
+                        </div>
+                        <div class="activity-item" onclick="navigateToMap('Scenic World Blue Mountains')">
+                            <span class="activity-time">13:30</span>
+                            <span class="activity-name">景觀世界纜車體驗</span>
+                            <span class="map-icon">📍</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -338,31 +446,86 @@
             <span class="city-hotel">Dorsett Melb</span>
         </div>
         <div class="card">
+            <!-- Day 9 -->
             <div class="timeline-row">
                 <div class="t-date highlight"><span>2/4</span>三</div>
                 <div class="t-content">
-                    <div class="t-title">移動 & 夜市</div>
-                    <div class="t-desc">16:00 VA858 飛墨爾本，晚上夏季夜市</div>
+                    <div class="t-title">移動與都市夜景</div>
+                    <div class="activity-list">
+                        <div class="activity-item" onclick="navigateToMap('Sydney Airport')">
+                            <span class="activity-time">14:00</span>
+                            <span class="activity-name">雪梨機場 VA858 飛墨爾本</span>
+                            <span class="map-icon">📍</span>
+                        </div>
+                        <div class="activity-item" onclick="navigateToMap('Dorsett Melbourne')">
+                            <span class="activity-time">18:30</span>
+                            <span class="activity-name">入住 Dorsett Melbourne</span>
+                            <span class="map-icon">📍</span>
+                        </div>
+                    </div>
                 </div>
             </div>
+            <!-- Day 10 -->
+            <div class="timeline-row">
+                <div class="t-date"><span>2/5</span>四</div>
+                <div class="t-content">
+                    <div class="t-title">藝文與美食探索</div>
+                    <div class="activity-list">
+                        <div class="activity-item" onclick="navigateToMap('Federation Square, Melbourne')">
+                            <span class="activity-time">10:00</span>
+                            <span class="activity-name">聯邦廣場與塗鴉巷 (Hosier Lane)</span>
+                            <span class="map-icon">📍</span>
+                        </div>
+                        <div class="activity-item" onclick="navigateToMap('Melbourne Museum')">
+                            <span class="activity-time">14:00</span>
+                            <span class="activity-name">墨爾本博物館參觀</span>
+                            <span class="map-icon">📍</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Day 11 -->
             <div class="timeline-row">
                 <div class="t-date highlight"><span>2/6</span>五</div>
                 <div class="t-content">
-                    <div class="t-title">蒸汽火車+企鵝</div>
-                    <div class="t-desc">09:00 一日遊出發 (已預約)，請帶保暖衣物</div>
+                    <div class="t-title">經典一日遊</div>
+                    <div class="activity-list">
+                        <div class="activity-item" onclick="navigateToMap('Puffing Billy Railway')">
+                            <span class="activity-time">09:00</span>
+                            <span class="activity-name">普芬比利蒸汽火車 (一日遊)</span>
+                            <span class="map-icon">📍</span>
+                        </div>
+                        <div class="activity-item" onclick="navigateToMap('Phillip Island Nature Parks')">
+                            <span class="activity-time">19:00</span>
+                            <span class="activity-name">菲利普島企鵝歸巢 (注意保暖)</span>
+                            <span class="map-icon">📍</span>
+                        </div>
+                    </div>
                 </div>
             </div>
+            <!-- Day 14 -->
             <div class="timeline-row">
                 <div class="t-date"><span>2/8</span>日</div>
                 <div class="t-content">
                     <div class="t-title">賦歸</div>
-                    <div class="t-desc">維多利亞早市，下午前往機場</div>
+                    <div class="activity-list">
+                        <div class="activity-item" onclick="navigateToMap('Queen Victoria Market, Melbourne')">
+                            <span class="activity-time">09:00</span>
+                            <span class="activity-name">維多利亞早市購買紀念品</span>
+                            <span class="map-icon">📍</span>
+                        </div>
+                        <div class="activity-item" onclick="navigateToMap('Melbourne Airport')">
+                            <span class="activity-time">15:00</span>
+                            <span class="activity-name">前往墨爾本機場 (Tullamarine)</span>
+                            <span class="map-icon">📍</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- 3. 票券 View -->
+    <!-- 3. 票券 View (無變動) -->
     <div id="view-wallet" class="view-container">
         <div class="header-large">
             <p>TICKETS</p>
@@ -414,7 +577,7 @@
         </div>
     </div>
 
-    <!-- 底部 Tab Bar -->
+    <!-- 底部 Tab Bar (無變動) -->
     <div class="tab-bar">
         <div class="tab active" onclick="switchTab('home', this)">
             <div class="tab-icon">🏠</div>
@@ -431,18 +594,27 @@
     </div>
 
     <script>
+        // 導航到 Google 地圖
+        function navigateToMap(locationName) {
+            if (locationName) {
+                // 使用 Google Maps API URL 格式，以 locationName 進行搜尋或導航
+                const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(locationName)}`;
+                
+                // 在新分頁打開，避免跳出 PWA 應用程式
+                window.open(mapUrl, '_blank');
+            } else {
+                console.error("Location name is missing for navigation.");
+            }
+        }
+
+        // 頁面切換邏輯
         function switchTab(viewId, tabElement) {
-            // 隱藏所有 View
             document.querySelectorAll('.view-container').forEach(el => el.classList.remove('active'));
-            // 取消所有 Tab 狀態
             document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
             
-            // 顯示目標 View
             document.getElementById('view-' + viewId).classList.add('active');
-            // 激活目標 Tab
             tabElement.classList.add('active');
             
-            // 滾動回頂部
             window.scrollTo(0,0);
         }
 
@@ -452,13 +624,10 @@
             const targetDate = new Date('2026-01-27T00:00:00'); 
             const now = new Date();
             
-            // 計算時間差 (毫秒)
             const diff = targetDate - now;
-            
-            // 轉換為天數 (向上取整)
             let days = Math.ceil(diff / (1000 * 60 * 60 * 24));
             
-            if (days < 0) days = 0; // 如果過期顯示 0
+            if (days < 0) days = 0; 
 
             const countdownEl = document.getElementById('countdown-timer');
             if (countdownEl) {
@@ -468,7 +637,6 @@
 
         // 初始化倒數
         updateCountdown();
-        // 每天更新一次
         setInterval(updateCountdown, 86400000);
     </script>
 </body>
