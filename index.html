@@ -12,9 +12,9 @@
     
     <title>2026 澳洲之旅</title>
 
-    <!-- App Icon (藍底飛機圖案) -->
-    <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='120' fill='%23007AFF'/%3E%3Ctext x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' font-size='280'%3E✈️%3C/text%3E%3C/svg%3E">
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='120' fill='%23007AFF'/%3E%3Ctext x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' font-size='280'%3E✈️%3C/text%3E%3C/svg%3E">
+    <!-- App Icon (無尾熊 🐨 + 金黃底色) -->
+    <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='120' fill='%23FFD60A'/%3E%3Ctext x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' font-size='280'%3E🐨%3C/text%3E%3C/svg%3E">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='120' fill='%23FFD60A'/%3E%3Ctext x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' font-size='280'%3E🐨%3C/text%3E%3C/svg%3E">
 
     <style>
         :root {
@@ -28,7 +28,7 @@
             --safe-area-top: env(safe-area-inset-top);
         }
 
-        /* 基礎樣式和響應式設計 */
+        /* 基礎樣式 */
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
         body {
@@ -43,6 +43,7 @@
             padding-top: var(--safe-area-top);
         }
 
+        /* 視圖容器 */
         .view-container {
             flex: 1;
             overflow-y: auto;
@@ -58,6 +59,7 @@
             opacity: 1;
         }
 
+        /* 標題樣式 */
         .header-large { padding: 20px 0 10px 4px; }
         .header-large h1 { font-size: 34px; font-weight: 800; margin: 0; color: var(--text); letter-spacing: -0.5px; }
         .header-large p { font-size: 13px; color: var(--subtext); margin: 4px 0 0 2px; font-weight: 600; text-transform: uppercase; }
@@ -70,7 +72,7 @@
             box-shadow: 0 2px 8px rgba(0,0,0,0.04);
         }
 
-        /* 倒數計時卡片 (無變動) */
+        /* 首頁倒數卡片 */
         .hero-card {
             background: linear-gradient(135deg, #0A84FF, #0055D4);
             color: white; text-align: center; padding: 30px 20px; border-radius: 22px;
@@ -84,16 +86,15 @@
         .countdown { font-size: 42px; font-weight: 800; line-height: 1; margin: 5px 0; }
         .countdown span { font-size: 16px; font-weight: 500; opacity: 0.8; }
 
-        /* 行程時間軸 - 容器 */
+        /* 行程時間軸 */
         .timeline-row { display: flex; gap: 12px; margin-bottom: 20px; position: relative; }
         .timeline-row:last-child { margin-bottom: 0; }
-        /* 連接線 */
         .timeline-row:not(:last-child)::before {
             content: ''; position: absolute; left: 22px; top: 35px; bottom: -20px;
             width: 2px; background: var(--divider); z-index: 0;
         }
         
-        /* 行程時間軸 - 日期圓圈 */
+        /* 日期樣式 */
         .t-date {
             background: #E5E5EA; color: #3A3A3C;
             width: 44px; height: 44px; border-radius: 12px;
@@ -107,53 +108,43 @@
         .t-content { flex: 1; padding-top: 2px; }
         .t-title { font-size: 17px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
 
-        /* 新增：活動列表樣式 */
+        /* 活動列表與地圖按鈕 */
         .activity-list {
             display: flex; flex-direction: column; gap: 8px;
-            border-left: 2px solid #F0F0F0; /* 視覺上區隔當天的活動 */
+            border-left: 2px solid #F0F0F0;
             padding-left: 10px;
         }
         .activity-item {
             display: flex; align-items: center; justify-content: space-between;
             font-size: 14px;
             color: #636366;
-            padding: 4px 0;
+            padding: 6px 4px;
             border-radius: 4px;
             cursor: pointer;
             transition: background-color 0.1s;
         }
-        .activity-item:active {
-            background-color: #F8F8F8;
-        }
+        .activity-item:active { background-color: #F2F2F7; }
 
         .activity-time {
-            font-weight: 700;
-            color: var(--primary);
-            flex-shrink: 0;
-            width: 50px;
+            font-weight: 700; color: var(--primary);
+            flex-shrink: 0; width: 50px;
         }
         .activity-name {
-            flex-grow: 1;
-            margin-right: 10px;
-            color: var(--text);
-            font-weight: 500;
+            flex-grow: 1; margin-right: 10px;
+            color: var(--text); font-weight: 500;
         }
         .map-icon {
-            font-size: 16px;
-            color: #34C759; /* Google Map green */
-            cursor: pointer;
-            flex-shrink: 0;
-            padding: 2px 4px;
-            border-radius: 4px;
-            /* 讓圖標看起來可點擊 */
+            font-size: 16px; color: #34C759;
+            padding: 4px 6px; border-radius: 6px;
             background-color: rgba(52, 199, 89, 0.1); 
         }
 
-        /* 其他原有樣式 (無變動) */
+        /* 城市區塊 */
         .city-section { margin-top: 24px; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; }
         .city-name { font-size: 22px; font-weight: 800; color: var(--text); }
         .city-hotel { font-size: 12px; color: var(--subtext); background: white; padding: 4px 8px; border-radius: 6px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
 
+        /* 票券樣式 */
         .ticket {
             background: white; border-radius: 16px; overflow: hidden;
             display: flex; margin-bottom: 16px;
@@ -175,6 +166,13 @@
         .t-detail { font-size: 13px; color: var(--subtext); display: flex; justify-content: space-between; }
         .status { color: #34C759; font-weight: 600; font-size: 12px; display: flex; align-items: center; gap: 4px; }
 
+        .alert-box {
+            background: #FFF8E1; border-left: 4px solid #FFC107;
+            padding: 12px; border-radius: 8px; font-size: 13px; color: #5D4037;
+            margin-bottom: 16px; line-height: 1.5;
+        }
+
+        /* 底部 Tab Bar */
         .tab-bar {
             position: fixed; bottom: 0; left: 0; right: 0;
             background: rgba(255,255,255,0.85);
@@ -192,7 +190,7 @@
 </head>
 <body>
 
-    <!-- 1. 首頁 View (無變動) -->
+    <!-- 1. 首頁 View -->
     <div id="view-home" class="view-container active">
         <div class="header-large">
             <p>2026 澳洲東岸三城</p>
@@ -237,7 +235,7 @@
         </div>
     </div>
 
-    <!-- 2. 行程 View (已更新為詳細列表及地圖連結) -->
+    <!-- 2. 行程 View -->
     <div id="view-trip" class="view-container">
         <div class="header-large">
             <p>ITINERARY</p>
@@ -503,7 +501,31 @@
                     </div>
                 </div>
             </div>
-            <!-- Day 14 -->
+            <!-- Day 12 (補上空白日) -->
+            <div class="timeline-row">
+                <div class="t-date highlight"><span>2/7</span>六</div>
+                <div class="t-content">
+                    <div class="t-title">週末市集與城市漫遊</div>
+                    <div class="activity-list">
+                        <div class="activity-item" onclick="navigateToMap('South Melbourne Market')">
+                            <span class="activity-time">09:00</span>
+                            <span class="activity-name">南墨爾本市場 (推薦生蠔/咖啡)</span>
+                            <span class="map-icon">📍</span>
+                        </div>
+                        <div class="activity-item" onclick="navigateToMap('Brighton Bathing Boxes, Brighton')">
+                            <span class="activity-time">14:00</span>
+                            <span class="activity-name">布萊頓海灘彩虹小屋</span>
+                            <span class="map-icon">📍</span>
+                        </div>
+                        <div class="activity-item" onclick="navigateToMap('Yarra River, Melbourne')">
+                            <span class="activity-time">18:00</span>
+                            <span class="activity-name">亞拉河畔散步與晚餐</span>
+                            <span class="map-icon">📍</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Day 13 -->
             <div class="timeline-row">
                 <div class="t-date"><span>2/8</span>日</div>
                 <div class="t-content">
@@ -525,7 +547,7 @@
         </div>
     </div>
 
-    <!-- 3. 票券 View (無變動) -->
+    <!-- 3. 票券 View -->
     <div id="view-wallet" class="view-container">
         <div class="header-large">
             <p>TICKETS</p>
@@ -577,7 +599,7 @@
         </div>
     </div>
 
-    <!-- 底部 Tab Bar (無變動) -->
+    <!-- 底部 Tab Bar -->
     <div class="tab-bar">
         <div class="tab active" onclick="switchTab('home', this)">
             <div class="tab-icon">🏠</div>
