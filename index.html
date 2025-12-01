@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    
+    <!-- iOS PWA 設定 -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="澳洲之旅">
+
+    <!-- Android / Chrome PWA 設定 -->
+    <meta name="theme-color" content="#F2F2F7">
+    
+    <title>2026 澳洲之旅</title>
+
+    <!-- 內嵌 App 圖示 (藍底飛機圖案) -->
+    <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='120' fill='%23007AFF'/%3E%3Ctext x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' font-size='280'%3E✈️%3C/text%3E%3C/svg%3E">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='120' fill='%23007AFF'/%3E%3Ctext x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' font-size='280'%3E✈️%3C/text%3E%3C/svg%3E">
+
+    <style>
+        :root {
+            --primary: #007AFF;
+            --bg: #F2F2F7;
+            --card: #FFFFFF;
+            --text: #1C1C1E;
+            --subtext: #8E8E93;
+            --divider: #E5E5EA;
+            --safe-area-bottom: env(safe-area-inset-bottom);
+            --safe-area-top: env(safe-area-inset-top);
+        }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; user-select: none; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
+            background-color: var(--bg);
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            /* 修正全螢幕模式下的狀態列遮擋 */
+            padding-top: var(--safe-area-top);
+        }
+
+        /* 內容顯示區 */
+        .view-container {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding: 20px 16px 100px 16px; /* 底部留白給導航列 */
+            display: none;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .view-container.active {
+            display: block;
+            opacity: 1;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 大標題 */
+        .header-large {
+            padding: 20px 0 10px 4px;
+        }
+        .header-large h1 { font-size: 34px; font-weight: 800; margin: 0; color: var(--text); letter-spacing: -0.5px; }
+        .header-large p { font-size: 13px; color: var(--subtext); margin: 4px 0 0 2px; font-weight: 600; text-transform: uppercase; }
+
+        /* 卡片設計 */
+        .card {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        /* 倒數計時卡片 */
+        .hero-card {
+            background: linear-gradient(135deg, #0A84FF, #0055D4);
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+            border-radius: 22px;
+            margin-bottom: 24px;
+            box-shadow: 0 8px 20px rgba(10, 132, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-card::after {
+            content: "✈️";
+            font-size: 100px;
+            position: absolute;
+            right: -20px;
+            bottom: -30px;
+            opacity: 0.2;
+            transform: rotate(-10deg);
+        }
+        .countdown { font-size: 42px; font-weight: 800; line-height: 1; margin: 5px 0; }
+        .countdown span { font-size: 16px; font-weight: 500; opacity: 0.8; }
+
+        /* 行程時間軸 */
+        .timeline-row { display: flex; gap: 12px; margin-bottom: 20px; position: relative; }
+        .timeline-row:last-child { margin-bottom: 0; }
+        /* 連接線 */
+        .timeline-row:not(:last-child)::before {
+            content: ''; position: absolute; left: 22px; top: 35px; bottom: -25px;
+            width: 2px; background: var(--divider); z-index: 0;
+        }
+        
+        .t-date {
+            background: #E5E5EA; color: #3A3A3C;
+            width: 44px; height: 44px; border-radius: 12px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            font-size: 16px; font-weight: 700;
+            flex-shrink: 0; z-index: 1;
+        }
+        .t-date.highlight { background: #FFD60A; color: #000; }
+        .t-date span { font-size: 10px; font-weight: 500; opacity: 0.6; margin-top: -2px; }
+
+        .t-content { flex: 1; padding-top: 2px; }
+        .t-title { font-size: 17px; font-weight: 600; color: var(--text); margin-bottom: 2px; }
+        .t-desc { font-size: 14px; color: #636366; line-height: 1.4; }
+        .t-tag {
+            display: inline-block; font-size: 11px; font-weight: 700;
+            padding: 2px 6px; border-radius: 4px; margin-top: 4px;
+            background: #E0F2FE; color: #0284C7;
+        }
+
+        /* 票券夾 */
+        .ticket {
+            background: white; border-radius: 16px; overflow: hidden;
+            display: flex; margin-bottom: 16px;
+            border: 1px solid rgba(0,0,0,0.05);
+            position: relative;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+        }
+        /* 票券缺口效果 */
+        .ticket::before, .ticket::after {
+            content: ''; position: absolute; height: 20px; width: 20px; background: var(--bg);
+            border-radius: 50%; top: 50%; margin-top: -10px;
+            box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+        }
+        .ticket::before { left: -10px; }
+        .ticket::after { right: -10px; }
+
+        .t-left {
+            width: 80px; display: flex; align-items: center; justify-content: center;
+            background: #F9F9F9; border-right: 2px dashed #E5E5EA;
+            font-size: 32px;
+        }
+        .t-right { flex: 1; padding: 16px 20px; }
+        .t-name { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+        .t-detail { font-size: 13px; color: var(--subtext); display: flex; justify-content: space-between; }
+        .status { color: #34C759; font-weight: 600; font-size: 12px; display: flex; align-items: center; gap: 4px; }
+
+        /* 底部導航 */
+        .tab-bar {
+            position: fixed; bottom: 0; left: 0; right: 0;
+            background: rgba(255,255,255,0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-top: 0.5px solid rgba(0,0,0,0.2);
+            display: flex; justify-content: space-around;
+            padding-top: 10px;
+            padding-bottom: max(10px, var(--safe-area-bottom));
+            z-index: 100;
+        }
+        .tab {
+            display: flex; flex-direction: column; align-items: center;
+            width: 50px; cursor: pointer; color: #999;
+            transition: color 0.2s, transform 0.1s;
+        }
+        .tab:active { transform: scale(0.95); }
+        .tab.active { color: var(--primary); }
+        .tab-icon { font-size: 24px; margin-bottom: 3px; }
+        .tab-label { font-size: 10px; font-weight: 500; }
+
+        /* 城市標題條 */
+        .city-section { margin-top: 24px; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; }
+        .city-name { font-size: 22px; font-weight: 800; color: var(--text); }
+        .city-hotel { font-size: 12px; color: var(--subtext); background: white; padding: 4px 8px; border-radius: 6px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+
+        /* 重點提示 */
+        .alert-box {
+            background: #FFF8E1; border-left: 4px solid #FFC107;
+            padding: 12px; border-radius: 8px; font-size: 13px; color: #5D4037;
+            margin-bottom: 16px; line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. 首頁 View -->
+    <div id="view-home" class="view-container active">
+        <div class="header-large">
+            <p>2026 澳洲東岸三城</p>
+            <h1>Hi, 準備出發!</h1>
+        </div>
+
+        <div class="hero-card">
+            <div style="font-size: 14px; opacity: 0.8;">距離 1/27 出發還有</div>
+            <div class="countdown" id="countdown-timer">-- <span>天</span></div>
+            <div style="margin-top: 10px; font-size: 12px; opacity: 0.9;">布里斯本 ➔ 黃金海岸 ➔ 雪梨 ➔ 墨爾本</div>
+        </div>
+
+        <div class="city-section">
+            <span class="city-name" style="font-size: 18px;">✨ 即將到來的重點</span>
+        </div>
+
+        <div class="ticket">
+            <div class="t-left">🐨</div>
+            <div class="t-right">
+                <div class="t-name">庫倫賓無尾熊早餐</div>
+                <div class="t-detail">
+                    <span>1/31 (六) 08:00</span>
+                    <span class="status">已預約 ✅</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="ticket">
+            <div class="t-left">🚗</div>
+            <div class="t-right">
+                <div class="t-name">Budget 取車</div>
+                <div class="t-detail">
+                    <span>1/29 (四) 14:30</span>
+                    <span class="status">53 Albert St</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="alert-box">
+            <strong>⚠️ 1/27 抵達提醒：</strong><br>
+            第一梯 12:00 抵達先放行李；您 22:00 抵達建議搭 Uber 直奔 Royal Albert Hotel 會合。
+        </div>
+    </div>
+
+    <!-- 2. 行程 View -->
+    <div id="view-trip" class="view-container">
+        <div class="header-large">
+            <p>ITINERARY</p>
+            <h1>行程總覽</h1>
+        </div>
+
+        <!-- 布里斯本 -->
+        <div class="city-section">
+            <span class="city-name">布里斯本</span>
+            <span class="city-hotel">Royal Albert Hotel</span>
+        </div>
+        <div class="card">
+            <div class="timeline-row">
+                <div class="t-date"><span>1/27</span>二</div>
+                <div class="t-content">
+                    <div class="t-title">分批抵達</div>
+                    <div class="t-desc">12:00 第一梯抵達；22:00 您抵達 (Uber 會合)</div>
+                </div>
+            </div>
+            <div class="timeline-row">
+                <div class="t-date"><span>1/28</span>三</div>
+                <div class="t-content">
+                    <div class="t-title">河岸漫遊</div>
+                    <div class="t-desc">南岸公園、免費渡輪、Howard Smith Wharves 晚餐</div>
+                </div>
+            </div>
+            <div class="timeline-row">
+                <div class="t-date highlight"><span>1/29</span>四</div>
+                <div class="t-content">
+                    <div class="t-title">鐘塔 & 移動</div>
+                    <div class="t-desc">10:30 市政廳導覽，14:30 取車往黃金海岸</div>
+                    <span class="t-tag">15:30 自駕出發</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 黃金海岸 -->
+        <div class="city-section">
+            <span class="city-name">黃金海岸</span>
+            <span class="city-hotel">Grande Florida</span>
+        </div>
+        <div class="card">
+            <div class="timeline-row">
+                <div class="t-date"><span>1/30</span>五</div>
+                <div class="t-content">
+                    <div class="t-title">陽光與夜市</div>
+                    <div class="t-desc">衝浪者天堂，晚上 Miami Marketta 夜市</div>
+                </div>
+            </div>
+            <div class="timeline-row">
+                <div class="t-date highlight"><span>1/31</span>六</div>
+                <div class="t-content">
+                    <div class="t-title">無尾熊早餐</div>
+                    <div class="t-desc">08:00 庫倫賓 (已預約)，下午 Burleigh Heads</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 雪梨 -->
+        <div class="city-section">
+            <span class="city-name">雪梨</span>
+            <span class="city-hotel">Holiday Inn</span>
+        </div>
+        <div class="card">
+            <div class="timeline-row">
+                <div class="t-date highlight"><span>2/1</span>日</div>
+                <div class="t-content">
+                    <div class="t-title">飛行移動</div>
+                    <div class="t-desc">14:30 機場還車，17:05 VA970 飛雪梨</div>
+                </div>
+            </div>
+            <div class="timeline-row">
+                <div class="t-date"><span>2/2</span>一</div>
+                <div class="t-content">
+                    <div class="t-title">港灣地標</div>
+                    <div class="t-desc">歌劇院、岩石區、達令港</div>
+                </div>
+            </div>
+            <div class="timeline-row">
+                <div class="t-date"><span>2/3</span>二</div>
+                <div class="t-content">
+                    <div class="t-title">藍山探險</div>
+                    <div class="t-desc">三姐妹岩、景觀纜車一日遊</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 墨爾本 -->
+        <div class="city-section">
+            <span class="city-name">墨爾本</span>
+            <span class="city-hotel">Dorsett Melb</span>
+        </div>
+        <div class="card">
+            <div class="timeline-row">
+                <div class="t-date highlight"><span>2/4</span>三</div>
+                <div class="t-content">
+                    <div class="t-title">移動 & 夜市</div>
+                    <div class="t-desc">16:00 VA858 飛墨爾本，晚上夏季夜市</div>
+                </div>
+            </div>
+            <div class="timeline-row">
+                <div class="t-date highlight"><span>2/6</span>五</div>
+                <div class="t-content">
+                    <div class="t-title">蒸汽火車+企鵝</div>
+                    <div class="t-desc">09:00 一日遊出發 (已預約)，請帶保暖衣物</div>
+                </div>
+            </div>
+            <div class="timeline-row">
+                <div class="t-date"><span>2/8</span>日</div>
+                <div class="t-content">
+                    <div class="t-title">賦歸</div>
+                    <div class="t-desc">維多利亞早市，下午前往機場</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. 票券 View -->
+    <div id="view-wallet" class="view-container">
+        <div class="header-large">
+            <p>TICKETS</p>
+            <h1>票券 & 訂位</h1>
+        </div>
+
+        <div class="ticket">
+            <div class="t-left">✈️</div>
+            <div class="t-right">
+                <div class="t-name">VA970 往雪梨</div>
+                <div class="t-detail">
+                    <span>2/1 17:05 (BNE)</span>
+                    <span class="status">Confirmed</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="ticket">
+            <div class="t-left">✈️</div>
+            <div class="t-right">
+                <div class="t-name">VA858 往墨爾本</div>
+                <div class="t-detail">
+                    <span>2/4 16:00 (SYD)</span>
+                    <span class="status">Confirmed</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="ticket">
+            <div class="t-left">🏨</div>
+            <div class="t-right">
+                <div class="t-name">Royal Albert Hotel</div>
+                <div class="t-detail">
+                    <span>Brisbane CBD</span>
+                    <span>1/27-1/29</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="ticket">
+            <div class="t-left">🐧</div>
+            <div class="t-right">
+                <div class="t-name">企鵝島一日遊</div>
+                <div class="t-detail">
+                    <span>2/6 09:00 出發</span>
+                    <span class="status">已預約 ✅</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 底部 Tab Bar -->
+    <div class="tab-bar">
+        <div class="tab active" onclick="switchTab('home', this)">
+            <div class="tab-icon">🏠</div>
+            <div class="tab-label">首頁</div>
+        </div>
+        <div class="tab" onclick="switchTab('trip', this)">
+            <div class="tab-icon">📅</div>
+            <div class="tab-label">行程</div>
+        </div>
+        <div class="tab" onclick="switchTab('wallet', this)">
+            <div class="tab-icon">🎫</div>
+            <div class="tab-label">票券</div>
+        </div>
+    </div>
+
+    <script>
+        function switchTab(viewId, tabElement) {
+            // 隱藏所有 View
+            document.querySelectorAll('.view-container').forEach(el => el.classList.remove('active'));
+            // 取消所有 Tab 狀態
+            document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
+            
+            // 顯示目標 View
+            document.getElementById('view-' + viewId).classList.add('active');
+            // 激活目標 Tab
+            tabElement.classList.add('active');
+            
+            // 滾動回頂部
+            window.scrollTo(0,0);
+        }
+
+        // 倒數計時邏輯
+        function updateCountdown() {
+            // 設定出發日期: 2026年1月27日
+            const targetDate = new Date('2026-01-27T00:00:00'); 
+            const now = new Date();
+            
+            // 計算時間差 (毫秒)
+            const diff = targetDate - now;
+            
+            // 轉換為天數 (向上取整)
+            let days = Math.ceil(diff / (1000 * 60 * 60 * 24));
+            
+            if (days < 0) days = 0; // 如果過期顯示 0
+
+            const countdownEl = document.getElementById('countdown-timer');
+            if (countdownEl) {
+                countdownEl.innerHTML = `${days} <span>天</span>`;
+            }
+        }
+
+        // 初始化倒數
+        updateCountdown();
+        // 每天更新一次
+        setInterval(updateCountdown, 86400000);
+    </script>
+</body>
+</html>
