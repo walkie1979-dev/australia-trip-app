@@ -8,58 +8,73 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="澳洲之旅">
-    <meta name="theme-color" content="#F2F2F7">
+    <meta name="theme-color" content="#F0F4F8">
     
     <title>2026 澳洲之旅</title>
 
-    <!-- App Icon (無尾熊 🐨 + 金黃底色) -->
+    <!-- App Icon -->
     <link rel="apple-touch-icon" sizes="180x180" href="https://cdn-icons-png.flaticon.com/512/3069/3069172.png">
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='120' fill='%23FFD60A'/%3E%3Ctext x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' font-size='280'%3E🐨%3C/text%3E%3C/svg%3E">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='120' fill='%233B82F6'/%3E%3Ctext x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' font-size='280'%3E🐨%3C/text%3E%3C/svg%3E">
 
     <style>
         :root {
-            /* 採用截圖中的藍紫色風格 */
-            --primary: #5B4DFF; 
-            --primary-light: #EEECFF;
-            --bg: #F5F7FA;
-            --card: #FFFFFF;
-            --text: #1C1C1E;
-            --subtext: #8E8E93;
-            --line: #E0E0E0;
-            --safe-area-top: env(safe-area-inset-top);
-            --safe-area-bottom: env(safe-area-inset-bottom);
+            /* 品牌色：更有質感的寶藍至天藍漸層 */
+            --primary: #3B82F6;
+            --primary-dark: #2563EB;
+            --accent: #F59E0B; /* 金色點綴 */
+            
+            /* 背景 */
+            --bg-color: #F0F4F8;
+            
+            /* 文字 */
+            --text-main: #1E293B;
+            --text-sub: #64748B;
+            --text-light: #94A3B8;
+            
+            /* 卡片 */
+            --card-bg: rgba(255, 255, 255, 0.85);
+            --card-border: rgba(255, 255, 255, 0.6);
+            --card-shadow: 0 10px 30px -10px rgba(59, 130, 246, 0.15);
+            
+            /* 安全區域 */
+            --safe-top: env(safe-area-inset-top);
+            --safe-bottom: env(safe-area-inset-bottom);
         }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
-            background-color: var(--bg);
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", sans-serif;
+            background-color: var(--bg-color);
             margin: 0;
             padding: 0;
             height: 100vh;
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            padding-top: var(--safe-area-top);
-            color: var(--text);
+            padding-top: var(--safe-top);
+            color: var(--text-main);
+            /* 添加背景氛圍光 */
+            background-image: 
+                radial-gradient(circle at 0% 0%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 100% 100%, rgba(245, 158, 11, 0.1) 0%, transparent 50%);
+            background-attachment: fixed;
         }
 
-        /* 視圖容器 */
+        /* 通用視圖容器 */
         .view-container {
             flex: 1;
-            overflow-y: hidden; /* 行程頁面自己處理滾動 */
+            overflow-y: hidden;
             display: none;
             opacity: 0;
-            transition: opacity 0.2s ease;
+            transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
-            background: var(--bg);
         }
         
-        /* 首頁和錢包頁面需要可以滾動 */
         #view-home, #view-wallet {
             overflow-y: auto;
-            padding: 20px 16px 100px 16px;
+            padding: 24px 20px 120px 20px;
+            scroll-behavior: smooth;
         }
 
         .view-container.active {
@@ -69,614 +84,670 @@
         }
 
         /* =========================================
-           Day Selector (頂部日期選擇條)
+           1. Header & Hero (首頁)
            ========================================= */
-        .day-selector-container {
-            background: white;
-            padding: 10px 0 10px 16px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
-            z-index: 10;
-            flex-shrink: 0;
+        .header-area { margin-bottom: 24px; padding-left: 4px; }
+        .header-sub { 
+            font-size: 13px; font-weight: 700; color: var(--primary); 
+            text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 4px; 
+            display: flex; align-items: center; gap: 6px;
+        }
+        .header-sub::before { content: ''; width: 20px; height: 2px; background: var(--primary); border-radius: 2px; }
+        .header-title { font-size: 32px; font-weight: 800; color: var(--text-main); margin: 0; letter-spacing: -0.5px; }
+
+        .hero-card {
+            background: linear-gradient(135deg, #3B82F6 0%, #60A5FA 100%);
+            color: white;
+            border-radius: 28px;
+            padding: 32px 24px;
+            margin-bottom: 32px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 40px -10px rgba(59, 130, 246, 0.4);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        /* 裝飾性背景圓圈 */
+        .hero-card::before {
+            content: ''; position: absolute; top: -50px; right: -50px;
+            width: 200px; height: 200px; background: rgba(255,255,255,0.1);
+            border-radius: 50%; filter: blur(40px);
         }
         
+        .hero-label { font-size: 14px; font-weight: 500; opacity: 0.9; margin-bottom: 8px; }
+        .hero-countdown { font-size: 48px; font-weight: 800; line-height: 1; margin-bottom: 12px; letter-spacing: -1px; }
+        .hero-countdown span { font-size: 16px; font-weight: 600; opacity: 0.8; margin-left: 4px; }
+        .hero-route { 
+            display: inline-flex; align-items: center; gap: 8px;
+            background: rgba(255,255,255,0.2); padding: 6px 12px; border-radius: 20px;
+            font-size: 12px; font-weight: 600; backdrop-filter: blur(4px);
+        }
+
+        /* 標題樣式 */
+        .section-header {
+            display: flex; align-items: center; justify-content: space-between;
+            margin: 32px 0 16px 0; padding: 0 4px;
+        }
+        .section-title { font-size: 18px; font-weight: 700; color: var(--text-main); }
+        .section-more { font-size: 13px; color: var(--primary); font-weight: 600; }
+
+        /* =========================================
+           2. Day Selector (日期選擇 - 玻璃擬態)
+           ========================================= */
+        .day-selector-sticky {
+            position: sticky; top: 0; z-index: 20;
+            background: rgba(240, 244, 248, 0.85); /* 半透明背景 */
+            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            padding: 12px 0 16px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.5);
+        }
+
         .day-scroller {
-            display: flex;
-            overflow-x: auto;
-            gap: 12px;
-            padding-right: 16px;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none; /* Firefox */
+            display: flex; overflow-x: auto; gap: 10px; padding-right: 20px;
+            scrollbar-width: none; -webkit-overflow-scrolling: touch;
         }
         .day-scroller::-webkit-scrollbar { display: none; }
 
-        .day-tab {
+        .day-pill {
             flex: 0 0 auto;
-            width: 50px;
-            height: 56px;
-            background: #F2F4F8;
-            border-radius: 12px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: #8D99AE;
-            transition: all 0.2s ease;
-            cursor: pointer;
+            min-width: 54px; height: 64px;
+            background: white;
+            border-radius: 16px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            border: 1px solid rgba(255,255,255,0.8);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); /* 彈跳效果 */
+            cursor: pointer; position: relative;
         }
-
-        .day-tab.active {
+        
+        .day-pill.active {
             background: var(--primary);
             color: white;
-            transform: scale(1.05);
-            box-shadow: 0 4px 12px rgba(91, 77, 255, 0.3);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
+            border-color: var(--primary);
         }
+        .day-pill.active .dp-date { color: rgba(255,255,255,0.8); }
+        .day-pill.active .dp-num { color: white; }
 
-        .dt-date { font-size: 10px; font-weight: 600; margin-bottom: 2px; }
-        .dt-num { font-size: 16px; font-weight: 800; }
+        .dp-date { font-size: 11px; font-weight: 600; color: var(--text-light); margin-bottom: 2px; }
+        .dp-num { font-size: 16px; font-weight: 800; color: var(--text-main); }
 
         /* =========================================
-           Timeline Content (下方時間軸)
+           3. Timeline (時間軸)
            ========================================= */
-        .timeline-container {
-            flex: 1;
-            overflow-y: auto;
-            padding: 20px 16px 100px 16px;
-            position: relative;
+        .timeline-wrapper {
+            flex: 1; overflow-y: auto; padding: 24px 20px 120px 20px;
         }
 
-        .day-content { display: none; animation: fadeIn 0.3s ease; }
-        .day-content.active { display: block; }
+        .day-panel { display: none; animation: slideUp 0.4s ease forwards; }
+        .day-panel.active { display: block; }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(15px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .tl-item {
-            display: flex;
-            margin-bottom: 24px;
-            position: relative;
-        }
+        .tl-row { display: flex; margin-bottom: 24px; position: relative; }
 
-        /* 左側時間 */
-        .tl-time-col {
-            width: 50px;
-            flex-shrink: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding-top: 4px;
-            position: relative;
+        /* 時間 */
+        .tl-time-box {
+            width: 50px; flex-shrink: 0; text-align: center; padding-top: 6px;
         }
-        .tl-time {
-            font-size: 14px;
-            font-weight: 700;
-            color: var(--text);
-        }
-        .tl-ampm {
-            font-size: 10px;
-            color: var(--subtext);
-            margin-top: 2px;
-        }
+        .tl-time { font-size: 14px; font-weight: 700; color: var(--text-main); font-variant-numeric: tabular-nums; }
+        .tl-ampm { font-size: 10px; font-weight: 600; color: var(--text-light); margin-top: 2px; text-transform: uppercase; }
 
-        /* 中間線條 */
-        .tl-line-col {
-            width: 20px;
-            position: relative;
-            display: flex;
-            justify-content: center;
+        /* 線條 */
+        .tl-line-box {
+            width: 24px; display: flex; justify-content: center; position: relative;
         }
-        /* 垂直線 */
-        .tl-line-col::before {
-            content: '';
-            position: absolute;
-            top: 24px; bottom: -30px;
-            width: 2px;
-            background: var(--line);
+        .tl-line {
+            position: absolute; top: 24px; bottom: -30px; width: 2px;
+            background-image: linear-gradient(to bottom, #E2E8F0 50%, transparent 50%);
+            background-size: 2px 8px; /* 虛線效果 */
         }
-        .tl-item:last-child .tl-line-col::before { display: none; }
+        .tl-row:last-child .tl-line { display: none; }
         
-        /* 圓點 */
         .tl-dot {
-            width: 10px; height: 10px;
-            border-radius: 50%;
-            background: var(--primary);
-            border: 2px solid white;
-            box-shadow: 0 0 0 2px var(--primary-light);
-            z-index: 1;
-            margin-top: 6px;
+            width: 14px; height: 14px; border-radius: 50%;
+            background: white; border: 3px solid var(--primary);
+            z-index: 2; margin-top: 8px;
+            box-shadow: 0 0 0 4px rgba(240, 244, 248, 1); /* 外圈遮罩 */
         }
 
-        /* 右側卡片 */
+        /* 卡片內容 */
         .tl-card {
-            flex: 1;
-            background: white;
-            border-radius: 16px;
-            padding: 16px;
-            margin-left: 10px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
-            border: 1px solid rgba(0,0,0,0.02);
-            position: relative;
-            transition: transform 0.1s;
-        }
-        .tl-card:active { transform: scale(0.98); }
-
-        .tl-title { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
-        .tl-desc { font-size: 13px; color: #666; line-height: 1.4; margin-bottom: 10px; }
-        
-        /* 標籤 Tag */
-        .tl-tag {
-            display: inline-flex; align-items: center; gap: 4px;
-            font-size: 11px; font-weight: 600;
-            padding: 4px 8px; border-radius: 6px;
-            background: #F2F4F8; color: #64748B;
-        }
-        .tag-transport { background: #E0F2FE; color: #0284C7; } /* 藍色 */
-        .tag-food { background: #FEF3C7; color: #D97706; }      /* 黃色 */
-        .tag-activity { background: #DCFCE7; color: #16A34A; }  /* 綠色 */
-        .tag-hotel { background: #F3E8FF; color: #9333EA; }     /* 紫色 */
-
-        .tl-map-icon {
-            position: absolute; top: 16px; right: 16px;
-            color: #CBD5E1; font-size: 16px;
-        }
-        .tl-card:active .tl-map-icon { color: var(--primary); }
-
-        /* =========================================
-           其他樣式 (首頁、Wallet、Tab)
-           ========================================= */
-        .header-large { padding: 10px 0 10px 4px; }
-        .header-large h1 { font-size: 32px; font-weight: 800; margin: 0; color: var(--text); }
-        .header-large p { font-size: 12px; color: var(--subtext); margin: 4px 0 0 2px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--primary); }
-
-        .hero-card {
-            background: linear-gradient(135deg, #5B4DFF, #3F33D1);
-            color: white; text-align: center; padding: 30px 20px; border-radius: 22px;
-            margin-bottom: 24px; box-shadow: 0 10px 25px rgba(91, 77, 255, 0.4);
-            position: relative; overflow: hidden;
-        }
-        .countdown { font-size: 42px; font-weight: 800; line-height: 1; margin: 10px 0; }
-        .countdown span { font-size: 16px; font-weight: 500; opacity: 0.8; }
-
-        /* =========================================
-           新版 Wallet：垂直堆疊 (Grid/List Layout)
-           ========================================= */
-        .section-title { font-size: 18px; font-weight: 700; margin: 24px 0 12px 4px; color: var(--text); }
-        
-        .wallet-list {
-            display: flex;
-            flex-direction: column;
-            gap: 16px; /* 卡片之間的垂直間距 */
-        }
-        
-        .ticket-card {
-            background: white; 
+            flex: 1; margin-left: 12px;
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
             border-radius: 20px;
-            padding: 20px; 
-            position: relative; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05); /* 稍微柔和一點的陰影 */
-            display: flex; 
-            flex-direction: column; 
-            justify-content: space-between; 
-            height: 160px; /* 固定高度，看起來更整齊 */
+            padding: 18px;
+            border: 1px solid var(--card-border);
+            box-shadow: var(--card-shadow);
+            position: relative;
+            transition: transform 0.1s, background 0.2s;
+        }
+        .tl-card:active { transform: scale(0.98); background: white; }
+
+        .tl-nav-icon {
+            position: absolute; top: 18px; right: 18px;
+            width: 28px; height: 28px; border-radius: 50%;
+            background: #F1F5F9; color: var(--primary);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 12px; font-weight: bold;
+        }
+
+        .tl-card-title { font-size: 16px; font-weight: 700; color: var(--text-main); margin-bottom: 6px; padding-right: 30px; }
+        .tl-card-desc { font-size: 13px; color: var(--text-sub); line-height: 1.5; margin-bottom: 12px; }
+
+        .tl-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+        .tag {
+            font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 8px;
+            display: flex; align-items: center; gap: 4px;
+        }
+        .tag-blue { background: #EFF6FF; color: #3B82F6; }
+        .tag-purple { background: #F5F3FF; color: #8B5CF6; }
+        .tag-green { background: #F0FDF4; color: #10B981; }
+        .tag-orange { background: #FFF7ED; color: #F97316; }
+
+        /* =========================================
+           4. Wallet (票券 - 垂直堆疊)
+           ========================================= */
+        .wallet-group { margin-bottom: 32px; }
+        .group-label { 
+            font-size: 12px; font-weight: 700; color: var(--text-light); 
+            text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; margin-left: 4px;
+        }
+
+        .ticket {
+            background: white; border-radius: 20px; overflow: hidden;
+            margin-bottom: 16px; display: flex; position: relative;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.04);
             border: 1px solid rgba(0,0,0,0.02);
             transition: transform 0.1s;
         }
-        .ticket-card:active { transform: scale(0.99); }
+        .ticket:active { transform: scale(0.99); }
 
-        .tc-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
-        .tc-icon { font-size: 32px; background: #F2F4F8; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; border-radius: 12px; }
-        .tc-content h3 { font-size: 18px; font-weight: 700; margin: 0 0 4px 0; }
-        .tc-content p { font-size: 14px; color: var(--subtext); margin: 0; }
-        .tc-date { font-size: 24px; font-weight: 800; color: var(--primary); }
-        .tc-status { font-size: 13px; font-weight: 600; background: #F0F2FF; color: var(--primary); padding: 4px 10px; border-radius: 8px; }
+        /* 票券缺口 */
+        .ticket::before, .ticket::after {
+            content: ''; position: absolute; width: 20px; height: 20px;
+            background: var(--bg-color); border-radius: 50%; top: 50%; transform: translateY(-50%);
+            box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
+        }
+        .ticket::before { left: -10px; }
+        .ticket::after { right: -10px; }
 
-        /* 底部 Tab Bar */
+        .t-left {
+            width: 80px; background: #F8FAFC; 
+            display: flex; align-items: center; justify-content: center;
+            font-size: 32px; border-right: 2px dashed #E2E8F0;
+        }
+        .t-right { flex: 1; padding: 16px 24px; }
+        
+        .t-title { font-size: 16px; font-weight: 700; color: var(--text-main); margin-bottom: 4px; }
+        .t-info { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 8px; }
+        .t-sub { font-size: 13px; color: var(--text-sub); display: block; margin-bottom: 2px; }
+        .t-highlight { font-size: 12px; font-weight: 700; color: var(--primary); background: #EFF6FF; padding: 4px 8px; border-radius: 6px; }
+
+        /* =========================================
+           5. Tab Bar (底部導航)
+           ========================================= */
         .tab-bar {
             position: fixed; bottom: 0; left: 0; right: 0;
-            background: rgba(255,255,255,0.95);
+            background: rgba(255,255,255,0.9);
             backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            border-top: 1px solid #F0F0F0; display: flex; justify-content: space-around;
-            padding-top: 10px; padding-bottom: max(10px, var(--safe-area-bottom));
+            border-top: 1px solid rgba(0,0,0,0.05);
+            display: flex; justify-content: space-around;
+            padding-top: 12px; padding-bottom: max(12px, var(--safe-bottom));
             z-index: 100;
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.02);
         }
-        .tab { display: flex; flex-direction: column; align-items: center; width: 50px; cursor: pointer; color: #C7C7CC; transition: 0.2s; }
-        .tab.active { color: var(--primary); }
-        .tab-icon { font-size: 24px; margin-bottom: 2px; }
-        .tab-label { font-size: 10px; font-weight: 600; }
+        .tab-btn {
+            display: flex; flex-direction: column; align-items: center;
+            width: 60px; color: #94A3B8; cursor: pointer; transition: 0.2s;
+        }
+        .tab-btn.active { color: var(--primary); transform: translateY(-2px); }
+        .tab-icon { font-size: 24px; margin-bottom: 4px; filter: drop-shadow(0 2px 4px rgba(59,130,246,0)); transition: 0.2s; }
+        .tab-btn.active .tab-icon { filter: drop-shadow(0 4px 6px rgba(59,130,246,0.3)); }
+        .tab-text { font-size: 10px; font-weight: 600; }
+
+        /* =========================================
+           Utility
+           ========================================= */
+        .alert-box {
+            background: #FFFBEB; border: 1px solid #FCD34D; border-radius: 16px;
+            padding: 16px; margin-bottom: 24px;
+            display: flex; gap: 12px; align-items: start;
+        }
+        .alert-icon { font-size: 20px; }
+        .alert-content strong { color: #B45309; display: block; margin-bottom: 4px; font-size: 14px; }
+        .alert-content p { color: #92400E; margin: 0; font-size: 13px; line-height: 1.4; }
     </style>
 </head>
 <body>
 
     <!-- 1. 首頁 View -->
     <div id="view-home" class="view-container active">
-        <div class="header-large">
-            <p>Ready for Adventure</p>
-            <h1>澳洲之旅 2026</h1>
+        <div class="header-area">
+            <div class="header-sub">Ready for Adventure</div>
+            <h1 class="header-title">澳洲之旅 2026</h1>
         </div>
 
         <div class="hero-card">
-            <div style="font-size: 14px; opacity: 0.8;">距離出發還有</div>
-            <div class="countdown" id="countdown-timer">-- <span>天</span></div>
-            <div style="margin-top: 10px; font-size: 12px; opacity: 0.9;">布里斯本 • 黃金海岸 • 雪梨 • 墨爾本</div>
+            <div class="hero-label">距離出發還有</div>
+            <div class="hero-countdown" id="countdown-timer">-- <span>天</span></div>
+            <div class="hero-route">✈️ BNE ➔ OOL ➔ SYD ➔ MEL</div>
         </div>
 
-        <div class="section-title">✨ 重點提醒</div>
+        <div class="section-header">
+            <span class="section-title">✨ 重點提醒</span>
+        </div>
+
+        <div class="alert-box">
+            <div class="alert-icon">⚠️</div>
+            <div class="alert-content">
+                <strong>1/27 抵達提醒</strong>
+                <p>第一梯 12:00 抵達先放行李；您 22:00 抵達建議搭 Uber 直奔 Royal Albert Hotel 會合。</p>
+            </div>
+        </div>
         
-        <!-- 重點卡片 (直接複用 Timeline 樣式但稍微調整) -->
-        <div class="tl-item">
-            <div class="tl-time-col"><div class="tl-time">1/29</div></div>
-            <div class="tl-line-col"><div class="tl-dot"></div></div>
-            <div class="tl-card" onclick="switchTab('trip', document.querySelectorAll('.tab')[1]); selectDay(2);">
-                <div class="tl-title">Hertz 取車</div>
-                <div class="tl-desc">布里斯班市區取車，準備前往黃金海岸。</div>
-                <div class="tl-tag tag-transport">🚗 租車</div>
+        <!-- 重點卡片 (複用 Timeline 樣式) -->
+        <div class="tl-row">
+            <div class="tl-time-box"><div class="tl-time">1/29</div><div class="tl-ampm">14:30</div></div>
+            <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
+            <div class="tl-card" onclick="switchTab('trip', document.querySelectorAll('.tab-btn')[1]); selectDay(2);">
+                <div class="tl-nav-icon">➜</div>
+                <div class="tl-card-title">Hertz 取車</div>
+                <div class="tl-card-desc">布里斯班市區取車，準備前往黃金海岸。</div>
+                <div class="tl-tags"><span class="tag tag-blue">🚗 租車</span></div>
             </div>
         </div>
 
-        <div class="tl-item">
-            <div class="tl-time-col"><div class="tl-time">1/31</div></div>
-            <div class="tl-line-col"><div class="tl-dot"></div></div>
-            <div class="tl-card" onclick="switchTab('trip', document.querySelectorAll('.tab')[1]); selectDay(4);">
-                <div class="tl-title">庫倫賓無尾熊</div>
-                <div class="tl-desc">已預約 08:00 早餐，請勿遲到。</div>
-                <div class="tl-tag tag-activity">🐨 動物</div>
+        <div class="tl-row">
+            <div class="tl-time-box"><div class="tl-time">1/31</div><div class="tl-ampm">08:00</div></div>
+            <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
+            <div class="tl-card" onclick="switchTab('trip', document.querySelectorAll('.tab-btn')[1]); selectDay(4);">
+                <div class="tl-nav-icon">➜</div>
+                <div class="tl-card-title">庫倫賓無尾熊</div>
+                <div class="tl-card-desc">已預約 08:00 早餐，請勿遲到。</div>
+                <div class="tl-tags"><span class="tag tag-green">🐨 動物</span></div>
             </div>
         </div>
     </div>
 
-    <!-- 2. 行程 View (新版日曆風格) -->
+    <!-- 2. 行程 View -->
     <div id="view-trip" class="view-container">
         <!-- 頂部日期選擇條 -->
-        <div class="day-selector-container">
+        <div class="day-selector-sticky">
             <div class="day-scroller" id="day-scroller">
-                <!-- 由 JS 動態生成，或手寫 -->
-                <div class="day-tab active" onclick="selectDay(0)">
-                    <div class="dt-date">1/27</div>
-                    <div class="dt-num">D1</div>
-                </div>
-                <div class="day-tab" onclick="selectDay(1)"><div class="dt-date">1/28</div><div class="dt-num">D2</div></div>
-                <div class="day-tab" onclick="selectDay(2)"><div class="dt-date">1/29</div><div class="dt-num">D3</div></div>
-                <div class="day-tab" onclick="selectDay(3)"><div class="dt-date">1/30</div><div class="dt-num">D4</div></div>
-                <div class="day-tab" onclick="selectDay(4)"><div class="dt-date">1/31</div><div class="dt-num">D5</div></div>
-                <div class="day-tab" onclick="selectDay(5)"><div class="dt-date">2/1</div><div class="dt-num">D6</div></div>
-                <div class="day-tab" onclick="selectDay(6)"><div class="dt-date">2/2</div><div class="dt-num">D7</div></div>
-                <div class="day-tab" onclick="selectDay(7)"><div class="dt-date">2/3</div><div class="dt-num">D8</div></div>
-                <div class="day-tab" onclick="selectDay(8)"><div class="dt-date">2/4</div><div class="dt-num">D9</div></div>
-                <div class="day-tab" onclick="selectDay(9)"><div class="dt-date">2/5</div><div class="dt-num">D10</div></div>
-                <div class="day-tab" onclick="selectDay(10)"><div class="dt-date">2/6</div><div class="dt-num">D11</div></div>
-                <div class="day-tab" onclick="selectDay(11)"><div class="dt-date">2/7</div><div class="dt-num">D12</div></div>
-                <div class="day-tab" onclick="selectDay(12)"><div class="dt-date">2/8</div><div class="dt-num">D13</div></div>
+                <div class="day-pill active" onclick="selectDay(0)"><div class="dp-date">1/27</div><div class="dp-num">D1</div></div>
+                <div class="day-pill" onclick="selectDay(1)"><div class="dp-date">1/28</div><div class="dp-num">D2</div></div>
+                <div class="day-pill" onclick="selectDay(2)"><div class="dp-date">1/29</div><div class="dp-num">D3</div></div>
+                <div class="day-pill" onclick="selectDay(3)"><div class="dp-date">1/30</div><div class="dp-num">D4</div></div>
+                <div class="day-pill" onclick="selectDay(4)"><div class="dp-date">1/31</div><div class="dp-num">D5</div></div>
+                <div class="day-pill" onclick="selectDay(5)"><div class="dp-date">2/1</div><div class="dp-num">D6</div></div>
+                <div class="day-pill" onclick="selectDay(6)"><div class="dp-date">2/2</div><div class="dp-num">D7</div></div>
+                <div class="day-pill" onclick="selectDay(7)"><div class="dp-date">2/3</div><div class="dp-num">D8</div></div>
+                <div class="day-pill" onclick="selectDay(8)"><div class="dp-date">2/4</div><div class="dp-num">D9</div></div>
+                <div class="day-pill" onclick="selectDay(9)"><div class="dp-date">2/5</div><div class="dp-num">D10</div></div>
+                <div class="day-pill" onclick="selectDay(10)"><div class="dp-date">2/6</div><div class="dp-num">D11</div></div>
+                <div class="day-pill" onclick="selectDay(11)"><div class="dp-date">2/7</div><div class="dp-num">D12</div></div>
+                <div class="day-pill" onclick="selectDay(12)"><div class="dp-date">2/8</div><div class="dp-num">D13</div></div>
             </div>
         </div>
 
-        <div class="timeline-container">
+        <div class="timeline-wrapper">
             
             <!-- Day 1: 1/27 -->
-            <div id="day-0" class="day-content active">
-                <div class="section-title">📍 布里斯本抵達</div>
-                <div class="tl-item">
-                    <div class="tl-time-col"><div class="tl-time">22:00</div></div>
-                    <div class="tl-line-col"><div class="tl-dot"></div></div>
+            <div id="day-0" class="day-panel active">
+                <div class="section-header"><span class="section-title">📍 布里斯本抵達</span></div>
+                <div class="tl-row">
+                    <div class="tl-time-box"><div class="tl-time">22:00</div></div>
+                    <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
                     <div class="tl-card" onclick="navigateToMap('Brisbane Airport International')">
-                        <div class="tl-map-icon">📍</div>
-                        <div class="tl-title">抵達機場</div>
-                        <div class="tl-desc">您抵達布里斯本國際機場 (BNE)。與第一梯次朋友會合。</div>
-                        <div class="tl-tag tag-transport">✈️ 航班</div>
+                        <div class="tl-nav-icon">📍</div>
+                        <div class="tl-card-title">抵達機場</div>
+                        <div class="tl-card-desc">您抵達布里斯本國際機場 (BNE)。與第一梯次朋友會合。</div>
+                        <div class="tl-tags"><span class="tag tag-blue">✈️ 航班</span></div>
                     </div>
                 </div>
-                <div class="tl-item">
-                    <div class="tl-time-col"><div class="tl-time">23:00</div></div>
-                    <div class="tl-line-col"><div class="tl-dot"></div></div>
+                <div class="tl-row">
+                    <div class="tl-time-box"><div class="tl-time">23:00</div></div>
+                    <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
                     <div class="tl-card" onclick="navigateToMap('Royal Albert Hotel, Brisbane')">
-                        <div class="tl-map-icon">📍</div>
-                        <div class="tl-title">入住 Royal Albert</div>
-                        <div class="tl-desc">搭乘 Uber 前往市區飯店 Check-in。</div>
-                        <div class="tl-tag tag-hotel">🏨 住宿</div>
+                        <div class="tl-nav-icon">📍</div>
+                        <div class="tl-card-title">入住 Royal Albert</div>
+                        <div class="tl-card-desc">搭乘 Uber 前往市區飯店 Check-in。</div>
+                        <div class="tl-tags"><span class="tag tag-purple">🏨 住宿</span></div>
                     </div>
                 </div>
             </div>
 
             <!-- Day 2: 1/28 -->
-            <div id="day-1" class="day-content">
-                <div class="section-title">📍 布里斯本漫遊</div>
-                <div class="tl-item">
-                    <div class="tl-time-col"><div class="tl-time">10:00</div></div>
-                    <div class="tl-line-col"><div class="tl-dot"></div></div>
+            <div id="day-1" class="day-panel">
+                <div class="section-header"><span class="section-title">📍 布里斯本漫遊</span></div>
+                <div class="tl-row">
+                    <div class="tl-time-box"><div class="tl-time">10:00</div></div>
+                    <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
                     <div class="tl-card" onclick="navigateToMap('South Bank Parklands')">
-                        <div class="tl-map-icon">📍</div>
-                        <div class="tl-title">南岸公園</div>
-                        <div class="tl-desc">Streets Beach 人造沙灘、摩天輪拍照。</div>
-                        <div class="tl-tag tag-activity">🎡 景點</div>
+                        <div class="tl-nav-icon">📍</div>
+                        <div class="tl-card-title">南岸公園</div>
+                        <div class="tl-card-desc">Streets Beach 人造沙灘、摩天輪拍照。</div>
+                        <div class="tl-tags"><span class="tag tag-green">🎡 景點</span></div>
                     </div>
                 </div>
-                <div class="tl-item">
-                    <div class="tl-time-col"><div class="tl-time">14:00</div></div>
-                    <div class="tl-line-col"><div class="tl-dot"></div></div>
+                <div class="tl-row">
+                    <div class="tl-time-box"><div class="tl-time">14:00</div></div>
+                    <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
                     <div class="tl-card" onclick="navigateToMap('Brisbane CityHopper')">
-                        <div class="tl-title">免費渡輪 CityHopper</div>
-                        <div class="tl-desc">搭乘紅色小渡輪遊覽布里斯本河。</div>
-                        <div class="tl-tag tag-transport">⛴️ 交通</div>
+                        <div class="tl-nav-icon">📍</div>
+                        <div class="tl-card-title">免費渡輪</div>
+                        <div class="tl-card-desc">CityHopper 紅色小渡輪遊覽布里斯本河。</div>
+                        <div class="tl-tags"><span class="tag tag-blue">⛴️ 交通</span></div>
                     </div>
                 </div>
-                <div class="tl-item">
-                    <div class="tl-time-col"><div class="tl-time">18:30</div></div>
-                    <div class="tl-line-col"><div class="tl-dot"></div></div>
+                <div class="tl-row">
+                    <div class="tl-time-box"><div class="tl-time">18:30</div></div>
+                    <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
                     <div class="tl-card" onclick="navigateToMap('Howard Smith Wharves')">
-                        <div class="tl-title">Howard Smith Wharves</div>
-                        <div class="tl-desc">故事橋下的河岸餐廳區晚餐。</div>
-                        <div class="tl-tag tag-food">🍽️ 晚餐</div>
+                        <div class="tl-nav-icon">📍</div>
+                        <div class="tl-card-title">Howard Smith Wharves</div>
+                        <div class="tl-card-desc">故事橋下的河岸餐廳區晚餐。</div>
+                        <div class="tl-tags"><span class="tag tag-orange">🍽️ 晚餐</span></div>
                     </div>
                 </div>
             </div>
 
             <!-- Day 3: 1/29 -->
-            <div id="day-2" class="day-content">
-                <div class="section-title">📍 移動日</div>
-                <div class="tl-item">
-                    <div class="tl-time-col"><div class="tl-time">10:30</div></div>
-                    <div class="tl-line-col"><div class="tl-dot"></div></div>
+            <div id="day-2" class="day-panel">
+                <div class="section-header"><span class="section-title">📍 移動日</span></div>
+                <div class="tl-row">
+                    <div class="tl-time-box"><div class="tl-time">10:30</div></div>
+                    <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
                     <div class="tl-card" onclick="navigateToMap('Brisbane City Hall')">
-                        <div class="tl-title">市政廳導覽</div>
-                        <div class="tl-desc">參觀鐘樓 (需預約)。</div>
-                        <div class="tl-tag tag-activity">🏛️ 文化</div>
+                        <div class="tl-nav-icon">📍</div>
+                        <div class="tl-card-title">市政廳導覽</div>
+                        <div class="tl-card-desc">參觀鐘樓 (需預約)。</div>
+                        <div class="tl-tags"><span class="tag tag-green">🏛️ 文化</span></div>
                     </div>
                 </div>
-                <div class="tl-item">
-                    <div class="tl-time-col"><div class="tl-time">14:30</div></div>
-                    <div class="tl-line-col"><div class="tl-dot"></div></div>
+                <div class="tl-row">
+                    <div class="tl-time-box"><div class="tl-time">14:30</div></div>
+                    <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
                     <div class="tl-card" onclick="navigateToMap('Hertz Car Rental Brisbane City')">
-                        <div class="tl-title">Hertz 取車</div>
-                        <div class="tl-desc">53 Albert St 取車，檢查車況。</div>
-                        <div class="tl-tag tag-transport">🚗 租車</div>
+                        <div class="tl-nav-icon">📍</div>
+                        <div class="tl-card-title">Hertz 取車</div>
+                        <div class="tl-card-desc">53 Albert St 取車，檢查車況。</div>
+                        <div class="tl-tags"><span class="tag tag-blue">🚗 租車</span></div>
                     </div>
                 </div>
-                <div class="tl-item">
-                    <div class="tl-time-col"><div class="tl-time">16:00</div></div>
-                    <div class="tl-line-col"><div class="tl-dot"></div></div>
+                <div class="tl-row">
+                    <div class="tl-time-box"><div class="tl-time">16:00</div></div>
+                    <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
                     <div class="tl-card" onclick="navigateToMap('Grande Florida Beach Resort')">
-                        <div class="tl-title">前往黃金海岸</div>
-                        <div class="tl-desc">自駕約 1 小時，入住 Grande Florida。</div>
-                        <div class="tl-tag tag-hotel">🏨 住宿</div>
+                        <div class="tl-nav-icon">📍</div>
+                        <div class="tl-card-title">前往黃金海岸</div>
+                        <div class="tl-card-desc">自駕約 1 小時，入住 Grande Florida。</div>
+                        <div class="tl-tags"><span class="tag tag-purple">🏨 住宿</span></div>
                     </div>
                 </div>
             </div>
 
             <!-- Day 4: 1/30 -->
-            <div id="day-3" class="day-content">
-                <div class="section-title">📍 黃金海岸</div>
-                <div class="tl-item">
-                    <div class="tl-time-col"><div class="tl-time">11:00</div></div>
-                    <div class="tl-line-col"><div class="tl-dot"></div></div>
+            <div id="day-3" class="day-panel">
+                <div class="section-header"><span class="section-title">📍 黃金海岸</span></div>
+                <div class="tl-row">
+                    <div class="tl-time-box"><div class="tl-time">11:00</div></div>
+                    <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
                     <div class="tl-card" onclick="navigateToMap('Surfers Paradise')">
-                        <div class="tl-title">衝浪者天堂</div>
-                        <div class="tl-desc">Q1 大樓、海灘踏浪。</div>
-                        <div class="tl-tag tag-activity">🏖️ 海灘</div>
+                        <div class="tl-nav-icon">📍</div>
+                        <div class="tl-card-title">衝浪者天堂</div>
+                        <div class="tl-card-desc">Q1 大樓、海灘踏浪。</div>
+                        <div class="tl-tags"><span class="tag tag-green">🏖️ 海灘</span></div>
                     </div>
                 </div>
-                <div class="tl-item">
-                    <div class="tl-time-col"><div class="tl-time">19:00</div></div>
-                    <div class="tl-line-col"><div class="tl-dot"></div></div>
+                <div class="tl-row">
+                    <div class="tl-time-box"><div class="tl-time">19:00</div></div>
+                    <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
                     <div class="tl-card" onclick="navigateToMap('Miami Marketta')">
-                        <div class="tl-title">Miami Marketta 夜市</div>
-                        <div class="tl-desc">異國美食與現場音樂。</div>
-                        <div class="tl-tag tag-food">🌮 美食</div>
+                        <div class="tl-nav-icon">📍</div>
+                        <div class="tl-card-title">Miami Marketta 夜市</div>
+                        <div class="tl-card-desc">異國美食與現場音樂。</div>
+                        <div class="tl-tags"><span class="tag tag-orange">🌮 美食</span></div>
                     </div>
                 </div>
             </div>
 
             <!-- Day 5: 1/31 -->
-            <div id="day-4" class="day-content">
-                <div class="section-title">📍 動物與自然</div>
-                <div class="tl-item">
-                    <div class="tl-time-col"><div class="tl-time">08:00</div></div>
-                    <div class="tl-line-col"><div class="tl-dot"></div></div>
+            <div id="day-4" class="day-panel">
+                <div class="section-header"><span class="section-title">📍 動物與自然</span></div>
+                <div class="tl-row">
+                    <div class="tl-time-box"><div class="tl-time">08:00</div></div>
+                    <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
                     <div class="tl-card" onclick="navigateToMap('Currumbin Wildlife Sanctuary')">
-                        <div class="tl-title">庫倫賓動物園</div>
-                        <div class="tl-desc">無尾熊早餐體驗 (已預約)。</div>
-                        <div class="tl-tag tag-activity">🐨 動物</div>
+                        <div class="tl-nav-icon">📍</div>
+                        <div class="tl-card-title">庫倫賓動物園</div>
+                        <div class="tl-card-desc">無尾熊早餐體驗 (已預約)。</div>
+                        <div class="tl-tags"><span class="tag tag-green">🐨 動物</span></div>
                     </div>
                 </div>
-                <div class="tl-item">
-                    <div class="tl-time-col"><div class="tl-time">15:00</div></div>
-                    <div class="tl-line-col"><div class="tl-dot"></div></div>
+                <div class="tl-row">
+                    <div class="tl-time-box"><div class="tl-time">15:00</div></div>
+                    <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
                     <div class="tl-card" onclick="navigateToMap('Burleigh Heads National Park')">
-                        <div class="tl-title">Burleigh Heads</div>
-                        <div class="tl-desc">國家公園健行，看海岸線。</div>
-                        <div class="tl-tag tag-activity">🥾 健行</div>
+                        <div class="tl-nav-icon">📍</div>
+                        <div class="tl-card-title">Burleigh Heads</div>
+                        <div class="tl-card-desc">國家公園健行，看海岸線。</div>
+                        <div class="tl-tags"><span class="tag tag-green">🥾 健行</span></div>
                     </div>
                 </div>
             </div>
 
             <!-- Day 6: 2/1 -->
-            <div id="day-5" class="day-content">
-                <div class="section-title">📍 飛往雪梨</div>
-                <div class="tl-item">
-                    <div class="tl-time-col"><div class="tl-time">14:30</div></div>
-                    <div class="tl-line-col"><div class="tl-dot"></div></div>
+            <div id="day-5" class="day-panel">
+                <div class="section-header"><span class="section-title">📍 飛往雪梨</span></div>
+                <div class="tl-row">
+                    <div class="tl-time-box"><div class="tl-time">14:30</div></div>
+                    <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
                     <div class="tl-card" onclick="navigateToMap('Gold Coast Airport')">
-                        <div class="tl-title">機場還車</div>
-                        <div class="tl-desc">黃金海岸機場還車，搭乘 VA970 (17:05)。</div>
-                        <div class="tl-tag tag-transport">✈️ 交通</div>
+                        <div class="tl-nav-icon">📍</div>
+                        <div class="tl-card-title">機場還車</div>
+                        <div class="tl-card-desc">黃金海岸機場還車，搭乘 VA970 (17:05)。</div>
+                        <div class="tl-tags"><span class="tag tag-blue">✈️ 交通</span></div>
                     </div>
                 </div>
-                <div class="tl-item">
-                    <div class="tl-time-col"><div class="tl-time">20:30</div></div>
-                    <div class="tl-line-col"><div class="tl-dot"></div></div>
+                <div class="tl-row">
+                    <div class="tl-time-box"><div class="tl-time">20:30</div></div>
+                    <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
                     <div class="tl-card" onclick="navigateToMap('Holiday Inn Darling Harbour')">
-                        <div class="tl-title">入住雪梨</div>
-                        <div class="tl-desc">Holiday Inn Darling Harbour。</div>
-                        <div class="tl-tag tag-hotel">🏨 住宿</div>
+                        <div class="tl-nav-icon">📍</div>
+                        <div class="tl-card-title">入住雪梨</div>
+                        <div class="tl-card-desc">Holiday Inn Darling Harbour。</div>
+                        <div class="tl-tags"><span class="tag tag-purple">🏨 住宿</span></div>
                     </div>
                 </div>
             </div>
 
              <!-- Day 7: 2/2 -->
-             <div id="day-6" class="day-content">
-                <div class="section-title">📍 雪梨市區</div>
-                <div class="tl-item">
-                    <div class="tl-time-col"><div class="tl-time">10:00</div></div>
-                    <div class="tl-line-col"><div class="tl-dot"></div></div>
+             <div id="day-6" class="day-panel">
+                <div class="section-header"><span class="section-title">📍 雪梨市區</span></div>
+                <div class="tl-row">
+                    <div class="tl-time-box"><div class="tl-time">10:00</div></div>
+                    <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
                     <div class="tl-card" onclick="navigateToMap('Sydney Opera House')">
-                        <div class="tl-title">雪梨歌劇院</div>
-                        <div class="tl-desc">外部參觀拍照，皇家植物園。</div>
-                        <div class="tl-tag tag-activity">📸 地標</div>
+                        <div class="tl-nav-icon">📍</div>
+                        <div class="tl-card-title">雪梨歌劇院</div>
+                        <div class="tl-card-desc">外部參觀拍照，皇家植物園。</div>
+                        <div class="tl-tags"><span class="tag tag-green">📸 地標</span></div>
                     </div>
                 </div>
-                <div class="tl-item">
-                    <div class="tl-time-col"><div class="tl-time">14:00</div></div>
-                    <div class="tl-line-col"><div class="tl-dot"></div></div>
+                <div class="tl-row">
+                    <div class="tl-time-box"><div class="tl-time">14:00</div></div>
+                    <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
                     <div class="tl-card" onclick="navigateToMap('The Rocks')">
-                        <div class="tl-title">岩石區</div>
-                        <div class="tl-desc">週末市集與古老巷弄。</div>
-                        <div class="tl-tag tag-activity">🚶 散步</div>
+                        <div class="tl-nav-icon">📍</div>
+                        <div class="tl-card-title">岩石區</div>
+                        <div class="tl-card-desc">週末市集與古老巷弄。</div>
+                        <div class="tl-tags"><span class="tag tag-green">🚶 散步</span></div>
                     </div>
                 </div>
             </div>
 
             <!-- Day 8: 2/3 -->
-            <div id="day-7" class="day-content">
-                <div class="section-title">📍 藍山一日遊</div>
-                <div class="tl-item">
-                    <div class="tl-time-col"><div class="tl-time">08:00</div></div>
-                    <div class="tl-line-col"><div class="tl-dot"></div></div>
+            <div id="day-7" class="day-panel">
+                <div class="section-header"><span class="section-title">📍 藍山一日遊</span></div>
+                <div class="tl-row">
+                    <div class="tl-time-box"><div class="tl-time">08:00</div></div>
+                    <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
                     <div class="tl-card" onclick="navigateToMap('Central Station Sydney')">
-                        <div class="tl-title">搭火車出發</div>
-                        <div class="tl-desc">前往 Katoomba 車站。</div>
-                        <div class="tl-tag tag-transport">🚆 火車</div>
+                        <div class="tl-nav-icon">📍</div>
+                        <div class="tl-card-title">搭火車出發</div>
+                        <div class="tl-card-desc">前往 Katoomba 車站。</div>
+                        <div class="tl-tags"><span class="tag tag-blue">🚆 火車</span></div>
                     </div>
                 </div>
-                <div class="tl-item">
-                    <div class="tl-time-col"><div class="tl-time">11:00</div></div>
-                    <div class="tl-line-col"><div class="tl-dot"></div></div>
+                <div class="tl-row">
+                    <div class="tl-time-box"><div class="tl-time">11:00</div></div>
+                    <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
                     <div class="tl-card" onclick="navigateToMap('Three Sisters point')">
-                        <div class="tl-title">三姐妹岩</div>
-                        <div class="tl-desc">Echo Point 觀景台。</div>
-                        <div class="tl-tag tag-activity">⛰️ 景點</div>
+                        <div class="tl-nav-icon">📍</div>
+                        <div class="tl-card-title">三姐妹岩</div>
+                        <div class="tl-card-desc">Echo Point 觀景台。</div>
+                        <div class="tl-tags"><span class="tag tag-green">⛰️ 景點</span></div>
                     </div>
                 </div>
-                <div class="tl-item">
-                    <div class="tl-time-col"><div class="tl-time">13:30</div></div>
-                    <div class="tl-line-col"><div class="tl-dot"></div></div>
+                <div class="tl-row">
+                    <div class="tl-time-box"><div class="tl-time">13:30</div></div>
+                    <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
                     <div class="tl-card" onclick="navigateToMap('Scenic World')">
-                        <div class="tl-title">景觀纜車</div>
-                        <div class="tl-desc">搭乘三種不同的纜車體驗。</div>
-                        <div class="tl-tag tag-activity">🚠 活動</div>
+                        <div class="tl-nav-icon">📍</div>
+                        <div class="tl-card-title">景觀纜車</div>
+                        <div class="tl-card-desc">搭乘三種不同的纜車體驗。</div>
+                        <div class="tl-tags"><span class="tag tag-green">🚠 活動</span></div>
                     </div>
                 </div>
             </div>
 
             <!-- Day 9: 2/4 -->
-            <div id="day-8" class="day-content">
-                <div class="section-title">📍 飛往墨爾本</div>
-                <div class="tl-item">
-                    <div class="tl-time-col"><div class="tl-time">14:00</div></div>
-                    <div class="tl-line-col"><div class="tl-dot"></div></div>
+            <div id="day-8" class="day-panel">
+                <div class="section-header"><span class="section-title">📍 飛往墨爾本</span></div>
+                <div class="tl-row">
+                    <div class="tl-time-box"><div class="tl-time">14:00</div></div>
+                    <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
                     <div class="tl-card" onclick="navigateToMap('Sydney Airport')">
-                        <div class="tl-title">搭機前往墨爾本</div>
-                        <div class="tl-desc">VA858 (16:00 起飛)。</div>
-                        <div class="tl-tag tag-transport">✈️ 交通</div>
+                        <div class="tl-nav-icon">📍</div>
+                        <div class="tl-card-title">搭機前往墨爾本</div>
+                        <div class="tl-card-desc">VA858 (16:00 起飛)。</div>
+                        <div class="tl-tags"><span class="tag tag-blue">✈️ 交通</span></div>
                     </div>
                 </div>
-                <div class="tl-item">
-                    <div class="tl-time-col"><div class="tl-time">18:30</div></div>
-                    <div class="tl-line-col"><div class="tl-dot"></div></div>
+                <div class="tl-row">
+                    <div class="tl-time-box"><div class="tl-time">18:30</div></div>
+                    <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
                     <div class="tl-card" onclick="navigateToMap('Dorsett Melbourne')">
-                        <div class="tl-title">入住 Dorsett</div>
-                        <div class="tl-desc">Check-in Dorsett Melbourne。</div>
-                        <div class="tl-tag tag-hotel">🏨 住宿</div>
+                        <div class="tl-nav-icon">📍</div>
+                        <div class="tl-card-title">入住 Dorsett</div>
+                        <div class="tl-card-desc">Check-in Dorsett Melbourne。</div>
+                        <div class="tl-tags"><span class="tag tag-purple">🏨 住宿</span></div>
                     </div>
                 </div>
             </div>
 
             <!-- Day 10: 2/5 -->
-            <div id="day-9" class="day-content">
-                <div class="section-title">📍 墨爾本市區</div>
-                <div class="tl-item">
-                    <div class="tl-time-col"><div class="tl-time">10:00</div></div>
-                    <div class="tl-line-col"><div class="tl-dot"></div></div>
+            <div id="day-9" class="day-panel">
+                <div class="section-header"><span class="section-title">📍 墨爾本市區</span></div>
+                <div class="tl-row">
+                    <div class="tl-time-box"><div class="tl-time">10:00</div></div>
+                    <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
                     <div class="tl-card" onclick="navigateToMap('Federation Square')">
-                        <div class="tl-title">聯邦廣場</div>
-                        <div class="tl-desc">塗鴉巷 (Hosier Lane) 拍照。</div>
-                        <div class="tl-tag tag-activity">🏙️ 市區</div>
+                        <div class="tl-nav-icon">📍</div>
+                        <div class="tl-card-title">聯邦廣場</div>
+                        <div class="tl-card-desc">塗鴉巷 (Hosier Lane) 拍照。</div>
+                        <div class="tl-tags"><span class="tag tag-green">🏙️ 市區</span></div>
                     </div>
                 </div>
-                <div class="tl-item">
-                    <div class="tl-time-col"><div class="tl-time">14:00</div></div>
-                    <div class="tl-line-col"><div class="tl-dot"></div></div>
+                <div class="tl-row">
+                    <div class="tl-time-box"><div class="tl-time">14:00</div></div>
+                    <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
                     <div class="tl-card" onclick="navigateToMap('Melbourne Museum')">
-                        <div class="tl-title">墨爾本博物館</div>
-                        <div class="tl-desc">參觀南半球最大的博物館。</div>
-                        <div class="tl-tag tag-activity">🏛️ 文化</div>
+                        <div class="tl-nav-icon">📍</div>
+                        <div class="tl-card-title">墨爾本博物館</div>
+                        <div class="tl-card-desc">參觀南半球最大的博物館。</div>
+                        <div class="tl-tags"><span class="tag tag-green">🏛️ 文化</span></div>
                     </div>
                 </div>
             </div>
 
             <!-- Day 11: 2/6 -->
-            <div id="day-10" class="day-content">
-                <div class="section-title">📍 郊區一日遊</div>
-                <div class="tl-item">
-                    <div class="tl-time-col"><div class="tl-time">09:00</div></div>
-                    <div class="tl-line-col"><div class="tl-dot"></div></div>
+            <div id="day-10" class="day-panel">
+                <div class="section-header"><span class="section-title">📍 郊區一日遊</span></div>
+                <div class="tl-row">
+                    <div class="tl-time-box"><div class="tl-time">09:00</div></div>
+                    <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
                     <div class="tl-card" onclick="navigateToMap('Puffing Billy Railway')">
-                        <div class="tl-title">蒸汽火車</div>
-                        <div class="tl-desc">普芬比利古董火車體驗。</div>
-                        <div class="tl-tag tag-activity">🚂 活動</div>
+                        <div class="tl-nav-icon">📍</div>
+                        <div class="tl-card-title">蒸汽火車</div>
+                        <div class="tl-card-desc">普芬比利古董火車體驗。</div>
+                        <div class="tl-tags"><span class="tag tag-green">🚂 活動</span></div>
                     </div>
                 </div>
-                <div class="tl-item">
-                    <div class="tl-time-col"><div class="tl-time">19:00</div></div>
-                    <div class="tl-line-col"><div class="tl-dot"></div></div>
+                <div class="tl-row">
+                    <div class="tl-time-box"><div class="tl-time">19:00</div></div>
+                    <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
                     <div class="tl-card" onclick="navigateToMap('Phillip Island Nature Parks')">
-                        <div class="tl-title">企鵝歸巢</div>
-                        <div class="tl-desc">菲利普島看小企鵝上岸 (注意保暖)。</div>
-                        <div class="tl-tag tag-activity">🐧 動物</div>
+                        <div class="tl-nav-icon">📍</div>
+                        <div class="tl-card-title">企鵝歸巢</div>
+                        <div class="tl-card-desc">菲利普島看小企鵝上岸 (注意保暖)。</div>
+                        <div class="tl-tags"><span class="tag tag-green">🐧 動物</span></div>
                     </div>
                 </div>
             </div>
 
             <!-- Day 12: 2/7 -->
-            <div id="day-11" class="day-content">
-                <div class="section-title">📍 週末漫遊</div>
-                <div class="tl-item">
-                    <div class="tl-time-col"><div class="tl-time">09:00</div></div>
-                    <div class="tl-line-col"><div class="tl-dot"></div></div>
+            <div id="day-11" class="day-panel">
+                <div class="section-header"><span class="section-title">📍 週末漫遊</span></div>
+                <div class="tl-row">
+                    <div class="tl-time-box"><div class="tl-time">09:00</div></div>
+                    <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
                     <div class="tl-card" onclick="navigateToMap('South Melbourne Market')">
-                        <div class="tl-title">南墨爾本市場</div>
-                        <div class="tl-desc">品嚐生蠔與咖啡。</div>
-                        <div class="tl-tag tag-food">🦪 美食</div>
+                        <div class="tl-nav-icon">📍</div>
+                        <div class="tl-card-title">南墨爾本市場</div>
+                        <div class="tl-card-desc">品嚐生蠔與咖啡。</div>
+                        <div class="tl-tags"><span class="tag tag-orange">🦪 美食</span></div>
                     </div>
                 </div>
-                <div class="tl-item">
-                    <div class="tl-time-col"><div class="tl-time">14:00</div></div>
-                    <div class="tl-line-col"><div class="tl-dot"></div></div>
+                <div class="tl-row">
+                    <div class="tl-time-box"><div class="tl-time">14:00</div></div>
+                    <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
                     <div class="tl-card" onclick="navigateToMap('Brighton Bathing Boxes')">
-                        <div class="tl-title">彩虹小屋</div>
-                        <div class="tl-desc">Brighton Beach 拍照。</div>
-                        <div class="tl-tag tag-activity">🏖️ 海灘</div>
+                        <div class="tl-nav-icon">📍</div>
+                        <div class="tl-card-title">彩虹小屋</div>
+                        <div class="tl-card-desc">Brighton Beach 拍照。</div>
+                        <div class="tl-tags"><span class="tag tag-green">🏖️ 海灘</span></div>
                     </div>
                 </div>
             </div>
 
             <!-- Day 13: 2/8 -->
-            <div id="day-12" class="day-content">
-                <div class="section-title">📍 賦歸</div>
-                <div class="tl-item">
-                    <div class="tl-time-col"><div class="tl-time">09:00</div></div>
-                    <div class="tl-line-col"><div class="tl-dot"></div></div>
+            <div id="day-12" class="day-panel">
+                <div class="section-header"><span class="section-title">📍 賦歸</span></div>
+                <div class="tl-row">
+                    <div class="tl-time-box"><div class="tl-time">09:00</div></div>
+                    <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
                     <div class="tl-card" onclick="navigateToMap('Queen Victoria Market')">
-                        <div class="tl-title">維多利亞市場</div>
-                        <div class="tl-desc">購買最後的紀念品。</div>
-                        <div class="tl-tag tag-activity">🛍️ 購物</div>
+                        <div class="tl-nav-icon">📍</div>
+                        <div class="tl-card-title">維多利亞市場</div>
+                        <div class="tl-card-desc">購買最後的紀念品。</div>
+                        <div class="tl-tags"><span class="tag tag-green">🛍️ 購物</span></div>
                     </div>
                 </div>
-                <div class="tl-item">
-                    <div class="tl-time-col"><div class="tl-time">15:00</div></div>
-                    <div class="tl-line-col"><div class="tl-dot"></div></div>
+                <div class="tl-row">
+                    <div class="tl-time-box"><div class="tl-time">15:00</div></div>
+                    <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
                     <div class="tl-card" onclick="navigateToMap('Melbourne Airport')">
-                        <div class="tl-title">前往機場</div>
-                        <div class="tl-desc">Tullamarine 機場，準備回家。</div>
-                        <div class="tl-tag tag-transport">✈️ 交通</div>
+                        <div class="tl-nav-icon">📍</div>
+                        <div class="tl-card-title">前往機場</div>
+                        <div class="tl-card-desc">Tullamarine 機場，準備回家。</div>
+                        <div class="tl-tags"><span class="tag tag-blue">✈️ 交通</span></div>
                     </div>
                 </div>
             </div>
@@ -684,62 +755,91 @@
         </div>
     </div>
 
-    <!-- 3. Wallet View (垂直列表版) -->
+    <!-- 3. Wallet View -->
     <div id="view-wallet" class="view-container">
-        <div class="header-large">
-            <p>Wallet</p>
-            <h1>票券 & 訂位</h1>
+        <div class="header-area">
+            <h1 class="header-title">票券 & 訂位</h1>
         </div>
 
-        <div class="section-title">✈️ 交通與租車</div>
-        <div class="wallet-list">
-            <div class="ticket-card" onclick="navigateToMap('Hertz Car Rental Brisbane City')">
-                <div class="tc-top"><div class="tc-icon">🚗</div><div class="tc-status">14:30 取車</div></div>
-                <div class="tc-content"><h3>Hertz</h3><p>布里斯班市區站</p><p>Ref: H123456</p></div>
-                <div class="tc-date">1/29</div>
+        <div class="wallet-group">
+            <div class="group-label">交通與租車</div>
+            <div class="ticket" onclick="navigateToMap('Hertz Car Rental Brisbane City')">
+                <div class="t-left">🚗</div>
+                <div class="t-right">
+                    <div class="t-title">Hertz 取車</div>
+                    <div class="t-sub">布里斯班市區 • Ref: H123456</div>
+                    <div class="t-info">
+                        <span class="t-sub">1/29 14:30</span>
+                        <span class="t-highlight">CONFIRMED</span>
+                    </div>
+                </div>
             </div>
-            <div class="ticket-card" onclick="navigateToMap('Brisbane Airport')">
-                <div class="tc-top"><div class="tc-icon">✈️</div><div class="tc-status">VA970</div></div>
-                <div class="tc-content"><h3>BNE ➔ SYD</h3><p>17:05 起飛</p></div>
-                <div class="tc-date">2/1</div>
-            </div>
-        </div>
-
-        <div class="section-title">🏨 住宿</div>
-        <div class="wallet-list">
-            <div class="ticket-card" onclick="navigateToMap('Royal Albert Hotel')">
-                <div class="tc-top"><div class="tc-icon">🛏️</div><div class="tc-status">BRISBANE</div></div>
-                <div class="tc-content"><h3>Royal Albert</h3><p>CBD Area</p></div>
-                <div class="tc-date">1/27-29</div>
-            </div>
-            <div class="ticket-card" onclick="navigateToMap('Grande Florida')">
-                <div class="tc-top"><div class="tc-icon">🏖️</div><div class="tc-status">GOLD COAST</div></div>
-                <div class="tc-content"><h3>Grande Florida</h3><p>Miami Beach</p></div>
-                <div class="tc-date">1/29-2/1</div>
-            </div>
-            <div class="ticket-card" onclick="navigateToMap('Holiday Inn Darling Harbour')">
-                <div class="tc-top"><div class="tc-icon">🏙️</div><div class="tc-status">SYDNEY</div></div>
-                <div class="tc-content"><h3>Holiday Inn</h3><p>Darling Harbour</p></div>
-                <div class="tc-date">2/1-4</div>
+            <div class="ticket" onclick="navigateToMap('Brisbane Airport')">
+                <div class="t-left">✈️</div>
+                <div class="t-right">
+                    <div class="t-title">VA970</div>
+                    <div class="t-sub">BNE ➔ SYD</div>
+                    <div class="t-info">
+                        <span class="t-sub">2/1 17:05</span>
+                        <span class="t-highlight">CONFIRMED</span>
+                    </div>
+                </div>
             </div>
         </div>
 
+        <div class="wallet-group">
+            <div class="group-label">住宿</div>
+            <div class="ticket" onclick="navigateToMap('Royal Albert Hotel')">
+                <div class="t-left">🛏️</div>
+                <div class="t-right">
+                    <div class="t-title">Royal Albert</div>
+                    <div class="t-sub">Brisbane CBD</div>
+                    <div class="t-info">
+                        <span class="t-sub">1/27 - 1/29</span>
+                        <span class="t-highlight">2 NIGHTS</span>
+                    </div>
+                </div>
+            </div>
+            <div class="ticket" onclick="navigateToMap('Grande Florida')">
+                <div class="t-left">🏖️</div>
+                <div class="t-right">
+                    <div class="t-title">Grande Florida</div>
+                    <div class="t-sub">Gold Coast</div>
+                    <div class="t-info">
+                        <span class="t-sub">1/29 - 2/1</span>
+                        <span class="t-highlight">3 NIGHTS</span>
+                    </div>
+                </div>
+            </div>
+            <div class="ticket" onclick="navigateToMap('Holiday Inn Darling Harbour')">
+                <div class="t-left">🏙️</div>
+                <div class="t-right">
+                    <div class="t-title">Holiday Inn</div>
+                    <div class="t-sub">Sydney Darling Harbour</div>
+                    <div class="t-info">
+                        <span class="t-sub">2/1 - 2/4</span>
+                        <span class="t-highlight">3 NIGHTS</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
         <div style="height: 40px;"></div>
     </div>
 
     <!-- 底部 Tab Bar -->
     <div class="tab-bar">
-        <div class="tab active" onclick="switchTab('home', this)">
+        <div class="tab-btn active" onclick="switchTab('home', this)">
             <div class="tab-icon">🏠</div>
-            <div class="tab-label">首頁</div>
+            <div class="tab-text">首頁</div>
         </div>
-        <div class="tab" onclick="switchTab('trip', this)">
+        <div class="tab-btn" onclick="switchTab('trip', this)">
             <div class="tab-icon">📅</div>
-            <div class="tab-label">行程</div>
+            <div class="tab-text">行程</div>
         </div>
-        <div class="tab" onclick="switchTab('wallet', this)">
+        <div class="tab-btn" onclick="switchTab('wallet', this)">
             <div class="tab-icon">🎫</div>
-            <div class="tab-label">錢包</div>
+            <div class="tab-text">票券</div>
         </div>
     </div>
 
@@ -747,30 +847,29 @@
         // 頁面切換
         function switchTab(viewId, tabElement) {
             document.querySelectorAll('.view-container').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
             document.getElementById('view-' + viewId).classList.add('active');
             tabElement.classList.add('active');
         }
 
         // 日期選擇邏輯
         function selectDay(index) {
-            // 1. 更新頂部 Tab 樣式
-            document.querySelectorAll('.day-tab').forEach((el, i) => {
+            document.querySelectorAll('.day-pill').forEach((el, i) => {
                 if(i === index) el.classList.add('active');
                 else el.classList.remove('active');
             });
 
-            // 2. 顯示對應的內容
-            document.querySelectorAll('.day-content').forEach((el, i) => {
+            document.querySelectorAll('.day-panel').forEach((el, i) => {
                 if(i === index) el.classList.add('active');
                 else el.classList.remove('active');
             });
 
-            // 3. 自動捲動到選中的 Tab (UX 優化)
             const scroller = document.getElementById('day-scroller');
-            const target = document.querySelectorAll('.day-tab')[index];
-            const scrollLeft = target.offsetLeft - (scroller.clientWidth / 2) + (target.clientWidth / 2);
-            scroller.scrollTo({ left: scrollLeft, behavior: 'smooth' });
+            const target = document.querySelectorAll('.day-pill')[index];
+            if (target) {
+                const scrollLeft = target.offsetLeft - (scroller.clientWidth / 2) + (target.clientWidth / 2);
+                scroller.scrollTo({ left: scrollLeft, behavior: 'smooth' });
+            }
         }
 
         // 倒數計時
@@ -792,4 +891,3 @@
     </script>
 </body>
 </html>
-
