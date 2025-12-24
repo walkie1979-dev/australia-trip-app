@@ -16,27 +16,23 @@
     <link rel="apple-touch-icon" sizes="180x180" href="https://cdn-icons-png.flaticon.com/512/3069/3069172.png">
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='120' fill='%233B82F6'/%3E%3Ctext x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' font-size='280'%3E🐨%3C/text%3E%3C/svg%3E">
 
+    <!-- 引入文青字體 (思源宋體) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+
     <style>
         :root {
-            /* 品牌色：更有質感的寶藍至天藍漸層 */
             --primary: #3B82F6;
             --primary-dark: #2563EB;
-            --accent: #F59E0B; /* 金色點綴 */
-            
-            /* 背景 */
+            --accent: #F59E0B;
             --bg-color: #F0F4F8;
-            
-            /* 文字 */
             --text-main: #1E293B;
             --text-sub: #64748B;
             --text-light: #94A3B8;
-            
-            /* 卡片 */
             --card-bg: rgba(255, 255, 255, 0.85);
             --card-border: rgba(255, 255, 255, 0.6);
             --card-shadow: 0 10px 30px -10px rgba(59, 130, 246, 0.15);
-            
-            /* 安全區域 */
             --safe-top: env(safe-area-inset-top);
             --safe-bottom: env(safe-area-inset-bottom);
         }
@@ -44,291 +40,226 @@
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", sans-serif;
+            /* 全站統一使用思源宋體 */
+            font-family: 'Noto Serif TC', serif; 
             background-color: var(--bg-color);
-            margin: 0;
-            padding: 0;
-            height: 100vh;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            padding-top: var(--safe-top);
+            margin: 0; padding: 0; height: 100vh; overflow: hidden;
+            display: flex; flex-direction: column; padding-top: var(--safe-top);
             color: var(--text-main);
-            /* 添加背景氛圍光 */
             background-image: 
                 radial-gradient(circle at 0% 0%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
                 radial-gradient(circle at 100% 100%, rgba(245, 158, 11, 0.1) 0%, transparent 50%);
             background-attachment: fixed;
         }
 
-        /* 通用視圖容器 */
         .view-container {
-            flex: 1;
-            overflow-y: hidden;
-            display: none;
-            opacity: 0;
-            transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
+            flex: 1; overflow-y: hidden; display: none; opacity: 0;
+            transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1); position: relative;
         }
         
         #view-home, #view-wallet {
-            overflow-y: auto;
-            padding: 24px 20px 120px 20px;
-            scroll-behavior: smooth;
+            overflow-y: auto; padding: 24px 20px 120px 20px; scroll-behavior: smooth;
         }
 
-        .view-container.active {
-            display: flex;
-            flex-direction: column;
-            opacity: 1;
-        }
+        .view-container.active { display: flex; flex-direction: column; opacity: 1; }
 
-        /* =========================================
-           1. Header & Hero (首頁)
-           ========================================= */
+        /* Header & Hero */
         .header-area { margin-bottom: 24px; padding-left: 4px; }
         .header-sub { 
-            font-size: 13px; font-weight: 700; color: var(--primary); 
+            font-size: 14px; font-weight: 700; color: var(--primary); 
             text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 4px; 
             display: flex; align-items: center; gap: 6px;
         }
         .header-sub::before { content: ''; width: 20px; height: 2px; background: var(--primary); border-radius: 2px; }
-        .header-title { font-size: 32px; font-weight: 800; color: var(--text-main); margin: 0; letter-spacing: -0.5px; }
+        .header-title { font-size: 34px; font-weight: 900; color: var(--text-main); margin: 0; letter-spacing: -0.5px; }
 
         .hero-card {
             background: linear-gradient(135deg, #3B82F6 0%, #60A5FA 100%);
-            color: white;
-            border-radius: 28px;
-            padding: 32px 24px;
-            margin-bottom: 32px;
-            position: relative;
-            overflow: hidden;
+            color: white; border-radius: 28px; padding: 32px 24px; margin-bottom: 32px;
+            position: relative; overflow: hidden;
             box-shadow: 0 20px 40px -10px rgba(59, 130, 246, 0.4);
             border: 1px solid rgba(255,255,255,0.2);
+            /* 讓內容垂直居中，視覺更平衡 */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
-        /* 裝飾性背景圓圈 */
         .hero-card::before {
             content: ''; position: absolute; top: -50px; right: -50px;
             width: 200px; height: 200px; background: rgba(255,255,255,0.1);
             border-radius: 50%; filter: blur(40px);
         }
-        
-        .hero-label { font-size: 14px; font-weight: 500; opacity: 0.9; margin-bottom: 8px; }
-        .hero-countdown { font-size: 48px; font-weight: 800; line-height: 1; margin-bottom: 12px; letter-spacing: -1px; }
-        .hero-countdown span { font-size: 16px; font-weight: 600; opacity: 0.8; margin-left: 4px; }
+        .hero-label { 
+            font-size: 16px; font-weight: 500; opacity: 0.9; margin-bottom: 4px; 
+            letter-spacing: 1px;
+        }
+        .hero-countdown { 
+            font-size: 56px; 
+            font-weight: 900; 
+            line-height: 1; 
+            margin-bottom: 8px; 
+            letter-spacing: 2px;
+            text-shadow: 0 4px 12px rgba(0,0,0,0.2); /* 增加立體感 */
+        }
+        .hero-countdown span { 
+            font-size: 20px; 
+            font-weight: 500; 
+            opacity: 0.9; 
+            margin-left: 4px; 
+        }
         .hero-route { 
             display: inline-flex; align-items: center; gap: 8px;
-            background: rgba(255,255,255,0.2); padding: 6px 12px; border-radius: 20px;
-            font-size: 12px; font-weight: 600; backdrop-filter: blur(4px);
+            background: rgba(255,255,255,0.2); padding: 6px 16px; border-radius: 20px;
+            font-size: 14px; font-weight: 600; backdrop-filter: blur(4px);
+            margin-top: 8px;
         }
 
-        /* 標題樣式 */
-        .section-header {
-            display: flex; align-items: center; justify-content: space-between;
-            margin: 32px 0 16px 0; padding: 0 4px;
-        }
-        .section-title { font-size: 18px; font-weight: 700; color: var(--text-main); }
-        .section-more { font-size: 13px; color: var(--primary); font-weight: 600; }
+        /* Checklist Styles */
+        .section-header { margin: 32px 0 16px 0; padding: 0 4px; }
+        .section-title { font-size: 20px; font-weight: 700; color: var(--text-main); }
 
-        /* =========================================
-           2. Day Selector (日期選擇 - 玻璃擬態)
-           ========================================= */
+        .checklist-container { display: flex; flex-direction: column; gap: 12px; }
+        .check-item {
+            background: white; padding: 16px 20px; border-radius: 16px;
+            display: flex; align-items: center; gap: 16px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+            border: 1px solid rgba(255,255,255,0.8);
+            cursor: pointer; transition: all 0.2s;
+        }
+        .check-item:active { transform: scale(0.98); }
+        .check-item.checked { background: #F8FAFC; opacity: 0.6; }
+        .check-item.checked .check-text { text-decoration: line-through; color: var(--text-light); }
+        
+        .checkbox {
+            width: 24px; height: 24px; border-radius: 50%;
+            border: 2px solid var(--primary);
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0; transition: 0.2s;
+        }
+        .check-item.checked .checkbox { background: var(--primary); border-color: var(--primary); }
+        .checkbox::after { content: '✓'; color: white; font-size: 14px; opacity: 0; transform: scale(0.5); transition: 0.2s; }
+        .check-item.checked .checkbox::after { opacity: 1; transform: scale(1); }
+        
+        .check-text { font-size: 16px; font-weight: 600; color: var(--text-main); flex: 1; letter-spacing: 0.5px; }
+        .check-sub { font-size: 13px; font-weight: 400; color: var(--text-sub); display: block; margin-top: 4px; }
+
+        /* Timeline Styles */
         .day-selector-sticky {
             position: sticky; top: 0; z-index: 20;
-            background: rgba(240, 244, 248, 0.85); /* 半透明背景 */
+            background: rgba(240, 244, 248, 0.85);
             backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
             padding: 12px 0 16px 20px;
             border-bottom: 1px solid rgba(255,255,255,0.5);
         }
-
         .day-scroller {
             display: flex; overflow-x: auto; gap: 10px; padding-right: 20px;
             scrollbar-width: none; -webkit-overflow-scrolling: touch;
         }
         .day-scroller::-webkit-scrollbar { display: none; }
-
         .day-pill {
-            flex: 0 0 auto;
-            min-width: 54px; height: 64px;
-            background: white;
-            border-radius: 16px;
+            flex: 0 0 auto; min-width: 54px; height: 64px; background: white; border-radius: 16px;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            border: 1px solid rgba(255,255,255,0.8);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); /* 彈跳效果 */
-            cursor: pointer; position: relative;
+            border: 1px solid rgba(255,255,255,0.8); box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            transition: all 0.3s; cursor: pointer;
         }
-        
         .day-pill.active {
-            background: var(--primary);
-            color: white;
-            transform: translateY(-4px);
-            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
-            border-color: var(--primary);
+            background: var(--primary); color: white; transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3); border-color: var(--primary);
         }
         .day-pill.active .dp-date { color: rgba(255,255,255,0.8); }
         .day-pill.active .dp-num { color: white; }
-
         .dp-date { font-size: 11px; font-weight: 600; color: var(--text-light); margin-bottom: 2px; }
-        .dp-num { font-size: 16px; font-weight: 800; color: var(--text-main); }
+        .dp-num { font-size: 17px; font-weight: 700; color: var(--text-main); }
 
-        /* =========================================
-           3. Timeline (時間軸)
-           ========================================= */
-        .timeline-wrapper {
-            flex: 1; overflow-y: auto; padding: 24px 20px 120px 20px;
-        }
-
+        .timeline-wrapper { flex: 1; overflow-y: auto; padding: 24px 20px 120px 20px; }
         .day-panel { display: none; animation: slideUp 0.4s ease forwards; }
         .day-panel.active { display: block; }
-
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(15px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
         .tl-row { display: flex; margin-bottom: 24px; position: relative; }
-
-        /* 時間 */
-        .tl-time-box {
-            width: 50px; flex-shrink: 0; text-align: center; padding-top: 6px;
-        }
-        .tl-time { font-size: 14px; font-weight: 700; color: var(--text-main); font-variant-numeric: tabular-nums; }
-        .tl-ampm { font-size: 10px; font-weight: 600; color: var(--text-light); margin-top: 2px; text-transform: uppercase; }
-
-        /* 線條 */
-        .tl-line-box {
-            width: 24px; display: flex; justify-content: center; position: relative;
-        }
+        .tl-time-box { width: 50px; flex-shrink: 0; text-align: center; padding-top: 6px; }
+        .tl-time { font-size: 15px; font-weight: 700; color: var(--text-main); font-variant-numeric: tabular-nums; }
+        .tl-ampm { font-size: 11px; font-weight: 600; color: var(--text-light); margin-top: 2px; text-transform: uppercase; }
+        .tl-line-box { width: 24px; display: flex; justify-content: center; position: relative; }
         .tl-line {
             position: absolute; top: 24px; bottom: -30px; width: 2px;
             background-image: linear-gradient(to bottom, #E2E8F0 50%, transparent 50%);
-            background-size: 2px 8px; /* 虛線效果 */
+            background-size: 2px 8px;
         }
         .tl-row:last-child .tl-line { display: none; }
-        
         .tl-dot {
-            width: 14px; height: 14px; border-radius: 50%;
-            background: white; border: 3px solid var(--primary);
-            z-index: 2; margin-top: 8px;
-            box-shadow: 0 0 0 4px rgba(240, 244, 248, 1); /* 外圈遮罩 */
+            width: 14px; height: 14px; border-radius: 50%; background: white; border: 3px solid var(--primary);
+            z-index: 2; margin-top: 8px; box-shadow: 0 0 0 4px rgba(240, 244, 248, 1);
         }
-
-        /* 卡片內容 */
+        
         .tl-card {
-            flex: 1; margin-left: 12px;
-            background: var(--card-bg);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 18px;
-            border: 1px solid var(--card-border);
-            box-shadow: var(--card-shadow);
-            position: relative;
-            transition: transform 0.1s, background 0.2s;
+            flex: 1; margin-left: 12px; background: var(--card-bg); backdrop-filter: blur(10px);
+            border-radius: 20px; padding: 18px; border: 1px solid var(--card-border);
+            box-shadow: var(--card-shadow); position: relative; transition: transform 0.1s;
         }
         .tl-card:active { transform: scale(0.98); background: white; }
+        /* 航班卡片特別樣式 */
+        .tl-card.flight-card {
+            background: linear-gradient(135deg, #EFF6FF 0%, #FFFFFF 100%);
+            border-left: 4px solid var(--primary);
+        }
 
         .tl-nav-icon {
-            position: absolute; top: 18px; right: 18px;
-            width: 28px; height: 28px; border-radius: 50%;
-            background: #F1F5F9; color: var(--primary);
-            display: flex; align-items: center; justify-content: center;
+            position: absolute; top: 18px; right: 18px; width: 28px; height: 28px; border-radius: 50%;
+            background: #F1F5F9; color: var(--primary); display: flex; align-items: center; justify-content: center;
             font-size: 12px; font-weight: bold;
         }
-
-        .tl-card-title { font-size: 16px; font-weight: 700; color: var(--text-main); margin-bottom: 6px; padding-right: 30px; }
-        .tl-card-desc { font-size: 13px; color: var(--text-sub); line-height: 1.5; margin-bottom: 12px; }
-
+        .tl-card-title { font-size: 17px; font-weight: 700; color: var(--text-main); margin-bottom: 6px; padding-right: 30px; }
+        .tl-card-desc { font-size: 14px; color: var(--text-sub); line-height: 1.6; margin-bottom: 12px; }
+        
         .tl-tags { display: flex; gap: 8px; flex-wrap: wrap; }
-        .tag {
-            font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 8px;
-            display: flex; align-items: center; gap: 4px;
-        }
+        .tag { font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 8px; display: flex; align-items: center; gap: 4px; }
         .tag-blue { background: #EFF6FF; color: #3B82F6; }
         .tag-purple { background: #F5F3FF; color: #8B5CF6; }
         .tag-green { background: #F0FDF4; color: #10B981; }
         .tag-orange { background: #FFF7ED; color: #F97316; }
 
-        /* =========================================
-           4. Wallet (票券 - 垂直堆疊)
-           ========================================= */
+        /* Wallet */
         .wallet-group { margin-bottom: 32px; }
-        .group-label { 
-            font-size: 12px; font-weight: 700; color: var(--text-light); 
-            text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; margin-left: 4px;
-        }
-
+        .group-label { font-size: 13px; font-weight: 700; color: var(--text-light); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; margin-left: 4px; }
         .ticket {
-            background: white; border-radius: 20px; overflow: hidden;
-            margin-bottom: 16px; display: flex; position: relative;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.04);
-            border: 1px solid rgba(0,0,0,0.02);
-            transition: transform 0.1s;
+            background: white; border-radius: 20px; overflow: hidden; margin-bottom: 16px; display: flex; position: relative;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.02); transition: transform 0.1s;
         }
         .ticket:active { transform: scale(0.99); }
-
-        /* 票券缺口 */
         .ticket::before, .ticket::after {
-            content: ''; position: absolute; width: 20px; height: 20px;
-            background: var(--bg-color); border-radius: 50%; top: 50%; transform: translateY(-50%);
-            box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
+            content: ''; position: absolute; width: 20px; height: 20px; background: var(--bg-color);
+            border-radius: 50%; top: 50%; transform: translateY(-50%); box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
         }
-        .ticket::before { left: -10px; }
-        .ticket::after { right: -10px; }
-
-        .t-left {
-            width: 80px; background: #F8FAFC; 
-            display: flex; align-items: center; justify-content: center;
-            font-size: 32px; border-right: 2px dashed #E2E8F0;
-        }
+        .ticket::before { left: -10px; } .ticket::after { right: -10px; }
+        .t-left { width: 80px; background: #F8FAFC; display: flex; align-items: center; justify-content: center; font-size: 32px; border-right: 2px dashed #E2E8F0; }
         .t-right { flex: 1; padding: 16px 24px; }
-        
-        .t-title { font-size: 16px; font-weight: 700; color: var(--text-main); margin-bottom: 4px; }
+        .t-title { font-size: 17px; font-weight: 700; color: var(--text-main); margin-bottom: 4px; }
         .t-info { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 8px; }
-        .t-sub { font-size: 13px; color: var(--text-sub); display: block; margin-bottom: 2px; }
+        .t-sub { font-size: 14px; color: var(--text-sub); display: block; margin-bottom: 2px; }
         .t-highlight { font-size: 12px; font-weight: 700; color: var(--primary); background: #EFF6FF; padding: 4px 8px; border-radius: 6px; }
 
-        /* =========================================
-           5. Tab Bar (底部導航)
-           ========================================= */
+        /* Tab Bar */
         .tab-bar {
-            position: fixed; bottom: 0; left: 0; right: 0;
-            background: rgba(255,255,255,0.9);
+            position: fixed; bottom: 0; left: 0; right: 0; background: rgba(255,255,255,0.9);
             backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            border-top: 1px solid rgba(0,0,0,0.05);
-            display: flex; justify-content: space-around;
-            padding-top: 12px; padding-bottom: max(12px, var(--safe-bottom));
-            z-index: 100;
+            border-top: 1px solid rgba(0,0,0,0.05); display: flex; justify-content: space-around;
+            padding-top: 12px; padding-bottom: max(12px, var(--safe-bottom)); z-index: 100;
             box-shadow: 0 -5px 20px rgba(0,0,0,0.02);
         }
-        .tab-btn {
-            display: flex; flex-direction: column; align-items: center;
-            width: 60px; color: #94A3B8; cursor: pointer; transition: 0.2s;
-        }
+        .tab-btn { display: flex; flex-direction: column; align-items: center; width: 60px; color: #94A3B8; cursor: pointer; transition: 0.2s; }
         .tab-btn.active { color: var(--primary); transform: translateY(-2px); }
-        .tab-icon { font-size: 24px; margin-bottom: 4px; filter: drop-shadow(0 2px 4px rgba(59,130,246,0)); transition: 0.2s; }
-        .tab-btn.active .tab-icon { filter: drop-shadow(0 4px 6px rgba(59,130,246,0.3)); }
-        .tab-text { font-size: 10px; font-weight: 600; }
-
-        /* =========================================
-           Utility
-           ========================================= */
-        .alert-box {
-            background: #FFFBEB; border: 1px solid #FCD34D; border-radius: 16px;
-            padding: 16px; margin-bottom: 24px;
-            display: flex; gap: 12px; align-items: start;
-        }
-        .alert-icon { font-size: 20px; }
-        .alert-content strong { color: #B45309; display: block; margin-bottom: 4px; font-size: 14px; }
-        .alert-content p { color: #92400E; margin: 0; font-size: 13px; line-height: 1.4; }
+        .tab-icon { font-size: 24px; margin-bottom: 4px; transition: 0.2s; }
+        .tab-text { font-size: 11px; font-weight: 600; }
     </style>
 </head>
 <body>
 
-    <!-- 1. 首頁 View -->
+    <!-- 1. 首頁 View (行前清單) -->
     <div id="view-home" class="view-container active">
         <div class="header-area">
-            <div class="header-sub">Ready for Adventure</div>
+            <div class="header-sub">Ready to Go</div>
             <h1 class="header-title">澳洲之旅 2026</h1>
         </div>
 
@@ -338,38 +269,71 @@
             <div class="hero-route">✈️ BNE ➔ OOL ➔ SYD ➔ MEL</div>
         </div>
 
-        <div class="section-header">
-            <span class="section-title">✨ 重點提醒</span>
-        </div>
-
-        <div class="alert-box">
-            <div class="alert-icon">⚠️</div>
-            <div class="alert-content">
-                <strong>1/27 抵達提醒</strong>
-                <p>第一梯 12:00 抵達先放行李；您 22:00 抵達建議搭 Uber 直奔 Royal Albert Hotel 會合。</p>
-            </div>
-        </div>
+        <div class="section-header"><span class="section-title">🎒 行前準備清單</span></div>
         
-        <!-- 重點卡片 (複用 Timeline 樣式) -->
-        <div class="tl-row">
-            <div class="tl-time-box"><div class="tl-time">1/29</div><div class="tl-ampm">14:30</div></div>
-            <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
-            <div class="tl-card" onclick="switchTab('trip', document.querySelectorAll('.tab-btn')[1]); selectDay(2);">
-                <div class="tl-nav-icon">➜</div>
-                <div class="tl-card-title">Hertz 取車</div>
-                <div class="tl-card-desc">布里斯班市區取車，準備前往黃金海岸。</div>
-                <div class="tl-tags"><span class="tag tag-blue">🚗 租車</span></div>
+        <div class="checklist-container">
+            <div class="check-item" onclick="toggleCheck(this, 'passport')">
+                <div class="checkbox"></div>
+                <div>
+                    <div class="check-text">護照</div>
+                    <span class="check-sub">效期需 6 個月以上</span>
+                </div>
             </div>
-        </div>
-
-        <div class="tl-row">
-            <div class="tl-time-box"><div class="tl-time">1/31</div><div class="tl-ampm">08:00</div></div>
-            <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
-            <div class="tl-card" onclick="switchTab('trip', document.querySelectorAll('.tab-btn')[1]); selectDay(4);">
-                <div class="tl-nav-icon">➜</div>
-                <div class="tl-card-title">庫倫賓無尾熊</div>
-                <div class="tl-card-desc">已預約 08:00 早餐，請勿遲到。</div>
-                <div class="tl-tags"><span class="tag tag-green">🐨 動物</span></div>
+            <div class="check-item" onclick="toggleCheck(this, 'visa')">
+                <div class="checkbox"></div>
+                <div>
+                    <div class="check-text">澳洲簽證 (ETA)</div>
+                    <span class="check-sub">確認已核准並列印備份</span>
+                </div>
+            </div>
+            <div class="check-item" onclick="toggleCheck(this, 'adapter')">
+                <div class="checkbox"></div>
+                <div>
+                    <div class="check-text">轉接頭 (八字型)</div>
+                    <span class="check-sub">Type I 插座 (220V)</span>
+                </div>
+            </div>
+            <div class="check-item" onclick="toggleCheck(this, 'license')">
+                <div class="checkbox"></div>
+                <div>
+                    <div class="check-text">國際駕照 + 台灣駕照</div>
+                    <span class="check-sub">租車取車必備</span>
+                </div>
+            </div>
+            <div class="check-item" onclick="toggleCheck(this, 'creditcard')">
+                <div class="checkbox"></div>
+                <div>
+                    <div class="check-text">信用卡 (海外回饋)</div>
+                    <span class="check-sub">澳洲多數無現金支付</span>
+                </div>
+            </div>
+            <div class="check-item" onclick="toggleCheck(this, 'sunscreen')">
+                <div class="checkbox"></div>
+                <div>
+                    <div class="check-text">防曬乳 / 墨鏡 / 帽子</div>
+                    <span class="check-sub">澳洲紫外線非常強</span>
+                </div>
+            </div>
+            <div class="check-item" onclick="toggleCheck(this, 'medicine')">
+                <div class="checkbox"></div>
+                <div>
+                    <div class="check-text">常備藥品</div>
+                    <span class="check-sub">感冒藥、腸胃藥、暈車藥</span>
+                </div>
+            </div>
+            <div class="check-item" onclick="toggleCheck(this, 'simcard')">
+                <div class="checkbox"></div>
+                <div>
+                    <div class="check-text">網卡 / 漫遊</div>
+                    <span class="check-sub">落地開通網路</span>
+                </div>
+            </div>
+            <div class="check-item" onclick="toggleCheck(this, 'toiletries')">
+                <div class="checkbox"></div>
+                <div>
+                    <div class="check-text">牙刷 / 牙膏 / 拖鞋</div>
+                    <span class="check-sub">環保旅店通常不提供</span>
+                </div>
             </div>
         </div>
     </div>
@@ -551,8 +515,19 @@
                     <div class="tl-card" onclick="navigateToMap('Gold Coast Airport')">
                         <div class="tl-nav-icon">📍</div>
                         <div class="tl-card-title">機場還車</div>
-                        <div class="tl-card-desc">黃金海岸機場還車，搭乘 VA970 (17:05)。</div>
-                        <div class="tl-tags"><span class="tag tag-blue">✈️ 交通</span></div>
+                        <div class="tl-card-desc">黃金海岸機場還車。</div>
+                        <div class="tl-tags"><span class="tag tag-blue">🚗 租車</span></div>
+                    </div>
+                </div>
+                <!-- 新增航班卡片 -->
+                <div class="tl-row">
+                    <div class="tl-time-box"><div class="tl-time">17:05</div></div>
+                    <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
+                    <div class="tl-card flight-card" onclick="navigateToMap('Gold Coast Airport')">
+                        <div class="tl-nav-icon">✈️</div>
+                        <div class="tl-card-title">VA970 飛往雪梨</div>
+                        <div class="tl-card-desc">OOL 黃金海岸 ➔ SYD 雪梨</div>
+                        <div class="tl-tags"><span class="tag tag-blue">✈️ 航班</span></div>
                     </div>
                 </div>
                 <div class="tl-row">
@@ -596,13 +571,23 @@
             <div id="day-7" class="day-panel">
                 <div class="section-header"><span class="section-title">📍 藍山一日遊</span></div>
                 <div class="tl-row">
-                    <div class="tl-time-box"><div class="tl-time">08:00</div></div>
+                    <div class="tl-time-box"><div class="tl-time">07:12</div></div>
+                    <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
+                    <div class="tl-card" onclick="navigateToMap('Kings Cross Station')">
+                        <div class="tl-nav-icon">🚆</div>
+                        <div class="tl-card-title">Kings Cross 搭車</div>
+                        <div class="tl-card-desc">搭乘火車前往中央車站轉乘。</div>
+                        <div class="tl-tags"><span class="tag tag-blue">交通</span></div>
+                    </div>
+                </div>
+                <div class="tl-row">
+                    <div class="tl-time-box"><div class="tl-time">07:25</div></div>
                     <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
                     <div class="tl-card" onclick="navigateToMap('Central Station Sydney')">
-                        <div class="tl-nav-icon">📍</div>
-                        <div class="tl-card-title">搭火車出發</div>
-                        <div class="tl-card-desc">前往 Katoomba 車站。</div>
-                        <div class="tl-tags"><span class="tag tag-blue">🚆 火車</span></div>
+                        <div class="tl-nav-icon">🚆</div>
+                        <div class="tl-card-title">中央車站出發</div>
+                        <div class="tl-card-desc">轉乘藍山線 (BMT) 前往 Katoomba Station。</div>
+                        <div class="tl-tags"><span class="tag tag-blue">長途火車</span></div>
                     </div>
                 </div>
                 <div class="tl-row">
@@ -635,9 +620,20 @@
                     <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
                     <div class="tl-card" onclick="navigateToMap('Sydney Airport')">
                         <div class="tl-nav-icon">📍</div>
-                        <div class="tl-card-title">搭機前往墨爾本</div>
-                        <div class="tl-card-desc">VA858 (16:00 起飛)。</div>
+                        <div class="tl-card-title">抵達雪梨機場</div>
+                        <div class="tl-card-desc">前往國內線航廈。</div>
                         <div class="tl-tags"><span class="tag tag-blue">✈️ 交通</span></div>
+                    </div>
+                </div>
+                <!-- 新增航班卡片 -->
+                <div class="tl-row">
+                    <div class="tl-time-box"><div class="tl-time">16:00</div></div>
+                    <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
+                    <div class="tl-card flight-card" onclick="navigateToMap('Sydney Airport')">
+                        <div class="tl-nav-icon">✈️</div>
+                        <div class="tl-card-title">VA858 飛往墨爾本</div>
+                        <div class="tl-card-desc">SYD 雪梨 ➔ MEL 墨爾本</div>
+                        <div class="tl-tags"><span class="tag tag-blue">✈️ 航班</span></div>
                     </div>
                 </div>
                 <div class="tl-row">
@@ -785,6 +781,17 @@
                     </div>
                 </div>
             </div>
+            <div class="ticket" onclick="navigateToMap('Sydney Airport')">
+                <div class="t-left">✈️</div>
+                <div class="t-right">
+                    <div class="t-title">VA858</div>
+                    <div class="t-sub">SYD ➔ MEL</div>
+                    <div class="t-info">
+                        <span class="t-sub">2/4 16:00</span>
+                        <span class="t-highlight">CONFIRMED</span>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="wallet-group">
@@ -831,7 +838,7 @@
     <div class="tab-bar">
         <div class="tab-btn active" onclick="switchTab('home', this)">
             <div class="tab-icon">🏠</div>
-            <div class="tab-text">首頁</div>
+            <div class="tab-text">清單</div>
         </div>
         <div class="tab-btn" onclick="switchTab('trip', this)">
             <div class="tab-icon">📅</div>
@@ -872,6 +879,26 @@
             }
         }
 
+        // 行前清單勾選邏輯 (LocalStorage)
+        function toggleCheck(el, id) {
+            el.classList.toggle('checked');
+            const isChecked = el.classList.contains('checked');
+            localStorage.setItem('check_' + id, isChecked);
+        }
+
+        // 載入勾選狀態
+        function loadChecks() {
+            const items = ['passport', 'visa', 'adapter', 'license', 'creditcard', 'sunscreen', 'medicine', 'simcard', 'toiletries'];
+            items.forEach(id => {
+                const checked = localStorage.getItem('check_' + id) === 'true';
+                if(checked) {
+                    // 根據 onclick 設定的 id 找到對應元素 (這裡簡化，實作上建議給元素 ID)
+                    const el = document.querySelector(`[onclick*="'${id}'"]`);
+                    if(el) el.classList.add('checked');
+                }
+            });
+        }
+
         // 倒數計時
         function updateCountdown() {
             const targetDate = new Date('2026-01-27T00:00:00'); 
@@ -881,8 +908,13 @@
             const el = document.getElementById('countdown-timer');
             if(el) el.innerHTML = `${days} <span>天</span>`;
         }
-        updateCountdown();
-        setInterval(updateCountdown, 86400000);
+        
+        // 初始化
+        window.onload = function() {
+            updateCountdown();
+            setInterval(updateCountdown, 86400000);
+            loadChecks();
+        }
 
         // 地圖導航
         function navigateToMap(query) {
