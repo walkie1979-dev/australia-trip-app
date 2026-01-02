@@ -8,13 +8,13 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="澳洲之旅">
-    <meta name="theme-color" content="#F0F4F8">
+    <meta name="theme-color" content="#F0F8FF">
     
     <title>2026 澳洲之旅</title>
 
     <!-- App Icon -->
     <link rel="apple-touch-icon" sizes="180x180" href="https://cdn-icons-png.flaticon.com/512/3069/3069172.png">
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='120' fill='%233B82F6'/%3E%3Ctext x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' font-size='280'%3E🐨%3C/text%3E%3C/svg%3E">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='120' fill='%230077BE'/%3E%3Ctext x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' font-size='280'%3E🐨%3C/text%3E%3C/svg%3E">
 
     <!-- 引入文青字體 (思源宋體) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -23,16 +23,20 @@
 
     <style>
         :root {
-            --primary: #3B82F6;
-            --primary-dark: #2563EB;
-            --accent: #F59E0B;
-            --bg-color: #F0F4F8;
-            --text-main: #1E293B;
-            --text-sub: #64748B;
-            --text-light: #94A3B8;
-            --card-bg: rgba(255, 255, 255, 0.85);
-            --card-border: rgba(255, 255, 255, 0.6);
-            --card-shadow: 0 10px 30px -10px rgba(59, 130, 246, 0.15);
+            /* 澳洲風格配色 */
+            --ocean-blue: #0077BE;   /* 大堡礁藍 */
+            --beach-gold: #FFC107;   /* 沙灘金 */
+            --eucalyptus: #4CAF50;   /* 尤加利葉綠 */
+            --bg-color: #F0F8FF;     /* 極淡的藍白色 */
+            
+            /* 文字與卡片 */
+            --text-main: #263238;
+            --text-sub: #546E7A;
+            --text-light: #78909C;
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --card-shadow: 0 8px 24px rgba(0, 119, 190, 0.08);
+            
+            /* 安全區域 */
             --safe-top: env(safe-area-inset-top);
             --safe-bottom: env(safe-area-inset-bottom);
         }
@@ -40,307 +44,317 @@
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
         body {
-            /* 全站統一使用思源宋體 */
             font-family: 'Noto Serif TC', serif; 
             background-color: var(--bg-color);
             margin: 0; padding: 0; height: 100vh; overflow: hidden;
             display: flex; flex-direction: column; padding-top: var(--safe-top);
             color: var(--text-main);
-            background-image: 
-                radial-gradient(circle at 0% 0%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 100% 100%, rgba(245, 158, 11, 0.1) 0%, transparent 50%);
-            background-attachment: fixed;
+            /* 海洋氛圍背景 */
+            background-image: linear-gradient(180deg, #F0F8FF 0%, #E3F2FD 100%);
         }
 
+        /* 基礎視圖容器設定 */
         .view-container {
-            flex: 1; overflow-y: hidden; display: none; opacity: 0;
-            transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1); position: relative;
+            flex: 1; 
+            overflow-y: hidden; 
+            display: none; 
+            opacity: 0;
+            transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+            position: relative;
         }
         
         #view-home, #view-wallet {
-            overflow-y: auto; padding: 24px 20px 120px 20px; scroll-behavior: smooth;
+            overflow-y: auto; 
+            padding: 20px 20px 100px 20px; 
+            scroll-behavior: smooth;
         }
 
-        .view-container.active { display: flex; flex-direction: column; opacity: 1; }
-
-        /* Header & Hero */
-        .header-area { margin-bottom: 24px; padding-left: 4px; }
-        .header-sub { 
-            font-size: 14px; font-weight: 700; color: var(--primary); 
-            text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 4px; 
-            display: flex; align-items: center; gap: 6px;
-        }
-        .header-sub::before { content: ''; width: 20px; height: 2px; background: var(--primary); border-radius: 2px; }
-        .header-title { font-size: 34px; font-weight: 900; color: var(--text-main); margin: 0; letter-spacing: -0.5px; }
-
-        .hero-card {
-            background: linear-gradient(135deg, #3B82F6 0%, #60A5FA 100%);
-            color: white; border-radius: 28px; padding: 32px 24px; margin-bottom: 32px;
-            position: relative; overflow: hidden;
-            box-shadow: 0 20px 40px -10px rgba(59, 130, 246, 0.4);
-            border: 1px solid rgba(255,255,255,0.2);
-            /* 讓內容垂直居中，視覺更平衡 */
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-        .hero-card::before {
-            content: ''; position: absolute; top: -50px; right: -50px;
-            width: 200px; height: 200px; background: rgba(255,255,255,0.1);
-            border-radius: 50%; filter: blur(40px);
-        }
-        .hero-label { 
-            font-size: 16px; font-weight: 500; opacity: 0.9; margin-bottom: 4px; 
-            letter-spacing: 1px;
-        }
-        .hero-countdown { 
-            font-size: 56px; 
-            font-weight: 900; 
-            line-height: 1; 
-            margin-bottom: 8px; 
-            letter-spacing: 2px;
-            text-shadow: 0 4px 12px rgba(0,0,0,0.2); /* 增加立體感 */
-        }
-        .hero-countdown span { 
-            font-size: 20px; 
-            font-weight: 500; 
-            opacity: 0.9; 
-            margin-left: 4px; 
-        }
-        .hero-route { 
-            display: inline-flex; align-items: center; gap: 8px;
-            background: rgba(255,255,255,0.2); padding: 6px 16px; border-radius: 20px;
-            font-size: 14px; font-weight: 600; backdrop-filter: blur(4px);
-            margin-top: 8px;
+        /* 一般狀態下的啟用 (適用於行程頁面) */
+        .view-container.active { 
+            display: flex; 
+            flex-direction: column; 
+            opacity: 1; 
         }
 
-        /* Checklist Styles */
-        .section-header { margin: 32px 0 16px 0; padding: 0 4px; }
-        .section-title { font-size: 20px; font-weight: 700; color: var(--text-main); }
+        /* 首頁與資訊頁面改用 block 佈局 */
+        #view-home.active, #view-wallet.active {
+            display: block;
+        }
 
-        .checklist-container { display: flex; flex-direction: column; gap: 12px; }
+        /* ====================
+           Dashboard (首頁)
+           ==================== */
+        .dashboard-header { margin-bottom: 20px; display: flex; justify-content: space-between; align-items: end; }
+        .welcome-text { font-size: 15px; color: var(--text-sub); font-weight: 600; margin-bottom: 4px; }
+        .trip-title { font-size: 32px; font-weight: 900; color: var(--ocean-blue); margin: 0; letter-spacing: -0.5px; }
+
+        /* 倒數計時與天氣卡片 */
+        .dashboard-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+        
+        .dash-card {
+            background: white; border-radius: 20px; padding: 20px;
+            box-shadow: var(--card-shadow); border: 1px solid rgba(255,255,255,0.5);
+            display: flex; flex-direction: column; justify-content: space-between;
+            flex-shrink: 0; /* 防止壓縮 */
+        }
+        
+        .countdown-card { grid-column: span 2; background: linear-gradient(135deg, var(--ocean-blue), #4FC3F7); color: white; position: relative; overflow: hidden; }
+        .countdown-card::after { content: '✈️'; font-size: 100px; position: absolute; right: -20px; bottom: -30px; opacity: 0.15; transform: rotate(-15deg); }
+        .cd-label { font-size: 15px; opacity: 0.9; font-weight: 500; }
+        .cd-number { font-size: 52px; font-weight: 900; margin: 8px 0; text-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .cd-unit { font-size: 18px; font-weight: 500; opacity: 0.8; margin-left: 6px; }
+
+        .weather-card { background: white; }
+        .weather-icon { font-size: 32px; margin-bottom: 10px; }
+        .weather-temp { font-size: 26px; font-weight: 800; color: var(--text-main); }
+        .weather-loc { font-size: 13px; color: var(--text-sub); font-weight: 600; }
+
+        .flight-mini-card { background: white; }
+        .fm-label { font-size: 12px; color: var(--text-light); font-weight: 600; text-transform: uppercase; margin-bottom: 6px; }
+        .fm-code { font-size: 24px; font-weight: 800; color: var(--ocean-blue); }
+        .fm-route { font-size: 14px; color: var(--text-sub); font-weight: 600; margin-top: 4px; }
+
+        /* Checklist Progress */
+        .checklist-section { margin-top: 28px; background: white; border-radius: 24px; padding: 24px; box-shadow: var(--card-shadow); flex-shrink: 0; }
+        .cl-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .cl-title { font-size: 20px; font-weight: 800; color: var(--text-main); display: flex; align-items: center; gap: 10px; }
+        .cl-percent { font-size: 14px; font-weight: 600; color: var(--ocean-blue); opacity: 0.8; }
+        
+        .progress-bar { height: 10px; background: #E3F2FD; border-radius: 5px; overflow: hidden; margin-bottom: 24px; }
+        .progress-fill { height: 100%; background: var(--eucalyptus); width: 0%; transition: width 0.5s ease; border-radius: 5px; }
+
+        .category-title { font-size: 15px; font-weight: 700; color: var(--text-light); margin: 20px 0 10px 4px; text-transform: uppercase; letter-spacing: 1px; }
+        
         .check-item {
-            background: white; padding: 16px 20px; border-radius: 16px;
-            display: flex; align-items: center; gap: 16px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
-            border: 1px solid rgba(255,255,255,0.8);
-            cursor: pointer; transition: all 0.2s;
+            display: flex; align-items: center; padding: 14px 0; border-bottom: 1px solid #F1F5F9; cursor: pointer; transition: 0.2s;
         }
-        .check-item:active { transform: scale(0.98); }
-        .check-item.checked { background: #F8FAFC; opacity: 0.6; }
-        .check-item.checked .check-text { text-decoration: line-through; color: var(--text-light); }
+        .check-item:last-child { border-bottom: none; }
+        .check-item.checked .check-text { text-decoration: line-through; color: var(--text-light); opacity: 0.7; }
+        .check-item.checked .checkbox { background: var(--eucalyptus); border-color: var(--eucalyptus); }
         
         .checkbox {
-            width: 24px; height: 24px; border-radius: 50%;
-            border: 2px solid var(--primary);
-            display: flex; align-items: center; justify-content: center;
-            flex-shrink: 0; transition: 0.2s;
+            width: 24px; height: 24px; border-radius: 8px; border: 2px solid var(--text-light);
+            margin-right: 16px; display: flex; align-items: center; justify-content: center; transition: 0.2s;
         }
-        .check-item.checked .checkbox { background: var(--primary); border-color: var(--primary); }
-        .checkbox::after { content: '✓'; color: white; font-size: 14px; opacity: 0; transform: scale(0.5); transition: 0.2s; }
-        .check-item.checked .checkbox::after { opacity: 1; transform: scale(1); }
+        .checkbox::after { content: '✔'; color: white; font-size: 14px; display: none; }
+        .check-item.checked .checkbox::after { display: block; }
         
-        .check-text { font-size: 16px; font-weight: 600; color: var(--text-main); flex: 1; letter-spacing: 0.5px; }
-        .check-sub { font-size: 13px; font-weight: 400; color: var(--text-sub); display: block; margin-top: 4px; }
+        .check-text { font-size: 17px; font-weight: 600; color: var(--text-main); flex: 1; }
 
-        /* Timeline Styles */
+        /* ====================
+           Memo (新增的備忘錄樣式)
+           ==================== */
+        .memo-textarea {
+            width: 100%;
+            min-height: 180px;
+            border: 1px solid #E2E8F0;
+            border-radius: 12px;
+            padding: 16px;
+            font-family: 'Noto Serif TC', serif;
+            font-size: 16px;
+            line-height: 1.8;
+            color: var(--text-main);
+            background-color: #F8FAFC;
+            resize: none;
+            outline: none;
+            transition: all 0.2s;
+            margin-top: 8px;
+        }
+        .memo-textarea:focus {
+            border-color: var(--ocean-blue);
+            background-color: white;
+            box-shadow: 0 0 0 3px rgba(0, 119, 190, 0.1);
+        }
+        .memo-textarea::placeholder {
+            color: #CBD5E1;
+        }
+
+        /* ====================
+           Timeline (行程)
+           ==================== */
         .day-selector-sticky {
             position: sticky; top: 0; z-index: 20;
-            background: rgba(240, 244, 248, 0.85);
-            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-            padding: 12px 0 16px 20px;
-            border-bottom: 1px solid rgba(255,255,255,0.5);
+            background: rgba(240, 248, 255, 0.95);
+            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            padding: 16px 0 20px 20px;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
         }
-        .day-scroller {
-            display: flex; overflow-x: auto; gap: 10px; padding-right: 20px;
-            scrollbar-width: none; -webkit-overflow-scrolling: touch;
-        }
+        .day-scroller { display: flex; overflow-x: auto; gap: 12px; padding-right: 20px; scrollbar-width: none; }
         .day-scroller::-webkit-scrollbar { display: none; }
+        
         .day-pill {
-            flex: 0 0 auto; min-width: 54px; height: 64px; background: white; border-radius: 16px;
+            flex: 0 0 auto; width: 60px; height: 72px; background: white; border-radius: 16px;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            border: 1px solid rgba(255,255,255,0.8); box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-            transition: all 0.3s; cursor: pointer;
+            border: 1px solid rgba(0,0,0,0.05); box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            transition: all 0.2s; cursor: pointer;
         }
         .day-pill.active {
-            background: var(--primary); color: white; transform: translateY(-4px);
-            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3); border-color: var(--primary);
+            background: var(--ocean-blue); color: white; transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 119, 190, 0.3); border-color: var(--ocean-blue);
         }
-        .day-pill.active .dp-date { color: rgba(255,255,255,0.8); }
+        .day-pill.active .dp-date { color: rgba(255,255,255,0.9); }
         .day-pill.active .dp-num { color: white; }
-        .dp-date { font-size: 11px; font-weight: 600; color: var(--text-light); margin-bottom: 2px; }
-        .dp-num { font-size: 17px; font-weight: 700; color: var(--text-main); }
+        .dp-date { font-size: 12px; font-weight: 600; color: var(--text-light); margin-bottom: 4px; }
+        .dp-num { font-size: 20px; font-weight: 800; color: var(--text-main); }
 
-        .timeline-wrapper { flex: 1; overflow-y: auto; padding: 24px 20px 120px 20px; }
-        .day-panel { display: none; animation: slideUp 0.4s ease forwards; }
+        .timeline-wrapper { flex: 1; overflow-y: auto; padding: 30px 24px 140px 24px; }
+        .day-panel { display: none; animation: fadeIn 0.3s ease; }
         .day-panel.active { display: block; }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        .tl-row { display: flex; margin-bottom: 24px; position: relative; }
-        .tl-time-box { width: 50px; flex-shrink: 0; text-align: center; padding-top: 6px; }
-        .tl-time { font-size: 15px; font-weight: 700; color: var(--text-main); font-variant-numeric: tabular-nums; }
-        .tl-ampm { font-size: 11px; font-weight: 600; color: var(--text-light); margin-top: 2px; text-transform: uppercase; }
-        .tl-line-box { width: 24px; display: flex; justify-content: center; position: relative; }
-        .tl-line {
-            position: absolute; top: 24px; bottom: -30px; width: 2px;
-            background-image: linear-gradient(to bottom, #E2E8F0 50%, transparent 50%);
-            background-size: 2px 8px;
-        }
+        .section-header { margin: 28px 0 20px 0; }
+        .section-title { font-size: 22px; font-weight: 800; color: var(--text-main); border-left: 5px solid var(--beach-gold); padding-left: 12px; }
+
+        .tl-row { display: flex; margin-bottom: 32px; position: relative; } /* 增加間距 */
+        .tl-time-box { width: 60px; flex-shrink: 0; text-align: center; padding-top: 4px; }
+        .tl-time { font-size: 18px; font-weight: 800; color: var(--text-main); } /* 放大時間 */
+        .tl-ampm { font-size: 13px; font-weight: 600; color: var(--text-light); text-transform: uppercase; margin-top: 4px;}
+        
+        .tl-line-box { width: 30px; display: flex; justify-content: center; position: relative; }
+        .tl-line { position: absolute; top: 24px; bottom: -40px; width: 2px; border-left: 2px dashed #CFD8DC; }
         .tl-row:last-child .tl-line { display: none; }
         .tl-dot {
-            width: 14px; height: 14px; border-radius: 50%; background: white; border: 3px solid var(--primary);
-            z-index: 2; margin-top: 8px; box-shadow: 0 0 0 4px rgba(240, 244, 248, 1);
-        }
-        
-        .tl-card {
-            flex: 1; margin-left: 12px; background: var(--card-bg); backdrop-filter: blur(10px);
-            border-radius: 20px; padding: 18px; border: 1px solid var(--card-border);
-            box-shadow: var(--card-shadow); position: relative; transition: transform 0.1s;
-        }
-        .tl-card:active { transform: scale(0.98); background: white; }
-        /* 航班卡片特別樣式 */
-        .tl-card.flight-card {
-            background: linear-gradient(135deg, #EFF6FF 0%, #FFFFFF 100%);
-            border-left: 4px solid var(--primary);
+            width: 14px; height: 14px; border-radius: 50%; background: white; 
+            border: 3px solid var(--ocean-blue); z-index: 2; margin-top: 8px;
         }
 
-        .tl-nav-icon {
-            position: absolute; top: 18px; right: 18px; width: 28px; height: 28px; border-radius: 50%;
-            background: #F1F5F9; color: var(--primary); display: flex; align-items: center; justify-content: center;
-            font-size: 12px; font-weight: bold;
+        .tl-card {
+            flex: 1; margin-left: 16px; background: white; border-radius: 18px; padding: 20px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.02);
+            position: relative; transition: transform 0.1s;
         }
-        .tl-card-title { font-size: 17px; font-weight: 700; color: var(--text-main); margin-bottom: 6px; padding-right: 30px; }
-        .tl-card-desc { font-size: 14px; color: var(--text-sub); line-height: 1.6; margin-bottom: 12px; }
+        .tl-card:active { transform: scale(0.98); }
+        
+        .tl-nav-icon {
+            position: absolute; top: 20px; right: 20px; width: 28px; height: 28px; border-radius: 50%;
+            background: #E1F5FE; color: var(--ocean-blue); display: flex; align-items: center; justify-content: center;
+            font-size: 12px;
+        }
+        
+        .tl-card-title { font-size: 19px; font-weight: 700; color: var(--text-main); margin-bottom: 8px; padding-right: 32px; } /* 放大標題 */
+        .tl-card-desc { font-size: 15px; color: var(--text-sub); line-height: 1.6; margin-bottom: 14px; } /* 放大描述 */
         
         .tl-tags { display: flex; gap: 8px; flex-wrap: wrap; }
-        .tag { font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 8px; display: flex; align-items: center; gap: 4px; }
-        .tag-blue { background: #EFF6FF; color: #3B82F6; }
-        .tag-purple { background: #F5F3FF; color: #8B5CF6; }
-        .tag-green { background: #F0FDF4; color: #10B981; }
-        .tag-orange { background: #FFF7ED; color: #F97316; }
+        .tag { font-size: 13px; font-weight: 600; padding: 5px 10px; border-radius: 8px; display: flex; align-items: center; gap: 4px; }
+        .tag-blue { background: #E1F5FE; color: #0277BD; }
+        .tag-green { background: #E8F5E9; color: #2E7D32; }
+        .tag-gold { background: #FFF8E1; color: #F57F17; }
+        .tag-purple { background: #F3E5F5; color: #7B1FA2; }
 
-        /* Wallet */
-        .wallet-group { margin-bottom: 32px; }
-        .group-label { font-size: 13px; font-weight: 700; color: var(--text-light); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; margin-left: 4px; }
-        .ticket {
-            background: white; border-radius: 20px; overflow: hidden; margin-bottom: 16px; display: flex; position: relative;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.02); transition: transform 0.1s;
+        /* ====================
+           Wallet (航班與住宿)
+           ==================== */
+        .info-card {
+            background: white; border-radius: 24px; overflow: hidden; margin-bottom: 24px;
+            box-shadow: var(--card-shadow); border: 1px solid rgba(0,0,0,0.02);
+            flex-shrink: 0; /* 防止壓縮 */
         }
-        .ticket:active { transform: scale(0.99); }
-        .ticket::before, .ticket::after {
-            content: ''; position: absolute; width: 20px; height: 20px; background: var(--bg-color);
-            border-radius: 50%; top: 50%; transform: translateY(-50%); box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
+        .info-header {
+            background: #FAFAFA; padding: 16px 24px; border-bottom: 1px solid #F0F0F0;
+            display: flex; justify-content: space-between; align-items: center;
         }
-        .ticket::before { left: -10px; } .ticket::after { right: -10px; }
-        .t-left { width: 80px; background: #F8FAFC; display: flex; align-items: center; justify-content: center; font-size: 32px; border-right: 2px dashed #E2E8F0; }
-        .t-right { flex: 1; padding: 16px 24px; }
-        .t-title { font-size: 17px; font-weight: 700; color: var(--text-main); margin-bottom: 4px; }
-        .t-info { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 8px; }
-        .t-sub { font-size: 14px; color: var(--text-sub); display: block; margin-bottom: 2px; }
-        .t-highlight { font-size: 12px; font-weight: 700; color: var(--primary); background: #EFF6FF; padding: 4px 8px; border-radius: 6px; }
+        .info-label { font-size: 14px; font-weight: 700; color: var(--text-light); text-transform: uppercase; letter-spacing: 1px; }
+        .info-status { font-size: 13px; font-weight: 700; color: var(--eucalyptus); background: #E8F5E9; padding: 4px 10px; border-radius: 6px; }
+        
+        .info-body { padding: 24px; }
+        .info-main { font-size: 26px; font-weight: 800; color: var(--ocean-blue); margin-bottom: 6px; }
+        .info-sub { font-size: 18px; font-weight: 600; color: var(--text-main); margin-bottom: 12px; }
+        .info-detail { font-size: 16px; color: var(--text-sub); line-height: 1.6; display: flex; flex-direction: column; gap: 6px; }
+        
+        .info-action {
+            border-top: 1px solid #F0F0F0; padding: 16px 24px;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            color: var(--ocean-blue); font-size: 15px; font-weight: 700; cursor: pointer;
+        }
 
-        /* Tab Bar */
+        /* 底部 Tab Bar */
         .tab-bar {
-            position: fixed; bottom: 0; left: 0; right: 0; background: rgba(255,255,255,0.9);
+            position: fixed; bottom: 0; left: 0; right: 0; background: rgba(255,255,255,0.95);
             backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
             border-top: 1px solid rgba(0,0,0,0.05); display: flex; justify-content: space-around;
-            padding-top: 12px; padding-bottom: max(12px, var(--safe-bottom)); z-index: 100;
-            box-shadow: 0 -5px 20px rgba(0,0,0,0.02);
+            padding-top: 14px; padding-bottom: max(14px, var(--safe-bottom)); z-index: 100;
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.03);
         }
-        .tab-btn { display: flex; flex-direction: column; align-items: center; width: 60px; color: #94A3B8; cursor: pointer; transition: 0.2s; }
-        .tab-btn.active { color: var(--primary); transform: translateY(-2px); }
-        .tab-icon { font-size: 24px; margin-bottom: 4px; transition: 0.2s; }
-        .tab-text { font-size: 11px; font-weight: 600; }
+        .tab-btn { display: flex; flex-direction: column; align-items: center; width: 70px; color: #B0BEC5; cursor: pointer; transition: 0.2s; }
+        .tab-btn.active { color: var(--ocean-blue); transform: translateY(-2px); }
+        .tab-icon { font-size: 28px; margin-bottom: 4px; transition: 0.2s; }
+        .tab-text { font-size: 12px; font-weight: 700; }
     </style>
 </head>
 <body>
 
-    <!-- 1. 首頁 View (行前清單) -->
+    <!-- 1. 首頁 View (儀表板 Dashboard) -->
     <div id="view-home" class="view-container active">
-        <div class="header-area">
-            <div class="header-sub">Ready to Go</div>
-            <h1 class="header-title">澳洲之旅 2026</h1>
+        <div class="dashboard-header">
+            <div>
+                <div class="welcome-text">G'day! 準備出發</div>
+                <h1 class="trip-title">澳洲之旅 2026</h1>
+            </div>
         </div>
 
-        <div class="hero-card">
-            <div class="hero-label">距離出發還有</div>
-            <div class="hero-countdown" id="countdown-timer">-- <span>天</span></div>
-            <div class="hero-route">✈️ BNE ➔ OOL ➔ SYD ➔ MEL</div>
+        <div class="dashboard-grid">
+            <!-- 倒數卡片 -->
+            <div class="dash-card countdown-card">
+                <div class="cd-label">距離出發</div>
+                <div class="cd-number" id="countdown-timer">--<span class="cd-unit">天</span></div>
+                <div class="cd-label" style="opacity: 0.7; font-size: 13px;">Jan 27, 2026</div>
+            </div>
+            
+            <!-- 天氣卡片 (模擬) -->
+            <div class="dash-card weather-card">
+                <div class="weather-icon">☀️</div>
+                <div>
+                    <div class="weather-temp">28°C</div>
+                    <div class="weather-loc">Brisbane</div>
+                </div>
+            </div>
+
+            <!-- 下一班航班 -->
+            <div class="dash-card flight-mini-card">
+                <div class="fm-label">NEXT FLIGHT</div>
+                <div class="fm-code">VA970</div>
+                <div class="fm-route">BNE ➔ SYD</div>
+            </div>
         </div>
 
-        <div class="section-header"><span class="section-title">🎒 行前準備清單</span></div>
-        
-        <div class="checklist-container">
-            <div class="check-item" onclick="toggleCheck(this, 'passport')">
-                <div class="checkbox"></div>
-                <div>
-                    <div class="check-text">護照</div>
-                    <span class="check-sub">效期需 6 個月以上</span>
-                </div>
+        <!-- 進階檢查清單 -->
+        <div class="checklist-section">
+            <div class="cl-header">
+                <div class="cl-title">🎒 行前準備</div>
+                <div class="cl-percent" id="progress-text">0%</div>
             </div>
-            <div class="check-item" onclick="toggleCheck(this, 'visa')">
-                <div class="checkbox"></div>
-                <div>
-                    <div class="check-text">澳洲簽證 (ETA)</div>
-                    <span class="check-sub">確認已核准並列印備份</span>
-                </div>
+            <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+
+            <div class="category-title">證件與錢財</div>
+            <div class="check-item" onclick="toggleCheck(this, 'passport')"><div class="checkbox"></div><div class="check-text">護照 (效期>6個月)</div></div>
+            <div class="check-item" onclick="toggleCheck(this, 'visa')"><div class="checkbox"></div><div class="check-text">澳洲簽證 (ETA)</div></div>
+            <div class="check-item" onclick="toggleCheck(this, 'license')"><div class="checkbox"></div><div class="check-text">國際駕照 + 台灣駕照</div></div>
+            <div class="check-item" onclick="toggleCheck(this, 'creditcard')"><div class="checkbox"></div><div class="check-text">信用卡 (海外回饋)</div></div>
+
+            <div class="category-title">電子產品</div>
+            <div class="check-item" onclick="toggleCheck(this, 'adapter')"><div class="checkbox"></div><div class="check-text">轉接頭 (八字型 Type I)</div></div>
+            <div class="check-item" onclick="toggleCheck(this, 'simcard')"><div class="checkbox"></div><div class="check-text">網卡 / 漫遊開通</div></div>
+            <div class="check-item" onclick="toggleCheck(this, 'powerbank')"><div class="checkbox"></div><div class="check-text">行動電源</div></div>
+
+            <div class="category-title">生活與藥品</div>
+            <div class="check-item" onclick="toggleCheck(this, 'medicine')"><div class="checkbox"></div><div class="check-text">常備藥 (感冒/腸胃)</div></div>
+            <div class="check-item" onclick="toggleCheck(this, 'sunscreen')"><div class="checkbox"></div><div class="check-text">防曬乳 / 墨鏡</div></div>
+            <div class="check-item" onclick="toggleCheck(this, 'jacket')"><div class="checkbox"></div><div class="check-text">薄外套 (溫差大)</div></div>
+            <div class="check-item" onclick="toggleCheck(this, 'toiletries')"><div class="checkbox"></div><div class="check-text">牙刷牙膏 (環保旅店)</div></div>
+        </div>
+
+        <!-- 備忘錄區塊 -->
+        <div class="checklist-section" style="margin-top: 24px;">
+            <div class="cl-header">
+                <div class="cl-title">📝 旅行隨手記</div>
+                <div class="cl-percent" id="memo-status" style="font-weight: normal; opacity: 0.7;">自動儲存</div>
             </div>
-            <div class="check-item" onclick="toggleCheck(this, 'adapter')">
-                <div class="checkbox"></div>
-                <div>
-                    <div class="check-text">轉接頭 (八字型)</div>
-                    <span class="check-sub">Type I 插座 (220V)</span>
-                </div>
-            </div>
-            <div class="check-item" onclick="toggleCheck(this, 'license')">
-                <div class="checkbox"></div>
-                <div>
-                    <div class="check-text">國際駕照 + 台灣駕照</div>
-                    <span class="check-sub">租車取車必備</span>
-                </div>
-            </div>
-            <div class="check-item" onclick="toggleCheck(this, 'creditcard')">
-                <div class="checkbox"></div>
-                <div>
-                    <div class="check-text">信用卡 (海外回饋)</div>
-                    <span class="check-sub">澳洲多數無現金支付</span>
-                </div>
-            </div>
-            <div class="check-item" onclick="toggleCheck(this, 'sunscreen')">
-                <div class="checkbox"></div>
-                <div>
-                    <div class="check-text">防曬乳 / 墨鏡 / 帽子</div>
-                    <span class="check-sub">澳洲紫外線非常強</span>
-                </div>
-            </div>
-            <div class="check-item" onclick="toggleCheck(this, 'medicine')">
-                <div class="checkbox"></div>
-                <div>
-                    <div class="check-text">常備藥品</div>
-                    <span class="check-sub">感冒藥、腸胃藥、暈車藥</span>
-                </div>
-            </div>
-            <div class="check-item" onclick="toggleCheck(this, 'simcard')">
-                <div class="checkbox"></div>
-                <div>
-                    <div class="check-text">網卡 / 漫遊</div>
-                    <span class="check-sub">落地開通網路</span>
-                </div>
-            </div>
-            <div class="check-item" onclick="toggleCheck(this, 'toiletries')">
-                <div class="checkbox"></div>
-                <div>
-                    <div class="check-text">牙刷 / 牙膏 / 拖鞋</div>
-                    <span class="check-sub">環保旅店通常不提供</span>
-                </div>
-            </div>
+            <textarea id="trip-memo" class="memo-textarea" placeholder="在這裡記下您的航班代號、預訂編號，或是想買的伴手禮清單..."></textarea>
         </div>
     </div>
 
-    <!-- 2. 行程 View -->
+    <!-- 2. 行程 View (Itinerary) -->
     <div id="view-trip" class="view-container">
-        <!-- 頂部日期選擇條 -->
         <div class="day-selector-sticky">
             <div class="day-scroller" id="day-scroller">
                 <div class="day-pill active" onclick="selectDay(0)"><div class="dp-date">1/27</div><div class="dp-num">D1</div></div>
@@ -360,214 +374,212 @@
         </div>
 
         <div class="timeline-wrapper">
-            
-            <!-- Day 1: 1/27 -->
+            <!-- Day 1 -->
             <div id="day-0" class="day-panel active">
                 <div class="section-header"><span class="section-title">📍 布里斯本抵達</span></div>
                 <div class="tl-row">
                     <div class="tl-time-box"><div class="tl-time">22:00</div></div>
                     <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
-                    <div class="tl-card" onclick="navigateToMap('Brisbane Airport International')">
+                    <div class="tl-card" onclick="navigateToMap('Brisbane Airport')">
                         <div class="tl-nav-icon">📍</div>
                         <div class="tl-card-title">抵達機場</div>
-                        <div class="tl-card-desc">您抵達布里斯本國際機場 (BNE)。與第一梯次朋友會合。</div>
-                        <div class="tl-tags"><span class="tag tag-blue">✈️ 航班</span></div>
+                        <div class="tl-card-desc">BNE 國際機場。搭 Uber 往市區。</div>
+                        <div class="tl-tags"><span class="tag tag-blue">交通</span></div>
                     </div>
                 </div>
                 <div class="tl-row">
                     <div class="tl-time-box"><div class="tl-time">23:00</div></div>
                     <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
-                    <div class="tl-card" onclick="navigateToMap('Royal Albert Hotel, Brisbane')">
-                        <div class="tl-nav-icon">📍</div>
+                    <div class="tl-card" onclick="navigateToMap('Royal Albert Hotel Brisbane')">
+                        <div class="tl-nav-icon">🏨</div>
                         <div class="tl-card-title">入住 Royal Albert</div>
-                        <div class="tl-card-desc">搭乘 Uber 前往市區飯店 Check-in。</div>
-                        <div class="tl-tags"><span class="tag tag-purple">🏨 住宿</span></div>
+                        <div class="tl-card-desc">Check-in，與朋友會合。</div>
+                        <div class="tl-tags"><span class="tag tag-purple">住宿</span></div>
                     </div>
                 </div>
             </div>
 
-            <!-- Day 2: 1/28 -->
+            <!-- Day 2 -->
             <div id="day-1" class="day-panel">
-                <div class="section-header"><span class="section-title">📍 布里斯本漫遊</span></div>
+                <div class="section-header"><span class="section-title">📍 布里斯本市區</span></div>
                 <div class="tl-row">
                     <div class="tl-time-box"><div class="tl-time">10:00</div></div>
                     <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
                     <div class="tl-card" onclick="navigateToMap('South Bank Parklands')">
-                        <div class="tl-nav-icon">📍</div>
+                        <div class="tl-nav-icon">🎡</div>
                         <div class="tl-card-title">南岸公園</div>
-                        <div class="tl-card-desc">Streets Beach 人造沙灘、摩天輪拍照。</div>
-                        <div class="tl-tags"><span class="tag tag-green">🎡 景點</span></div>
+                        <div class="tl-card-desc">Streets Beach 人造沙灘。</div>
+                        <div class="tl-tags"><span class="tag tag-green">景點</span></div>
                     </div>
                 </div>
                 <div class="tl-row">
                     <div class="tl-time-box"><div class="tl-time">14:00</div></div>
                     <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
                     <div class="tl-card" onclick="navigateToMap('Brisbane CityHopper')">
-                        <div class="tl-nav-icon">📍</div>
+                        <div class="tl-nav-icon">⛴️</div>
                         <div class="tl-card-title">免費渡輪</div>
                         <div class="tl-card-desc">CityHopper 紅色小渡輪遊覽布里斯本河。</div>
-                        <div class="tl-tags"><span class="tag tag-blue">⛴️ 交通</span></div>
+                        <div class="tl-tags"><span class="tag tag-blue">交通</span></div>
                     </div>
                 </div>
                 <div class="tl-row">
                     <div class="tl-time-box"><div class="tl-time">18:30</div></div>
                     <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
                     <div class="tl-card" onclick="navigateToMap('Howard Smith Wharves')">
-                        <div class="tl-nav-icon">📍</div>
+                        <div class="tl-nav-icon">🍽️</div>
                         <div class="tl-card-title">Howard Smith Wharves</div>
-                        <div class="tl-card-desc">故事橋下的河岸餐廳區晚餐。</div>
-                        <div class="tl-tags"><span class="tag tag-orange">🍽️ 晚餐</span></div>
+                        <div class="tl-card-desc">河岸碼頭晚餐區。</div>
+                        <div class="tl-tags"><span class="tag tag-gold">餐廳</span></div>
                     </div>
                 </div>
             </div>
 
-            <!-- Day 3: 1/29 -->
+            <!-- Day 3 -->
             <div id="day-2" class="day-panel">
-                <div class="section-header"><span class="section-title">📍 移動日</span></div>
+                <div class="section-header"><span class="section-title">📍 前往黃金海岸</span></div>
                 <div class="tl-row">
                     <div class="tl-time-box"><div class="tl-time">10:30</div></div>
                     <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
                     <div class="tl-card" onclick="navigateToMap('Brisbane City Hall')">
-                        <div class="tl-nav-icon">📍</div>
+                        <div class="tl-nav-icon">🏛️</div>
                         <div class="tl-card-title">市政廳導覽</div>
                         <div class="tl-card-desc">參觀鐘樓 (需預約)。</div>
-                        <div class="tl-tags"><span class="tag tag-green">🏛️ 文化</span></div>
+                        <div class="tl-tags"><span class="tag tag-green">文化</span></div>
                     </div>
                 </div>
                 <div class="tl-row">
                     <div class="tl-time-box"><div class="tl-time">14:30</div></div>
                     <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
                     <div class="tl-card" onclick="navigateToMap('Hertz Car Rental Brisbane City')">
-                        <div class="tl-nav-icon">📍</div>
+                        <div class="tl-nav-icon">🚗</div>
                         <div class="tl-card-title">Hertz 取車</div>
-                        <div class="tl-card-desc">53 Albert St 取車，檢查車況。</div>
-                        <div class="tl-tags"><span class="tag tag-blue">🚗 租車</span></div>
+                        <div class="tl-card-desc">布里斯班市區站取車。</div>
+                        <div class="tl-tags"><span class="tag tag-blue">交通</span></div>
                     </div>
                 </div>
                 <div class="tl-row">
                     <div class="tl-time-box"><div class="tl-time">16:00</div></div>
                     <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
                     <div class="tl-card" onclick="navigateToMap('Grande Florida Beach Resort')">
-                        <div class="tl-nav-icon">📍</div>
-                        <div class="tl-card-title">前往黃金海岸</div>
-                        <div class="tl-card-desc">自駕約 1 小時，入住 Grande Florida。</div>
-                        <div class="tl-tags"><span class="tag tag-purple">🏨 住宿</span></div>
+                        <div class="tl-nav-icon">🏨</div>
+                        <div class="tl-card-title">入住 Grande Florida</div>
+                        <div class="tl-card-desc">黃金海岸住宿 Check-in。</div>
+                        <div class="tl-tags"><span class="tag tag-purple">住宿</span></div>
                     </div>
                 </div>
             </div>
 
-            <!-- Day 4: 1/30 -->
+            <!-- Day 4 -->
             <div id="day-3" class="day-panel">
                 <div class="section-header"><span class="section-title">📍 黃金海岸</span></div>
                 <div class="tl-row">
                     <div class="tl-time-box"><div class="tl-time">11:00</div></div>
                     <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
                     <div class="tl-card" onclick="navigateToMap('Surfers Paradise')">
-                        <div class="tl-nav-icon">📍</div>
+                        <div class="tl-nav-icon">🏖️</div>
                         <div class="tl-card-title">衝浪者天堂</div>
                         <div class="tl-card-desc">Q1 大樓、海灘踏浪。</div>
-                        <div class="tl-tags"><span class="tag tag-green">🏖️ 海灘</span></div>
+                        <div class="tl-tags"><span class="tag tag-green">海灘</span></div>
                     </div>
                 </div>
                 <div class="tl-row">
                     <div class="tl-time-box"><div class="tl-time">19:00</div></div>
                     <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
                     <div class="tl-card" onclick="navigateToMap('Miami Marketta')">
-                        <div class="tl-nav-icon">📍</div>
+                        <div class="tl-nav-icon">🌮</div>
                         <div class="tl-card-title">Miami Marketta 夜市</div>
                         <div class="tl-card-desc">異國美食與現場音樂。</div>
-                        <div class="tl-tags"><span class="tag tag-orange">🌮 美食</span></div>
+                        <div class="tl-tags"><span class="tag tag-gold">美食</span></div>
                     </div>
                 </div>
             </div>
 
-            <!-- Day 5: 1/31 -->
+            <!-- Day 5 -->
             <div id="day-4" class="day-panel">
                 <div class="section-header"><span class="section-title">📍 動物與自然</span></div>
                 <div class="tl-row">
                     <div class="tl-time-box"><div class="tl-time">08:00</div></div>
                     <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
                     <div class="tl-card" onclick="navigateToMap('Currumbin Wildlife Sanctuary')">
-                        <div class="tl-nav-icon">📍</div>
+                        <div class="tl-nav-icon">🐨</div>
                         <div class="tl-card-title">庫倫賓動物園</div>
                         <div class="tl-card-desc">無尾熊早餐體驗 (已預約)。</div>
-                        <div class="tl-tags"><span class="tag tag-green">🐨 動物</span></div>
+                        <div class="tl-tags"><span class="tag tag-green">動物</span></div>
                     </div>
                 </div>
                 <div class="tl-row">
                     <div class="tl-time-box"><div class="tl-time">15:00</div></div>
                     <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
                     <div class="tl-card" onclick="navigateToMap('Burleigh Heads National Park')">
-                        <div class="tl-nav-icon">📍</div>
+                        <div class="tl-nav-icon">🥾</div>
                         <div class="tl-card-title">Burleigh Heads</div>
                         <div class="tl-card-desc">國家公園健行，看海岸線。</div>
-                        <div class="tl-tags"><span class="tag tag-green">🥾 健行</span></div>
+                        <div class="tl-tags"><span class="tag tag-green">健行</span></div>
                     </div>
                 </div>
             </div>
 
-            <!-- Day 6: 2/1 -->
+            <!-- Day 6 (移動日) -->
             <div id="day-5" class="day-panel">
                 <div class="section-header"><span class="section-title">📍 飛往雪梨</span></div>
                 <div class="tl-row">
                     <div class="tl-time-box"><div class="tl-time">14:30</div></div>
                     <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
                     <div class="tl-card" onclick="navigateToMap('Gold Coast Airport')">
-                        <div class="tl-nav-icon">📍</div>
+                        <div class="tl-nav-icon">🚗</div>
                         <div class="tl-card-title">機場還車</div>
                         <div class="tl-card-desc">黃金海岸機場還車。</div>
-                        <div class="tl-tags"><span class="tag tag-blue">🚗 租車</span></div>
+                        <div class="tl-tags"><span class="tag tag-blue">交通</span></div>
                     </div>
                 </div>
-                <!-- 新增航班卡片 -->
                 <div class="tl-row">
                     <div class="tl-time-box"><div class="tl-time">17:05</div></div>
                     <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
-                    <div class="tl-card flight-card" onclick="navigateToMap('Gold Coast Airport')">
+                    <div class="tl-card" style="background: #E1F5FE; border-left: 4px solid var(--ocean-blue);">
                         <div class="tl-nav-icon">✈️</div>
-                        <div class="tl-card-title">VA970 飛往雪梨</div>
-                        <div class="tl-card-desc">OOL 黃金海岸 ➔ SYD 雪梨</div>
-                        <div class="tl-tags"><span class="tag tag-blue">✈️ 航班</span></div>
+                        <div class="tl-card-title">VA970 航班</div>
+                        <div class="tl-card-desc">黃金海岸 (OOL) ➔ 雪梨 (SYD)</div>
+                        <div class="tl-tags"><span class="tag tag-blue">航班</span></div>
                     </div>
                 </div>
                 <div class="tl-row">
                     <div class="tl-time-box"><div class="tl-time">20:30</div></div>
                     <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
                     <div class="tl-card" onclick="navigateToMap('Holiday Inn Darling Harbour')">
-                        <div class="tl-nav-icon">📍</div>
+                        <div class="tl-nav-icon">🏨</div>
                         <div class="tl-card-title">入住雪梨</div>
                         <div class="tl-card-desc">Holiday Inn Darling Harbour。</div>
-                        <div class="tl-tags"><span class="tag tag-purple">🏨 住宿</span></div>
+                        <div class="tl-tags"><span class="tag tag-purple">住宿</span></div>
                     </div>
                 </div>
             </div>
 
-             <!-- Day 7: 2/2 -->
-             <div id="day-6" class="day-panel">
+            <!-- Day 7 -->
+            <div id="day-6" class="day-panel">
                 <div class="section-header"><span class="section-title">📍 雪梨市區</span></div>
                 <div class="tl-row">
                     <div class="tl-time-box"><div class="tl-time">10:00</div></div>
                     <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
                     <div class="tl-card" onclick="navigateToMap('Sydney Opera House')">
-                        <div class="tl-nav-icon">📍</div>
+                        <div class="tl-nav-icon">📸</div>
                         <div class="tl-card-title">雪梨歌劇院</div>
                         <div class="tl-card-desc">外部參觀拍照，皇家植物園。</div>
-                        <div class="tl-tags"><span class="tag tag-green">📸 地標</span></div>
+                        <div class="tl-tags"><span class="tag tag-green">地標</span></div>
                     </div>
                 </div>
                 <div class="tl-row">
                     <div class="tl-time-box"><div class="tl-time">14:00</div></div>
                     <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
                     <div class="tl-card" onclick="navigateToMap('The Rocks')">
-                        <div class="tl-nav-icon">📍</div>
+                        <div class="tl-nav-icon">🚶</div>
                         <div class="tl-card-title">岩石區</div>
                         <div class="tl-card-desc">週末市集與古老巷弄。</div>
-                        <div class="tl-tags"><span class="tag tag-green">🚶 散步</span></div>
+                        <div class="tl-tags"><span class="tag tag-green">散步</span></div>
                     </div>
                 </div>
             </div>
 
-            <!-- Day 8: 2/3 -->
+            <!-- Day 8 -->
             <div id="day-7" class="day-panel">
                 <div class="section-header"><span class="section-title">📍 藍山一日遊</span></div>
                 <div class="tl-row">
@@ -594,25 +606,25 @@
                     <div class="tl-time-box"><div class="tl-time">11:00</div></div>
                     <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
                     <div class="tl-card" onclick="navigateToMap('Three Sisters point')">
-                        <div class="tl-nav-icon">📍</div>
+                        <div class="tl-nav-icon">⛰️</div>
                         <div class="tl-card-title">三姐妹岩</div>
                         <div class="tl-card-desc">Echo Point 觀景台。</div>
-                        <div class="tl-tags"><span class="tag tag-green">⛰️ 景點</span></div>
+                        <div class="tl-tags"><span class="tag tag-green">景點</span></div>
                     </div>
                 </div>
                 <div class="tl-row">
                     <div class="tl-time-box"><div class="tl-time">13:30</div></div>
                     <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
                     <div class="tl-card" onclick="navigateToMap('Scenic World')">
-                        <div class="tl-nav-icon">📍</div>
+                        <div class="tl-nav-icon">🚠</div>
                         <div class="tl-card-title">景觀纜車</div>
                         <div class="tl-card-desc">搭乘三種不同的纜車體驗。</div>
-                        <div class="tl-tags"><span class="tag tag-green">🚠 活動</span></div>
+                        <div class="tl-tags"><span class="tag tag-green">活動</span></div>
                     </div>
                 </div>
             </div>
 
-            <!-- Day 9: 2/4 -->
+            <!-- Day 9 -->
             <div id="day-8" class="day-panel">
                 <div class="section-header"><span class="section-title">📍 飛往墨爾本</span></div>
                 <div class="tl-row">
@@ -622,223 +634,227 @@
                         <div class="tl-nav-icon">📍</div>
                         <div class="tl-card-title">抵達雪梨機場</div>
                         <div class="tl-card-desc">前往國內線航廈。</div>
-                        <div class="tl-tags"><span class="tag tag-blue">✈️ 交通</span></div>
+                        <div class="tl-tags"><span class="tag tag-blue">交通</span></div>
                     </div>
                 </div>
-                <!-- 新增航班卡片 -->
                 <div class="tl-row">
                     <div class="tl-time-box"><div class="tl-time">16:00</div></div>
                     <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
-                    <div class="tl-card flight-card" onclick="navigateToMap('Sydney Airport')">
+                    <div class="tl-card" style="background: #E1F5FE; border-left: 4px solid var(--ocean-blue);">
                         <div class="tl-nav-icon">✈️</div>
-                        <div class="tl-card-title">VA858 飛往墨爾本</div>
-                        <div class="tl-card-desc">SYD 雪梨 ➔ MEL 墨爾本</div>
-                        <div class="tl-tags"><span class="tag tag-blue">✈️ 航班</span></div>
+                        <div class="tl-card-title">VA858 航班</div>
+                        <div class="tl-card-desc">雪梨 (SYD) ➔ 墨爾本 (MEL)</div>
+                        <div class="tl-tags"><span class="tag tag-blue">航班</span></div>
                     </div>
                 </div>
                 <div class="tl-row">
                     <div class="tl-time-box"><div class="tl-time">18:30</div></div>
                     <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
                     <div class="tl-card" onclick="navigateToMap('Dorsett Melbourne')">
-                        <div class="tl-nav-icon">📍</div>
+                        <div class="tl-nav-icon">🏨</div>
                         <div class="tl-card-title">入住 Dorsett</div>
                         <div class="tl-card-desc">Check-in Dorsett Melbourne。</div>
-                        <div class="tl-tags"><span class="tag tag-purple">🏨 住宿</span></div>
+                        <div class="tl-tags"><span class="tag tag-purple">住宿</span></div>
                     </div>
                 </div>
             </div>
-
-            <!-- Day 10: 2/5 -->
+            
+            <!-- Day 10 -->
             <div id="day-9" class="day-panel">
                 <div class="section-header"><span class="section-title">📍 墨爾本市區</span></div>
                 <div class="tl-row">
                     <div class="tl-time-box"><div class="tl-time">10:00</div></div>
                     <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
                     <div class="tl-card" onclick="navigateToMap('Federation Square')">
-                        <div class="tl-nav-icon">📍</div>
+                        <div class="tl-nav-icon">🏙️</div>
                         <div class="tl-card-title">聯邦廣場</div>
                         <div class="tl-card-desc">塗鴉巷 (Hosier Lane) 拍照。</div>
-                        <div class="tl-tags"><span class="tag tag-green">🏙️ 市區</span></div>
+                        <div class="tl-tags"><span class="tag tag-green">市區</span></div>
                     </div>
                 </div>
                 <div class="tl-row">
                     <div class="tl-time-box"><div class="tl-time">14:00</div></div>
                     <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
                     <div class="tl-card" onclick="navigateToMap('Melbourne Museum')">
-                        <div class="tl-nav-icon">📍</div>
+                        <div class="tl-nav-icon">🏛️</div>
                         <div class="tl-card-title">墨爾本博物館</div>
                         <div class="tl-card-desc">參觀南半球最大的博物館。</div>
-                        <div class="tl-tags"><span class="tag tag-green">🏛️ 文化</span></div>
+                        <div class="tl-tags"><span class="tag tag-green">文化</span></div>
                     </div>
                 </div>
             </div>
 
-            <!-- Day 11: 2/6 -->
+            <!-- Day 11 -->
             <div id="day-10" class="day-panel">
                 <div class="section-header"><span class="section-title">📍 郊區一日遊</span></div>
                 <div class="tl-row">
                     <div class="tl-time-box"><div class="tl-time">09:00</div></div>
                     <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
                     <div class="tl-card" onclick="navigateToMap('Puffing Billy Railway')">
-                        <div class="tl-nav-icon">📍</div>
+                        <div class="tl-nav-icon">🚂</div>
                         <div class="tl-card-title">蒸汽火車</div>
                         <div class="tl-card-desc">普芬比利古董火車體驗。</div>
-                        <div class="tl-tags"><span class="tag tag-green">🚂 活動</span></div>
+                        <div class="tl-tags"><span class="tag tag-green">活動</span></div>
                     </div>
                 </div>
                 <div class="tl-row">
                     <div class="tl-time-box"><div class="tl-time">19:00</div></div>
                     <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
                     <div class="tl-card" onclick="navigateToMap('Phillip Island Nature Parks')">
-                        <div class="tl-nav-icon">📍</div>
+                        <div class="tl-nav-icon">🐧</div>
                         <div class="tl-card-title">企鵝歸巢</div>
                         <div class="tl-card-desc">菲利普島看小企鵝上岸 (注意保暖)。</div>
-                        <div class="tl-tags"><span class="tag tag-green">🐧 動物</span></div>
+                        <div class="tl-tags"><span class="tag tag-green">動物</span></div>
                     </div>
                 </div>
             </div>
 
-            <!-- Day 12: 2/7 -->
+            <!-- Day 12 -->
             <div id="day-11" class="day-panel">
                 <div class="section-header"><span class="section-title">📍 週末漫遊</span></div>
                 <div class="tl-row">
                     <div class="tl-time-box"><div class="tl-time">09:00</div></div>
                     <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
                     <div class="tl-card" onclick="navigateToMap('South Melbourne Market')">
-                        <div class="tl-nav-icon">📍</div>
+                        <div class="tl-nav-icon">🦪</div>
                         <div class="tl-card-title">南墨爾本市場</div>
                         <div class="tl-card-desc">品嚐生蠔與咖啡。</div>
-                        <div class="tl-tags"><span class="tag tag-orange">🦪 美食</span></div>
+                        <div class="tl-tags"><span class="tag tag-gold">美食</span></div>
                     </div>
                 </div>
                 <div class="tl-row">
                     <div class="tl-time-box"><div class="tl-time">14:00</div></div>
                     <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
                     <div class="tl-card" onclick="navigateToMap('Brighton Bathing Boxes')">
-                        <div class="tl-nav-icon">📍</div>
+                        <div class="tl-nav-icon">🏖️</div>
                         <div class="tl-card-title">彩虹小屋</div>
                         <div class="tl-card-desc">Brighton Beach 拍照。</div>
-                        <div class="tl-tags"><span class="tag tag-green">🏖️ 海灘</span></div>
+                        <div class="tl-tags"><span class="tag tag-green">海灘</span></div>
                     </div>
                 </div>
             </div>
 
-            <!-- Day 13: 2/8 -->
+            <!-- Day 13 -->
             <div id="day-12" class="day-panel">
                 <div class="section-header"><span class="section-title">📍 賦歸</span></div>
                 <div class="tl-row">
                     <div class="tl-time-box"><div class="tl-time">09:00</div></div>
                     <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
                     <div class="tl-card" onclick="navigateToMap('Queen Victoria Market')">
-                        <div class="tl-nav-icon">📍</div>
+                        <div class="tl-nav-icon">🛍️</div>
                         <div class="tl-card-title">維多利亞市場</div>
                         <div class="tl-card-desc">購買最後的紀念品。</div>
-                        <div class="tl-tags"><span class="tag tag-green">🛍️ 購物</span></div>
+                        <div class="tl-tags"><span class="tag tag-green">購物</span></div>
                     </div>
                 </div>
                 <div class="tl-row">
                     <div class="tl-time-box"><div class="tl-time">15:00</div></div>
                     <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
                     <div class="tl-card" onclick="navigateToMap('Melbourne Airport')">
-                        <div class="tl-nav-icon">📍</div>
+                        <div class="tl-nav-icon">✈️</div>
                         <div class="tl-card-title">前往機場</div>
                         <div class="tl-card-desc">Tullamarine 機場，準備回家。</div>
-                        <div class="tl-tags"><span class="tag tag-blue">✈️ 交通</span></div>
+                        <div class="tl-tags"><span class="tag tag-blue">交通</span></div>
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 
-    <!-- 3. Wallet View -->
+    <!-- 3. Wallet View (航班與住宿卡) -->
     <div id="view-wallet" class="view-container">
-        <div class="header-area">
-            <h1 class="header-title">票券 & 訂位</h1>
+        <div class="dashboard-header">
+            <h1 class="trip-title">行程資訊</h1>
         </div>
 
-        <div class="wallet-group">
-            <div class="group-label">交通與租車</div>
-            <div class="ticket" onclick="navigateToMap('Hertz Car Rental Brisbane City')">
-                <div class="t-left">🚗</div>
-                <div class="t-right">
-                    <div class="t-title">Hertz 取車</div>
-                    <div class="t-sub">布里斯班市區 • Ref: H123456</div>
-                    <div class="t-info">
-                        <span class="t-sub">1/29 14:30</span>
-                        <span class="t-highlight">CONFIRMED</span>
-                    </div>
-                </div>
+        <div class="section-header"><span class="section-title">✈️ 航班資訊</span></div>
+        
+        <div class="info-card">
+            <div class="info-header">
+                <span class="info-label">VIRGIN AUSTRALIA</span>
+                <span class="info-status">CONFIRMED</span>
             </div>
-            <div class="ticket" onclick="navigateToMap('Brisbane Airport')">
-                <div class="t-left">✈️</div>
-                <div class="t-right">
-                    <div class="t-title">VA970</div>
-                    <div class="t-sub">BNE ➔ SYD</div>
-                    <div class="t-info">
-                        <span class="t-sub">2/1 17:05</span>
-                        <span class="t-highlight">CONFIRMED</span>
-                    </div>
-                </div>
-            </div>
-            <div class="ticket" onclick="navigateToMap('Sydney Airport')">
-                <div class="t-left">✈️</div>
-                <div class="t-right">
-                    <div class="t-title">VA858</div>
-                    <div class="t-sub">SYD ➔ MEL</div>
-                    <div class="t-info">
-                        <span class="t-sub">2/4 16:00</span>
-                        <span class="t-highlight">CONFIRMED</span>
-                    </div>
+            <div class="info-body">
+                <div class="info-main">VA970</div>
+                <div class="info-sub">黃金海岸 ➔ 雪梨</div>
+                <div class="info-detail">
+                    <span>📅 2月1日 (日)</span>
+                    <span>⏰ 17:05 起飛</span>
                 </div>
             </div>
         </div>
 
-        <div class="wallet-group">
-            <div class="group-label">住宿</div>
-            <div class="ticket" onclick="navigateToMap('Royal Albert Hotel')">
-                <div class="t-left">🛏️</div>
-                <div class="t-right">
-                    <div class="t-title">Royal Albert</div>
-                    <div class="t-sub">Brisbane CBD</div>
-                    <div class="t-info">
-                        <span class="t-sub">1/27 - 1/29</span>
-                        <span class="t-highlight">2 NIGHTS</span>
-                    </div>
+        <div class="info-card">
+            <div class="info-header">
+                <span class="info-label">VIRGIN AUSTRALIA</span>
+                <span class="info-status">CONFIRMED</span>
+            </div>
+            <div class="info-body">
+                <div class="info-main">VA858</div>
+                <div class="info-sub">雪梨 ➔ 墨爾本</div>
+                <div class="info-detail">
+                    <span>📅 2月4日 (三)</span>
+                    <span>⏰ 16:00 起飛</span>
                 </div>
             </div>
-            <div class="ticket" onclick="navigateToMap('Grande Florida')">
-                <div class="t-left">🏖️</div>
-                <div class="t-right">
-                    <div class="t-title">Grande Florida</div>
-                    <div class="t-sub">Gold Coast</div>
-                    <div class="t-info">
-                        <span class="t-sub">1/29 - 2/1</span>
-                        <span class="t-highlight">3 NIGHTS</span>
-                    </div>
+        </div>
+
+        <div class="section-header"><span class="section-title">🏨 住宿資訊</span></div>
+
+        <div class="info-card">
+            <div class="info-header"><span class="info-label">BRISBANE</span></div>
+            <div class="info-body">
+                <div class="info-sub">Royal Albert Hotel</div>
+                <div class="info-detail">
+                    <span>📍 167 Albert St, Brisbane City</span>
+                    <span>🕒 Check-in: 14:00</span>
                 </div>
             </div>
-            <div class="ticket" onclick="navigateToMap('Holiday Inn Darling Harbour')">
-                <div class="t-left">🏙️</div>
-                <div class="t-right">
-                    <div class="t-title">Holiday Inn</div>
-                    <div class="t-sub">Sydney Darling Harbour</div>
-                    <div class="t-info">
-                        <span class="t-sub">2/1 - 2/4</span>
-                        <span class="t-highlight">3 NIGHTS</span>
-                    </div>
+            <div class="info-action" onclick="navigateToMap('Royal Albert Hotel Brisbane')">開啟地圖 ↗</div>
+        </div>
+
+        <div class="info-card">
+            <div class="info-header"><span class="info-label">GOLD COAST</span></div>
+            <div class="info-body">
+                <div class="info-sub">Grande Florida Resort</div>
+                <div class="info-detail">
+                    <span>📍 Miami Beach, Gold Coast</span>
+                    <span>🕒 Check-in: 14:00</span>
                 </div>
             </div>
+            <div class="info-action" onclick="navigateToMap('Grande Florida Beach Resort')">開啟地圖 ↗</div>
+        </div>
+
+        <div class="info-card">
+            <div class="info-header"><span class="info-label">SYDNEY</span></div>
+            <div class="info-body">
+                <div class="info-sub">Holiday Inn Darling Harbour</div>
+                <div class="info-detail">
+                    <span>📍 Darling Harbour, Sydney</span>
+                    <span>🕒 Check-in: 15:00</span>
+                </div>
+            </div>
+            <div class="info-action" onclick="navigateToMap('Holiday Inn Darling Harbour')">開啟地圖 ↗</div>
         </div>
         
-        <div style="height: 40px;"></div>
+        <div class="info-card">
+            <div class="info-header"><span class="info-label">MELBOURNE</span></div>
+            <div class="info-body">
+                <div class="info-sub">Dorsett Melbourne</div>
+                <div class="info-detail">
+                    <span>📍 West Side Place, Melbourne</span>
+                    <span>🕒 Check-in: 15:00</span>
+                </div>
+            </div>
+            <div class="info-action" onclick="navigateToMap('Dorsett Melbourne')">開啟地圖 ↗</div>
+        </div>
     </div>
 
     <!-- 底部 Tab Bar -->
     <div class="tab-bar">
         <div class="tab-btn active" onclick="switchTab('home', this)">
             <div class="tab-icon">🏠</div>
-            <div class="tab-text">清單</div>
+            <div class="tab-text">首頁</div>
         </div>
         <div class="tab-btn" onclick="switchTab('trip', this)">
             <div class="tab-icon">📅</div>
@@ -846,12 +862,11 @@
         </div>
         <div class="tab-btn" onclick="switchTab('wallet', this)">
             <div class="tab-icon">🎫</div>
-            <div class="tab-text">票券</div>
+            <div class="tab-text">資訊</div>
         </div>
     </div>
 
     <script>
-        // 頁面切換
         function switchTab(viewId, tabElement) {
             document.querySelectorAll('.view-container').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
@@ -859,18 +874,13 @@
             tabElement.classList.add('active');
         }
 
-        // 日期選擇邏輯
         function selectDay(index) {
             document.querySelectorAll('.day-pill').forEach((el, i) => {
-                if(i === index) el.classList.add('active');
-                else el.classList.remove('active');
+                if(i === index) el.classList.add('active'); else el.classList.remove('active');
             });
-
             document.querySelectorAll('.day-panel').forEach((el, i) => {
-                if(i === index) el.classList.add('active');
-                else el.classList.remove('active');
+                if(i === index) el.classList.add('active'); else el.classList.remove('active');
             });
-
             const scroller = document.getElementById('day-scroller');
             const target = document.querySelectorAll('.day-pill')[index];
             if (target) {
@@ -879,46 +889,71 @@
             }
         }
 
-        // 行前清單勾選邏輯 (LocalStorage)
         function toggleCheck(el, id) {
             el.classList.toggle('checked');
             const isChecked = el.classList.contains('checked');
             localStorage.setItem('check_' + id, isChecked);
+            updateProgress();
         }
 
-        // 載入勾選狀態
         function loadChecks() {
-            const items = ['passport', 'visa', 'adapter', 'license', 'creditcard', 'sunscreen', 'medicine', 'simcard', 'toiletries'];
-            items.forEach(id => {
-                const checked = localStorage.getItem('check_' + id) === 'true';
-                if(checked) {
-                    // 根據 onclick 設定的 id 找到對應元素 (這裡簡化，實作上建議給元素 ID)
-                    const el = document.querySelector(`[onclick*="'${id}'"]`);
-                    if(el) el.classList.add('checked');
+            const items = document.querySelectorAll('.check-item');
+            items.forEach(item => {
+                const onclickAttr = item.getAttribute('onclick');
+                const id = onclickAttr.match(/'([^']+)'/)[1];
+                if(localStorage.getItem('check_' + id) === 'true') {
+                    item.classList.add('checked');
                 }
             });
+            updateProgress();
         }
 
-        // 倒數計時
+        function updateProgress() {
+            const total = document.querySelectorAll('.check-item').length;
+            const checked = document.querySelectorAll('.check-item.checked').length;
+            const percent = Math.round((checked / total) * 100);
+            document.getElementById('progress-text').innerText = percent + '%';
+            document.getElementById('progress-fill').style.width = percent + '%';
+        }
+
         function updateCountdown() {
             const targetDate = new Date('2026-01-27T00:00:00'); 
             const now = new Date();
             let days = Math.ceil((targetDate - now) / (1000 * 60 * 60 * 24));
             if (days < 0) days = 0; 
             const el = document.getElementById('countdown-timer');
-            if(el) el.innerHTML = `${days} <span>天</span>`;
+            if(el) el.innerHTML = `${days}<span class="cd-unit">天</span>`;
         }
         
-        // 初始化
+        function navigateToMap(query) {
+            window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`, '_blank');
+        }
+
+        // 備忘錄功能
+        function initMemo() {
+            const memoArea = document.getElementById('trip-memo');
+            const memoStatus = document.getElementById('memo-status');
+
+            if(memoArea) {
+                // Load
+                const savedMemo = localStorage.getItem('trip_memo');
+                if(savedMemo) memoArea.value = savedMemo;
+
+                // Save
+                memoArea.addEventListener('input', function() {
+                    localStorage.setItem('trip_memo', this.value);
+                    memoStatus.innerText = '已儲存';
+                    // 2秒後變回自動儲存
+                    setTimeout(() => { memoStatus.innerText = '自動儲存'; }, 2000);
+                });
+            }
+        }
+
         window.onload = function() {
             updateCountdown();
             setInterval(updateCountdown, 86400000);
             loadChecks();
-        }
-
-        // 地圖導航
-        function navigateToMap(query) {
-            window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`, '_blank');
+            initMemo();
         }
     </script>
 </body>
