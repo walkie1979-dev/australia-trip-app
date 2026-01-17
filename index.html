@@ -114,11 +114,11 @@
         .fm-code { font-size: 24px; font-weight: 800; color: var(--ocean-blue); }
         .fm-route { font-size: 14px; color: var(--text-sub); font-weight: 600; margin-top: 4px; }
 
-        /* Checklist Progress */
+        /* Checklist Progress & Memo Container */
         .checklist-section { margin-top: 28px; background: white; border-radius: 24px; padding: 24px; box-shadow: var(--card-shadow); flex-shrink: 0; }
         .cl-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
         .cl-title { font-size: 20px; font-weight: 800; color: var(--text-main); display: flex; align-items: center; gap: 10px; }
-        .cl-percent { font-size: 14px; font-weight: 600; color: var(--ocean-blue); opacity: 0.8; }
+        .cl-percent { font-size: 16px; font-weight: 700; color: var(--ocean-blue); }
         
         .progress-bar { height: 10px; background: #E3F2FD; border-radius: 5px; overflow: hidden; margin-bottom: 24px; }
         .progress-fill { height: 100%; background: var(--eucalyptus); width: 0%; transition: width 0.5s ease; border-radius: 5px; }
@@ -142,11 +142,11 @@
         .check-text { font-size: 17px; font-weight: 600; color: var(--text-main); flex: 1; }
 
         /* ====================
-           Memo (新增的備忘錄樣式)
+           Memo (通用的備忘錄樣式)
            ==================== */
         .memo-textarea {
             width: 100%;
-            min-height: 180px;
+            min-height: 150px;
             border: 1px solid #E2E8F0;
             border-radius: 12px;
             padding: 16px;
@@ -165,8 +165,50 @@
             background-color: white;
             box-shadow: 0 0 0 3px rgba(0, 119, 190, 0.1);
         }
-        .memo-textarea::placeholder {
-            color: #CBD5E1;
+        .memo-textarea::placeholder { color: #CBD5E1; }
+
+        /* ====================
+           Card Memo (卡片內的小備忘錄)
+           ==================== */
+        .card-memo-box {
+            padding: 0 24px 16px 24px;
+            margin-top: 8px;
+        }
+        .card-memo-input {
+            width: 100%;
+            border: 1px solid #E2E8F0; /* 預設淡邊框 */
+            border-radius: 10px;
+            padding: 12px;
+            font-family: 'Noto Serif TC', serif;
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--text-main);
+            background-color: #F8FAFC; /* 淡灰背景 */
+            resize: none;
+            outline: none;
+            min-height: 70px;
+            transition: all 0.2s;
+        }
+        .card-memo-input:focus {
+            background-color: white;
+            border-color: var(--ocean-blue);
+            box-shadow: 0 0 0 3px rgba(0, 119, 190, 0.05);
+        }
+        .card-memo-input::placeholder {
+            color: #94A3B8;
+            font-size: 13px;
+        }
+
+        /* 每日筆記區塊 (新) */
+        .daily-memo-box {
+            margin: 20px 0 40px 16px;
+            padding-left: 30px;
+            position: relative;
+        }
+        .daily-memo-box::before {
+            content: '';
+            position: absolute; left: 14px; top: 0; bottom: 0; width: 2px;
+            background: #E2E8F0;
         }
 
         /* ====================
@@ -343,13 +385,25 @@
             <div class="check-item" onclick="toggleCheck(this, 'toiletries')"><div class="checkbox"></div><div class="check-text">牙刷牙膏 (環保旅店)</div></div>
         </div>
 
+        <!-- 團長備忘錄 -->
+        <div class="checklist-section" style="margin-top: 24px; background: #FFFBEB; border: 1px solid #FCD34D;">
+            <div class="cl-header" style="margin-bottom: 8px;">
+                <div class="cl-title" style="color: #B45309;">💡 團長備忘錄</div>
+            </div>
+            <div style="font-size: 15px; line-height: 1.6; color: #92400E;">
+                <p style="margin: 0 0 8px 0;">1. <strong>交通卡 (Myki)</strong>：不需要買。市區內搭免費電車，超出範圍直接叫 Uber。</p>
+                <p style="margin: 0 0 8px 0;">2. <strong>Uber 策略</strong>：12 人叫 3 台 Uber (每台 4 人)，記得綁定信用卡。</p>
+                <p style="margin: 0;">3. <strong>購物提醒</strong>：週六百貨公司 19:00 關門，請注意時間。</p>
+            </div>
+        </div>
+
         <!-- 備忘錄區塊 -->
         <div class="checklist-section" style="margin-top: 24px;">
             <div class="cl-header">
                 <div class="cl-title">📝 旅行隨手記</div>
                 <div class="cl-percent" id="memo-status" style="font-weight: normal; opacity: 0.7;">自動儲存</div>
             </div>
-            <textarea id="trip-memo" class="memo-textarea" placeholder="在這裡記下您的航班代號、預訂編號，或是想買的伴手禮清單..."></textarea>
+            <textarea id="trip-memo" class="memo-textarea" placeholder="在這裡記下您的購物清單、臨時想到的事情..."></textarea>
         </div>
     </div>
 
@@ -397,6 +451,9 @@
                         <div class="tl-tags"><span class="tag tag-purple">住宿</span></div>
                     </div>
                 </div>
+                <div class="daily-memo-box">
+                    <textarea class="card-memo-input" data-key="memo_day_0" placeholder="📝 D1 隨手記..."></textarea>
+                </div>
             </div>
 
             <!-- Day 2 -->
@@ -431,6 +488,9 @@
                         <div class="tl-card-desc">河岸碼頭晚餐區。</div>
                         <div class="tl-tags"><span class="tag tag-gold">餐廳</span></div>
                     </div>
+                </div>
+                <div class="daily-memo-box">
+                    <textarea class="card-memo-input" data-key="memo_day_1" placeholder="📝 D2 隨手記..."></textarea>
                 </div>
             </div>
 
@@ -467,6 +527,9 @@
                         <div class="tl-tags"><span class="tag tag-purple">住宿</span></div>
                     </div>
                 </div>
+                <div class="daily-memo-box">
+                    <textarea class="card-memo-input" data-key="memo_day_2" placeholder="📝 D3 隨手記..."></textarea>
+                </div>
             </div>
 
             <!-- Day 4 -->
@@ -491,6 +554,9 @@
                         <div class="tl-card-desc">異國美食與現場音樂。</div>
                         <div class="tl-tags"><span class="tag tag-gold">美食</span></div>
                     </div>
+                </div>
+                <div class="daily-memo-box">
+                    <textarea class="card-memo-input" data-key="memo_day_3" placeholder="📝 D4 隨手記..."></textarea>
                 </div>
             </div>
 
@@ -517,19 +583,42 @@
                         <div class="tl-tags"><span class="tag tag-green">健行</span></div>
                     </div>
                 </div>
+                <div class="daily-memo-box">
+                    <textarea class="card-memo-input" data-key="memo_day_4" placeholder="📝 D5 隨手記..."></textarea>
+                </div>
             </div>
 
             <!-- Day 6 (移動日) -->
             <div id="day-5" class="day-panel">
-                <div class="section-header"><span class="section-title">📍 飛往雪梨</span></div>
+                <div class="section-header"><span class="section-title">📍 前往雪梨 (布里斯本起飛)</span></div>
+                <div class="tl-row">
+                    <div class="tl-time-box"><div class="tl-time">~</div></div>
+                    <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
+                    <div class="tl-card" onclick="navigateToMap('Brisbane Airport Petrol Station')">
+                        <div class="tl-nav-icon">⛽</div>
+                        <div class="tl-card-title">機場附近加油</div>
+                        <div class="tl-card-desc">還車前請務必加滿油。</div>
+                        <div class="tl-tags"><span class="tag tag-blue">加油</span></div>
+                    </div>
+                </div>
+                <div class="tl-row">
+                    <div class="tl-time-box"><div class="tl-time">14:10</div></div>
+                    <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
+                    <div class="tl-card" onclick="navigateToMap('-27.382917, 153.118722')">
+                        <div class="tl-nav-icon">🚗</div>
+                        <div class="tl-card-title">Hertz 國內線還車</div>
+                        <div class="tl-card-desc">指定還車點 (精確座標導航)。</div>
+                        <div class="tl-tags"><span class="tag tag-blue">交通</span></div>
+                    </div>
+                </div>
                 <div class="tl-row">
                     <div class="tl-time-box"><div class="tl-time">14:30</div></div>
                     <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
-                    <div class="tl-card" onclick="navigateToMap('Gold Coast Airport')">
-                        <div class="tl-nav-icon">🚗</div>
-                        <div class="tl-card-title">機場還車</div>
-                        <div class="tl-card-desc">黃金海岸機場還車。</div>
-                        <div class="tl-tags"><span class="tag tag-blue">交通</span></div>
+                    <div class="tl-card" onclick="navigateToMap('Brisbane Airport Domestic Terminal')">
+                        <div class="tl-nav-icon">🛫</div>
+                        <div class="tl-card-title">辦理登機</div>
+                        <div class="tl-card-desc">前往 Virgin Australia 櫃台報到。</div>
+                        <div class="tl-tags"><span class="tag tag-blue">機場</span></div>
                     </div>
                 </div>
                 <div class="tl-row">
@@ -538,7 +627,7 @@
                     <div class="tl-card" style="background: #E1F5FE; border-left: 4px solid var(--ocean-blue);">
                         <div class="tl-nav-icon">✈️</div>
                         <div class="tl-card-title">VA970 航班</div>
-                        <div class="tl-card-desc">黃金海岸 (OOL) ➔ 雪梨 (SYD)</div>
+                        <div class="tl-card-desc">BNE 布里斯本 ➔ SYD 雪梨</div>
                         <div class="tl-tags"><span class="tag tag-blue">航班</span></div>
                     </div>
                 </div>
@@ -551,6 +640,9 @@
                         <div class="tl-card-desc">Holiday Inn Darling Harbour。</div>
                         <div class="tl-tags"><span class="tag tag-purple">住宿</span></div>
                     </div>
+                </div>
+                <div class="daily-memo-box">
+                    <textarea class="card-memo-input" data-key="memo_day_5" placeholder="📝 D6 隨手記..."></textarea>
                 </div>
             </div>
 
@@ -576,6 +668,9 @@
                         <div class="tl-card-desc">週末市集與古老巷弄。</div>
                         <div class="tl-tags"><span class="tag tag-green">散步</span></div>
                     </div>
+                </div>
+                <div class="daily-memo-box">
+                    <textarea class="card-memo-input" data-key="memo_day_6" placeholder="📝 D7 隨手記..."></textarea>
                 </div>
             </div>
 
@@ -622,69 +717,108 @@
                         <div class="tl-tags"><span class="tag tag-green">活動</span></div>
                     </div>
                 </div>
+                <div class="daily-memo-box">
+                    <textarea class="card-memo-input" data-key="memo_day_7" placeholder="📝 D8 隨手記..."></textarea>
+                </div>
             </div>
 
-            <!-- Day 9 -->
+            <!-- Day 9 (New Melbourne Itinerary) -->
             <div id="day-8" class="day-panel">
-                <div class="section-header"><span class="section-title">📍 飛往墨爾本</span></div>
+                <div class="section-header"><span class="section-title">📍 抵達墨爾本 & 夏日夜市</span></div>
                 <div class="tl-row">
-                    <div class="tl-time-box"><div class="tl-time">14:00</div></div>
+                    <div class="tl-time-box"><div class="tl-time">17:35</div></div>
                     <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
-                    <div class="tl-card" onclick="navigateToMap('Sydney Airport')">
-                        <div class="tl-nav-icon">📍</div>
-                        <div class="tl-card-title">抵達雪梨機場</div>
-                        <div class="tl-card-desc">前往國內線航廈。</div>
+                    <div class="tl-card" onclick="navigateToMap('Melbourne Airport')">
+                        <div class="tl-nav-icon">🛬</div>
+                        <div class="tl-card-title">班機抵達 (MEL)</div>
+                        <div class="tl-card-desc">叫 3 台 Uber 直達飯店 (最省力)。</div>
                         <div class="tl-tags"><span class="tag tag-blue">交通</span></div>
                     </div>
                 </div>
                 <div class="tl-row">
-                    <div class="tl-time-box"><div class="tl-time">16:00</div></div>
-                    <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
-                    <div class="tl-card" style="background: #E1F5FE; border-left: 4px solid var(--ocean-blue);">
-                        <div class="tl-nav-icon">✈️</div>
-                        <div class="tl-card-title">VA858 航班</div>
-                        <div class="tl-card-desc">雪梨 (SYD) ➔ 墨爾本 (MEL)</div>
-                        <div class="tl-tags"><span class="tag tag-blue">航班</span></div>
-                    </div>
-                </div>
-                <div class="tl-row">
-                    <div class="tl-time-box"><div class="tl-time">18:30</div></div>
+                    <div class="tl-time-box"><div class="tl-time">19:00</div></div>
                     <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
                     <div class="tl-card" onclick="navigateToMap('Dorsett Melbourne')">
                         <div class="tl-nav-icon">🏨</div>
-                        <div class="tl-card-title">入住 Dorsett</div>
-                        <div class="tl-card-desc">Check-in Dorsett Melbourne。</div>
+                        <div class="tl-card-title">入住帝盛酒店</div>
+                        <div class="tl-card-desc">615 Little Lonsdale St。</div>
                         <div class="tl-tags"><span class="tag tag-purple">住宿</span></div>
                     </div>
                 </div>
+                <div class="tl-row">
+                    <div class="tl-time-box"><div class="tl-time">19:40</div></div>
+                    <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
+                    <div class="tl-card" onclick="navigateToMap('Queen Victoria Market')">
+                        <div class="tl-nav-icon">🌃</div>
+                        <div class="tl-card-title">維多利亞夏日夜市</div>
+                        <div class="tl-card-desc">週三限定！步行 5-8 分鐘，分組覓食聽音樂。</div>
+                        <div class="tl-tags"><span class="tag tag-gold">美食</span></div>
+                    </div>
+                </div>
+                <div class="daily-memo-box">
+                    <textarea class="card-memo-input" data-key="memo_day_8" placeholder="📝 D9 隨手記..."></textarea>
+                </div>
             </div>
             
-            <!-- Day 10 -->
+            <!-- Day 10 (New Melbourne Itinerary) -->
             <div id="day-9" class="day-panel">
-                <div class="section-header"><span class="section-title">📍 墨爾本市區</span></div>
+                <div class="section-header"><span class="section-title">📍 影像、藝術與河岸</span></div>
                 <div class="tl-row">
                     <div class="tl-time-box"><div class="tl-time">10:00</div></div>
                     <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
-                    <div class="tl-card" onclick="navigateToMap('Federation Square')">
-                        <div class="tl-nav-icon">🏙️</div>
-                        <div class="tl-card-title">聯邦廣場</div>
-                        <div class="tl-card-desc">塗鴉巷 (Hosier Lane) 拍照。</div>
-                        <div class="tl-tags"><span class="tag tag-green">市區</span></div>
+                    <div class="tl-card" onclick="navigateToMap('ACMI')">
+                        <div class="tl-nav-icon">🎮</div>
+                        <div class="tl-card-title">ACMI 動態影像中心</div>
+                        <div class="tl-card-desc">聯邦廣場。搭免費電車至 Flinders St Station。小孩玩互動電玩。</div>
+                        <div class="tl-tags"><span class="tag tag-green">室內</span></div>
                     </div>
                 </div>
                 <div class="tl-row">
-                    <div class="tl-time-box"><div class="tl-time">14:00</div></div>
+                    <div class="tl-time-box"><div class="tl-time">12:30</div></div>
                     <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
-                    <div class="tl-card" onclick="navigateToMap('Melbourne Museum')">
-                        <div class="tl-nav-icon">🏛️</div>
-                        <div class="tl-card-title">墨爾本博物館</div>
-                        <div class="tl-card-desc">參觀南半球最大的博物館。</div>
-                        <div class="tl-tags"><span class="tag tag-green">文化</span></div>
+                    <div class="tl-card" onclick="navigateToMap('Southgate Melbourne')">
+                        <div class="tl-nav-icon">🍔</div>
+                        <div class="tl-card-title">Southgate 美食廣場</div>
+                        <div class="tl-card-desc">過橋即達，各自點餐最方便。</div>
+                        <div class="tl-tags"><span class="tag tag-gold">午餐</span></div>
                     </div>
+                </div>
+                <div class="tl-row">
+                    <div class="tl-time-box"><div class="tl-time">14:30</div></div>
+                    <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
+                    <div class="tl-card" onclick="navigateToMap('National Gallery of Victoria')">
+                        <div class="tl-nav-icon">🎨</div>
+                        <div class="tl-card-title">維多利亞國立美術館</div>
+                        <div class="tl-card-desc">直奔 G 樓兒童藝廊 & 大廳休息。</div>
+                        <div class="tl-tags"><span class="tag tag-green">藝術</span></div>
+                    </div>
+                </div>
+                <div class="tl-row">
+                    <div class="tl-time-box"><div class="tl-time">16:30</div></div>
+                    <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
+                    <div class="tl-card" onclick="navigateToMap('Southbank Promenade')">
+                        <div class="tl-nav-icon">🚶</div>
+                        <div class="tl-card-title">亞拉河畔散步</div>
+                        <div class="tl-card-desc">看街頭藝人，或逛 DFO South Wharf Outlet。</div>
+                        <div class="tl-tags"><span class="tag tag-green">景點</span></div>
+                    </div>
+                </div>
+                <div class="tl-row">
+                    <div class="tl-time-box"><div class="tl-time">18:00</div></div>
+                    <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
+                    <div class="tl-card" onclick="navigateToMap('The Boatbuilders Yard')">
+                        <div class="tl-nav-icon">🍽️</div>
+                        <div class="tl-card-title">河畔或飯店晚餐</div>
+                        <div class="tl-card-desc">可選河景餐廳或回飯店吃韓國街。</div>
+                        <div class="tl-tags"><span class="tag tag-gold">晚餐</span></div>
+                    </div>
+                </div>
+                <div class="daily-memo-box">
+                    <textarea class="card-memo-input" data-key="memo_day_9" placeholder="📝 D10 隨手記..."></textarea>
                 </div>
             </div>
 
-            <!-- Day 11 -->
+            <!-- Day 11 (Existing) -->
             <div id="day-10" class="day-panel">
                 <div class="section-header"><span class="section-title">📍 郊區一日遊</span></div>
                 <div class="tl-row">
@@ -707,30 +841,66 @@
                         <div class="tl-tags"><span class="tag tag-green">動物</span></div>
                     </div>
                 </div>
+                <div class="daily-memo-box">
+                    <textarea class="card-memo-input" data-key="memo_day_10" placeholder="📝 D11 隨手記..."></textarea>
+                </div>
             </div>
 
-            <!-- Day 12 -->
+            <!-- Day 12 (New Melbourne Itinerary) -->
             <div id="day-11" class="day-panel">
-                <div class="section-header"><span class="section-title">📍 週末漫遊</span></div>
+                <div class="section-header"><span class="section-title">📍 恐龍、市場與血拼</span></div>
                 <div class="tl-row">
                     <div class="tl-time-box"><div class="tl-time">09:00</div></div>
                     <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
-                    <div class="tl-card" onclick="navigateToMap('South Melbourne Market')">
-                        <div class="tl-nav-icon">🦪</div>
-                        <div class="tl-card-title">南墨爾本市場</div>
-                        <div class="tl-card-desc">品嚐生蠔與咖啡。</div>
-                        <div class="tl-tags"><span class="tag tag-gold">美食</span></div>
+                    <div class="tl-card" onclick="navigateToMap('Melbourne Museum')">
+                        <div class="tl-nav-icon">🦕</div>
+                        <div class="tl-card-title">墨爾本博物館</div>
+                        <div class="tl-card-desc">09:00 準時入場。搭 Uber 直達。必看恐龍步道、兒童館。</div>
+                        <div class="tl-tags"><span class="tag tag-green">親子</span></div>
+                    </div>
+                </div>
+                <div class="tl-row">
+                    <div class="tl-time-box"><div class="tl-time">11:30</div></div>
+                    <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
+                    <div class="tl-card" onclick="navigateToMap('Queen Victoria Market')">
+                        <div class="tl-nav-icon">🌭</div>
+                        <div class="tl-card-title">維多利亞女王市場</div>
+                        <div class="tl-card-desc">搭 Uber 前往。週六最熱鬧，利用 Food Court 解決午餐。15:00 關門。</div>
+                        <div class="tl-tags"><span class="tag tag-gold">午餐</span></div>
                     </div>
                 </div>
                 <div class="tl-row">
                     <div class="tl-time-box"><div class="tl-time">14:00</div></div>
                     <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
-                    <div class="tl-card" onclick="navigateToMap('Brighton Bathing Boxes')">
-                        <div class="tl-nav-icon">🏖️</div>
-                        <div class="tl-card-title">彩虹小屋</div>
-                        <div class="tl-card-desc">Brighton Beach 拍照。</div>
-                        <div class="tl-tags"><span class="tag tag-green">海灘</span></div>
+                    <div class="tl-card" onclick="navigateToMap('State Library Victoria')">
+                        <div class="tl-nav-icon">📖</div>
+                        <div class="tl-card-title">州立圖書館</div>
+                        <div class="tl-card-desc">拍圓頂大廳、草地休息。免費電車或步行。</div>
+                        <div class="tl-tags"><span class="tag tag-green">景點</span></div>
                     </div>
+                </div>
+                <div class="tl-row">
+                    <div class="tl-time-box"><div class="tl-time">15:00</div></div>
+                    <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
+                    <div class="tl-card" onclick="navigateToMap('Emporium Melbourne')">
+                        <div class="tl-nav-icon">🛍️</div>
+                        <div class="tl-card-title">市中心購物</div>
+                        <div class="tl-card-desc">Emporium/Myer。購物組把握時間 (19:00 關門)，親子組可先回飯店午睡。</div>
+                        <div class="tl-tags"><span class="tag tag-purple">購物</span></div>
+                    </div>
+                </div>
+                <div class="tl-row">
+                    <div class="tl-time-box"><div class="tl-time">18:30</div></div>
+                    <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
+                    <div class="tl-card" onclick="navigateToMap('Little Bourke Street, Melbourne')">
+                        <div class="tl-nav-icon">🥢</div>
+                        <div class="tl-card-title">唐人街晚餐</div>
+                        <div class="tl-card-desc">務必提前訂位 (Shark Fin Inn 等)。</div>
+                        <div class="tl-tags"><span class="tag tag-gold">晚餐</span></div>
+                    </div>
+                </div>
+                <div class="daily-memo-box">
+                    <textarea class="card-memo-input" data-key="memo_day_11" placeholder="📝 D12 隨手記..."></textarea>
                 </div>
             </div>
 
@@ -740,11 +910,12 @@
                 <div class="tl-row">
                     <div class="tl-time-box"><div class="tl-time">09:00</div></div>
                     <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
-                    <div class="tl-card" onclick="navigateToMap('Queen Victoria Market')">
+                    <!-- 更新：Camberwell Sunday Market -->
+                    <div class="tl-card" onclick="navigateToMap('Camberwell Sunday Market')">
                         <div class="tl-nav-icon">🛍️</div>
-                        <div class="tl-card-title">維多利亞市場</div>
-                        <div class="tl-card-desc">購買最後的紀念品。</div>
-                        <div class="tl-tags"><span class="tag tag-green">購物</span></div>
+                        <div class="tl-card-title">Camberwell 週日市集</div>
+                        <div class="tl-card-desc">墨爾本最受歡迎的二手跳蚤市場，尋寶好去處。(週日限定)</div>
+                        <div class="tl-tags"><span class="tag tag-green">市集</span></div>
                     </div>
                 </div>
                 <div class="tl-row">
@@ -756,6 +927,9 @@
                         <div class="tl-card-desc">Tullamarine 機場，準備回家。</div>
                         <div class="tl-tags"><span class="tag tag-blue">交通</span></div>
                     </div>
+                </div>
+                <div class="daily-memo-box">
+                    <textarea class="card-memo-input" data-key="memo_day_12" placeholder="📝 D13 隨手記..."></textarea>
                 </div>
             </div>
         </div>
@@ -782,6 +956,11 @@
                     <span>⏰ 17:05 起飛</span>
                 </div>
             </div>
+            <!-- 卡片內備忘錄 -->
+            <div class="card-memo-box">
+                <textarea class="card-memo-input" data-key="memo_flight_va970" placeholder="備註: 訂位代號、電子機票號碼..."></textarea>
+            </div>
+            <div class="info-action" onclick="navigateToMap('Brisbane Airport')">開啟地圖 ↗</div>
         </div>
 
         <div class="info-card">
@@ -797,6 +976,11 @@
                     <span>⏰ 16:00 起飛</span>
                 </div>
             </div>
+            <!-- 卡片內備忘錄 -->
+            <div class="card-memo-box">
+                <textarea class="card-memo-input" data-key="memo_flight_va858" placeholder="備註: 訂位代號、電子機票號碼..."></textarea>
+            </div>
+            <div class="info-action" onclick="navigateToMap('Sydney Airport')">開啟地圖 ↗</div>
         </div>
 
         <div class="section-header"><span class="section-title">🏨 住宿資訊</span></div>
@@ -810,6 +994,10 @@
                     <span>🕒 Check-in: 14:00</span>
                 </div>
             </div>
+            <!-- 卡片內備忘錄 -->
+            <div class="card-memo-box">
+                <textarea class="card-memo-input" data-key="memo_hotel_bne" placeholder="備註: 訂房確認號、特別需求..."></textarea>
+            </div>
             <div class="info-action" onclick="navigateToMap('Royal Albert Hotel Brisbane')">開啟地圖 ↗</div>
         </div>
 
@@ -821,6 +1009,10 @@
                     <span>📍 Miami Beach, Gold Coast</span>
                     <span>🕒 Check-in: 14:00</span>
                 </div>
+            </div>
+            <!-- 卡片內備忘錄 -->
+            <div class="card-memo-box">
+                <textarea class="card-memo-input" data-key="memo_hotel_ool" placeholder="備註: 訂房確認號、特別需求..."></textarea>
             </div>
             <div class="info-action" onclick="navigateToMap('Grande Florida Beach Resort')">開啟地圖 ↗</div>
         </div>
@@ -834,6 +1026,10 @@
                     <span>🕒 Check-in: 15:00</span>
                 </div>
             </div>
+            <!-- 卡片內備忘錄 -->
+            <div class="card-memo-box">
+                <textarea class="card-memo-input" data-key="memo_hotel_syd" placeholder="備註: 訂房確認號、特別需求..."></textarea>
+            </div>
             <div class="info-action" onclick="navigateToMap('Holiday Inn Darling Harbour')">開啟地圖 ↗</div>
         </div>
         
@@ -846,8 +1042,14 @@
                     <span>🕒 Check-in: 15:00</span>
                 </div>
             </div>
+            <!-- 卡片內備忘錄 -->
+            <div class="card-memo-box">
+                <textarea class="card-memo-input" data-key="memo_hotel_mel" placeholder="備註: 訂房確認號、特別需求..."></textarea>
+            </div>
             <div class="info-action" onclick="navigateToMap('Dorsett Melbourne')">開啟地圖 ↗</div>
         </div>
+        
+        <div style="height: 40px;"></div>
     </div>
 
     <!-- 底部 Tab Bar -->
@@ -929,31 +1131,43 @@
             window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`, '_blank');
         }
 
-        // 備忘錄功能
-        function initMemo() {
-            const memoArea = document.getElementById('trip-memo');
-            const memoStatus = document.getElementById('memo-status');
-
-            if(memoArea) {
-                // Load
-                const savedMemo = localStorage.getItem('trip_memo');
-                if(savedMemo) memoArea.value = savedMemo;
-
-                // Save
-                memoArea.addEventListener('input', function() {
+        // 初始化所有備忘錄 (首頁大備忘錄 + 卡片內小備忘錄)
+        function initMemos() {
+            // 1. 首頁大備忘錄
+            const tripMemo = document.getElementById('trip-memo');
+            if(tripMemo) {
+                const saved = localStorage.getItem('trip_memo');
+                if(saved) tripMemo.value = saved;
+                tripMemo.addEventListener('input', function() {
                     localStorage.setItem('trip_memo', this.value);
-                    memoStatus.innerText = '已儲存';
-                    // 2秒後變回自動儲存
-                    setTimeout(() => { memoStatus.innerText = '自動儲存'; }, 2000);
+                    const status = document.getElementById('memo-status');
+                    if(status) {
+                        status.innerText = '已儲存';
+                        setTimeout(() => status.innerText = '自動儲存', 2000);
+                    }
                 });
             }
+
+            // 2. 卡片內小備忘錄 (使用 class 選擇器)
+            const cardMemos = document.querySelectorAll('.card-memo-input');
+            cardMemos.forEach(memo => {
+                const key = memo.getAttribute('data-key');
+                if(key) {
+                    const saved = localStorage.getItem(key);
+                    if(saved) memo.value = saved;
+                    
+                    memo.addEventListener('input', function() {
+                        localStorage.setItem(key, this.value);
+                    });
+                }
+            });
         }
 
         window.onload = function() {
             updateCountdown();
             setInterval(updateCountdown, 86400000);
             loadChecks();
-            initMemo();
+            initMemos();
         }
     </script>
 </body>
