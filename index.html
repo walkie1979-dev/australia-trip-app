@@ -372,17 +372,29 @@
             <div class="check-item" onclick="toggleCheck(this, 'visa')"><div class="checkbox"></div><div class="check-text">澳洲簽證 (ETA)</div></div>
             <div class="check-item" onclick="toggleCheck(this, 'license')"><div class="checkbox"></div><div class="check-text">國際駕照 + 台灣駕照</div></div>
             <div class="check-item" onclick="toggleCheck(this, 'creditcard')"><div class="checkbox"></div><div class="check-text">信用卡 (海外回饋)</div></div>
+            <div class="check-item" onclick="toggleCheck(this, 'insurance')"><div class="checkbox"></div><div class="check-text">旅遊保險單</div></div>
 
             <div class="category-title">電子產品</div>
             <div class="check-item" onclick="toggleCheck(this, 'adapter')"><div class="checkbox"></div><div class="check-text">轉接頭 (八字型 Type I)</div></div>
+            <div class="check-item" onclick="toggleCheck(this, 'powerstrip')"><div class="checkbox"></div><div class="check-text">多孔延長線/排插</div></div>
             <div class="check-item" onclick="toggleCheck(this, 'simcard')"><div class="checkbox"></div><div class="check-text">網卡 / 漫遊開通</div></div>
             <div class="check-item" onclick="toggleCheck(this, 'powerbank')"><div class="checkbox"></div><div class="check-text">行動電源</div></div>
+            <div class="check-item" onclick="toggleCheck(this, 'mount')"><div class="checkbox"></div><div class="check-text">手機車用支架</div></div>
+
+            <div class="category-title">衣物與裝備</div>
+            <div class="check-item" onclick="toggleCheck(this, 'shoes')"><div class="checkbox"></div><div class="check-text">舒適走路鞋 (日行萬步)</div></div>
+            <div class="check-item" onclick="toggleCheck(this, 'swimwear')"><div class="checkbox"></div><div class="check-text">泳衣/泳具</div></div>
+            <div class="check-item" onclick="toggleCheck(this, 'jacket')"><div class="checkbox"></div><div class="check-text">防風外套 (企鵝島/藍山用)</div></div>
+            <div class="check-item" onclick="toggleCheck(this, 'bag')"><div class="checkbox"></div><div class="check-text">環保購物袋</div></div>
 
             <div class="category-title">生活與藥品</div>
             <div class="check-item" onclick="toggleCheck(this, 'medicine')"><div class="checkbox"></div><div class="check-text">常備藥 (感冒/腸胃)</div></div>
-            <div class="check-item" onclick="toggleCheck(this, 'sunscreen')"><div class="checkbox"></div><div class="check-text">防曬乳 / 墨鏡</div></div>
-            <div class="check-item" onclick="toggleCheck(this, 'jacket')"><div class="checkbox"></div><div class="check-text">薄外套 (溫差大)</div></div>
+            <div class="check-item" onclick="toggleCheck(this, 'insectrepellent')"><div class="checkbox"></div><div class="check-text">防蚊液 (很重要!)</div></div>
+            <div class="check-item" onclick="toggleCheck(this, 'sunscreen')"><div class="checkbox"></div><div class="check-text">防曬乳 / 墨鏡 / 帽子</div></div>
             <div class="check-item" onclick="toggleCheck(this, 'toiletries')"><div class="checkbox"></div><div class="check-text">牙刷牙膏 (環保旅店)</div></div>
+            
+            <div class="category-title">親子專區</div>
+            <div class="check-item" onclick="toggleCheck(this, 'kidsnacks')"><div class="checkbox"></div><div class="check-text">兒童安撫零食/玩具</div></div>
         </div>
 
         <!-- 團長備忘錄 -->
@@ -534,27 +546,56 @@
 
             <!-- Day 4 -->
             <div id="day-3" class="day-panel">
-                <div class="section-header"><span class="section-title">📍 黃金海岸</span></div>
+                <div class="section-header"><span class="section-title">📍 北方激流日 (水樂園 + Outlet)</span></div>
+                
+                <!-- 09:00 出發 -->
                 <div class="tl-row">
-                    <div class="tl-time-box"><div class="tl-time">11:00</div></div>
+                    <div class="tl-time-box"><div class="tl-time">09:00</div></div>
                     <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
-                    <div class="tl-card" onclick="navigateToMap('Surfers Paradise')">
-                        <div class="tl-nav-icon">🏖️</div>
-                        <div class="tl-card-title">衝浪者天堂</div>
-                        <div class="tl-card-desc">Q1 大樓、海灘踏浪。</div>
-                        <div class="tl-tags"><span class="tag tag-green">海灘</span></div>
+                    <div class="tl-card" onclick="navigateToMap('Grande Florida Beach Resort')">
+                        <div class="tl-nav-icon">🚗</div>
+                        <div class="tl-card-title">飯店出發 (睡飽再走)</div>
+                        <div class="tl-card-desc">避開 8:30 上班車潮。泳衣直接穿裡面，帶大毛巾、防曬、水壺。</div>
+                        <div class="tl-tags"><span class="tag tag-blue">交通</span></div>
                     </div>
                 </div>
+
+                <!-- 10:00 Wet'n'Wild -->
                 <div class="tl-row">
-                    <div class="tl-time-box"><div class="tl-time">19:00</div></div>
+                    <div class="tl-time-box"><div class="tl-time">10:00</div></div>
                     <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
-                    <div class="tl-card" onclick="navigateToMap('Miami Marketta')">
-                        <div class="tl-nav-icon">🌮</div>
-                        <div class="tl-card-title">Miami Marketta 夜市</div>
-                        <div class="tl-card-desc">異國美食與現場音樂。</div>
-                        <div class="tl-tags"><span class="tag tag-gold">美食</span></div>
+                    <div class="tl-card" onclick="navigateToMap('Wet\'n\'Wild Gold Coast')">
+                        <div class="tl-nav-icon">🌊</div>
+                        <div class="tl-card-title">Wet'n'Wild 水上樂園</div>
+                        <div class="tl-card-desc">10點開門剛好抵達。先搶有遮陽棚的躺椅當基地。午餐園區內解決。</div>
+                        <div class="tl-tags"><span class="tag tag-green">樂園</span></div>
                     </div>
                 </div>
+
+                <!-- 16:00 Harbour Town -->
+                <div class="tl-row">
+                    <div class="tl-time-box"><div class="tl-time">16:00</div></div>
+                    <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
+                    <div class="tl-card" onclick="navigateToMap('Harbour Town Premium Outlets Gold Coast')">
+                        <div class="tl-nav-icon">🛍️</div>
+                        <div class="tl-card-title">海港城 Outlet</div>
+                        <div class="tl-card-desc">順路逛街吃飯。Harbour Town Eats 戶外美食街晚餐 (不用訂位)。</div>
+                        <div class="tl-tags"><span class="tag tag-gold">購物</span></div>
+                    </div>
+                </div>
+
+                <!-- 19:30 返回 -->
+                <div class="tl-row">
+                    <div class="tl-time-box"><div class="tl-time">19:30</div></div>
+                    <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
+                    <div class="tl-card" onclick="navigateToMap('Grande Florida Beach Resort')">
+                        <div class="tl-nav-icon">🛏️</div>
+                        <div class="tl-card-title">返回飯店休息</div>
+                        <div class="tl-card-desc">早點休息，明天無尾熊早餐要早起！</div>
+                        <div class="tl-tags"><span class="tag tag-purple">住宿</span></div>
+                    </div>
+                </div>
+
                 <div class="daily-memo-box">
                     <textarea class="card-memo-input" data-key="memo_day_3" placeholder="📝 D4 隨手記..."></textarea>
                 </div>
@@ -562,27 +603,80 @@
 
             <!-- Day 5 -->
             <div id="day-4" class="day-panel">
-                <div class="section-header"><span class="section-title">📍 動物與自然</span></div>
+                <div class="section-header"><span class="section-title">📍 南方生態與夕陽 (動物園 + 州界)</span></div>
+                
+                <!-- 07:15 出發 -->
                 <div class="tl-row">
-                    <div class="tl-time-box"><div class="tl-time">08:00</div></div>
+                    <div class="tl-time-box"><div class="tl-time">07:15</div></div>
+                    <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
+                    <div class="tl-card" onclick="navigateToMap('Currumbin Wildlife Sanctuary Car Park')">
+                        <div class="tl-nav-icon">🚗</div>
+                        <div class="tl-card-title">飯店準時出發</div>
+                        <div class="tl-card-desc">關鍵時刻，絕對不能遲到！直接導航付費停車場。</div>
+                        <div class="tl-tags"><span class="tag tag-blue">交通</span></div>
+                    </div>
+                </div>
+
+                <!-- 07:45 無尾熊早餐 -->
+                <div class="tl-row">
+                    <div class="tl-time-box"><div class="tl-time">07:45</div></div>
                     <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
                     <div class="tl-card" onclick="navigateToMap('Currumbin Wildlife Sanctuary')">
                         <div class="tl-nav-icon">🐨</div>
-                        <div class="tl-card-title">庫倫賓動物園</div>
-                        <div class="tl-card-desc">無尾熊早餐體驗 (已預約)。</div>
-                        <div class="tl-tags"><span class="tag tag-green">動物</span></div>
+                        <div class="tl-card-title">無尾熊早餐 VIP</div>
+                        <div class="tl-card-desc">07:45 準時報到。優雅吃早餐，輪流拍照，享受包場感。</div>
+                        <div class="tl-tags"><span class="tag tag-green">體驗</span></div>
                     </div>
                 </div>
+
+                <!-- 09:00 動物園 -->
                 <div class="tl-row">
-                    <div class="tl-time-box"><div class="tl-time">15:00</div></div>
+                    <div class="tl-time-box"><div class="tl-time">09:00</div></div>
                     <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
-                    <div class="tl-card" onclick="navigateToMap('Burleigh Heads National Park')">
-                        <div class="tl-nav-icon">🥾</div>
-                        <div class="tl-card-title">Burleigh Heads</div>
-                        <div class="tl-card-desc">國家公園健行，看海岸線。</div>
-                        <div class="tl-tags"><span class="tag tag-green">健行</span></div>
+                    <div class="tl-card" onclick="navigateToMap('Currumbin Wildlife Sanctuary')">
+                        <div class="tl-nav-icon">🦜</div>
+                        <div class="tl-card-title">動物園探險</div>
+                        <div class="tl-card-desc">必看 10:45 鳥類飛行秀 (Wild Skies)。善用遊園小火車。</div>
+                        <div class="tl-tags"><span class="tag tag-green">活動</span></div>
                     </div>
                 </div>
+
+                <!-- 14:30 Point Danger -->
+                <div class="tl-row">
+                    <div class="tl-time-box"><div class="tl-time">14:30</div></div>
+                    <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
+                    <div class="tl-card" onclick="navigateToMap('Point Danger')">
+                        <div class="tl-nav-icon">📍</div>
+                        <div class="tl-card-title">危險角 (跨越州界)</div>
+                        <div class="tl-card-desc">昆士蘭與新南威爾斯交界。雙腳跨州拍照，看無敵海景。</div>
+                        <div class="tl-tags"><span class="tag tag-green">景點</span></div>
+                    </div>
+                </div>
+
+                <!-- 16:30 Currumbin Alley -->
+                <div class="tl-row">
+                    <div class="tl-time-box"><div class="tl-time">16:30</div></div>
+                    <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
+                    <div class="tl-card" onclick="navigateToMap('Currumbin Alley')">
+                        <div class="tl-nav-icon">🌅</div>
+                        <div class="tl-card-title">Currumbin Alley 夕陽</div>
+                        <div class="tl-card-desc">絕美夕陽點。小孩玩淺水，大人沙灘放空。</div>
+                        <div class="tl-tags"><span class="tag tag-green">放鬆</span></div>
+                    </div>
+                </div>
+
+                <!-- 18:00 晚餐 -->
+                <div class="tl-row">
+                    <div class="tl-time-box"><div class="tl-time">18:00</div></div>
+                    <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
+                    <div class="tl-card" onclick="navigateToMap('Coles Miami')">
+                        <div class="tl-nav-icon">🛒</div>
+                        <div class="tl-card-title">超市採買 + 公寓大餐</div>
+                        <div class="tl-card-desc">Coles 買牛排烤雞啤酒。回公寓自己煮，避開週六餐廳人潮！</div>
+                        <div class="tl-tags"><span class="tag tag-gold">晚餐</span></div>
+                    </div>
+                </div>
+
                 <div class="daily-memo-box">
                     <textarea class="card-memo-input" data-key="memo_day_4" placeholder="📝 D5 隨手記..."></textarea>
                 </div>
@@ -590,15 +684,28 @@
 
             <!-- Day 6 (移動日) -->
             <div id="day-5" class="day-panel">
-                <div class="section-header"><span class="section-title">📍 前往雪梨 (布里斯本起飛)</span></div>
+                <div class="section-header"><span class="section-title">📍 黃金海岸市集 & 飛往雪梨</span></div>
+                
+                <!-- 新增：HOTA Sunday Market -->
+                <div class="tl-row">
+                    <div class="tl-time-box"><div class="tl-time">08:00</div></div>
+                    <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
+                    <div class="tl-card" onclick="navigateToMap('HOTA Home of the Arts')">
+                        <div class="tl-nav-icon">🧺</div>
+                        <div class="tl-card-title">HOTA 週日市集</div>
+                        <div class="tl-card-desc">當地人最愛的農夫市集 (06:00-11:30)。享受戶外早餐、現場音樂與湖畔風景。</div>
+                        <div class="tl-tags"><span class="tag tag-gold">市集</span></div>
+                    </div>
+                </div>
+
                 <div class="tl-row">
                     <div class="tl-time-box"><div class="tl-time">~</div></div>
                     <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
                     <div class="tl-card" onclick="navigateToMap('Brisbane Airport Petrol Station')">
                         <div class="tl-nav-icon">⛽</div>
-                        <div class="tl-card-title">機場附近加油</div>
-                        <div class="tl-card-desc">還車前請務必加滿油。</div>
-                        <div class="tl-tags"><span class="tag tag-blue">加油</span></div>
+                        <div class="tl-card-title">前往布里斯本機場 (加油)</div>
+                        <div class="tl-card-desc">車程約 1.5 小時。還車前請務必在機場附近加滿油。</div>
+                        <div class="tl-tags"><span class="tag tag-blue">交通</span></div>
                     </div>
                 </div>
                 <div class="tl-row">
