@@ -442,27 +442,56 @@
         <div class="timeline-wrapper">
             <!-- Day 1 -->
             <div id="day-0" class="day-panel active">
-                <div class="section-header"><span class="section-title">📍 布里斯本抵達</span></div>
+                <div class="section-header"><span class="section-title">📍 抵達與市區採買</span></div>
+                
+                <!-- 10:45 抵達 -->
                 <div class="tl-row">
-                    <div class="tl-time-box"><div class="tl-time">22:00</div></div>
+                    <div class="tl-time-box"><div class="tl-time">10:45</div></div>
                     <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
-                    <div class="tl-card" onclick="navigateToMap('Brisbane Airport')">
-                        <div class="tl-nav-icon">📍</div>
-                        <div class="tl-card-title">抵達機場</div>
-                        <div class="tl-card-desc">BNE 國際機場。搭 Uber 往市區。</div>
+                    <div class="tl-card" onclick="navigateToMap('Brisbane International Airport Taxi Rank')">
+                        <div class="tl-nav-icon">🚕</div>
+                        <div class="tl-card-title">抵達 T1 (搭 Maxi Taxi)</div>
+                        <div class="tl-card-desc">前往計程車排班處，告知需 "Maxi Taxi" (大車)。車資約 $80-100 澳幣。</div>
                         <div class="tl-tags"><span class="tag tag-blue">交通</span></div>
                     </div>
                 </div>
+
+                <!-- 13:00 午餐 -->
                 <div class="tl-row">
-                    <div class="tl-time-box"><div class="tl-time">23:00</div></div>
+                    <div class="tl-time-box"><div class="tl-time">13:00</div></div>
                     <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
-                    <div class="tl-card" onclick="navigateToMap('Royal Albert Hotel Brisbane')">
-                        <div class="tl-nav-icon">🏨</div>
-                        <div class="tl-card-title">入住 Royal Albert</div>
-                        <div class="tl-card-desc">Check-in，與朋友會合。</div>
-                        <div class="tl-tags"><span class="tag tag-purple">住宿</span></div>
+                    <div class="tl-card" onclick="navigateToMap('Vapiano Albert Lane')">
+                        <div class="tl-nav-icon">🍝</div>
+                        <div class="tl-card-title">午餐：Vapiano</div>
+                        <div class="tl-card-desc">Albert Lane 分店。義式料理，記得先訂位。</div>
+                        <div class="tl-tags"><span class="tag tag-gold">午餐</span></div>
                     </div>
                 </div>
+
+                <!-- 15:00 逛街 -->
+                <div class="tl-row">
+                    <div class="tl-time-box"><div class="tl-time">15:00</div></div>
+                    <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
+                    <div class="tl-card" onclick="navigateToMap('The Myer Centre Brisbane')">
+                        <div class="tl-nav-icon">🛍️</div>
+                        <div class="tl-card-title">Uptown (Myer Centre)</div>
+                        <div class="tl-card-desc">市中心逛街購物。</div>
+                        <div class="tl-tags"><span class="tag tag-green">逛街</span></div>
+                    </div>
+                </div>
+
+                <!-- 18:00 超市 -->
+                <div class="tl-row">
+                    <div class="tl-time-box"><div class="tl-time">18:00</div></div>
+                    <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
+                    <div class="tl-card" onclick="navigateToMap('Woolworths Macarthur Chambers')">
+                        <div class="tl-nav-icon">🛒</div>
+                        <div class="tl-card-title">Woolworths 超市</div>
+                        <div class="tl-card-desc">採買水、零食、早餐。注意 21:00 關門。</div>
+                        <div class="tl-tags"><span class="tag tag-blue">採買</span></div>
+                    </div>
+                </div>
+
                 <div class="daily-memo-box">
                     <textarea class="card-memo-input" data-key="memo_day_0" placeholder="📝 D1 隨手記..."></textarea>
                 </div>
@@ -470,37 +499,92 @@
 
             <!-- Day 2 -->
             <div id="day-1" class="day-panel">
-                <div class="section-header"><span class="section-title">📍 布里斯本市區</span></div>
+                <div class="section-header"><span class="section-title">📍 皇后街、南岸與故事橋</span></div>
+                
+                <!-- 09:30 皇后街 -->
                 <div class="tl-row">
-                    <div class="tl-time-box"><div class="tl-time">10:00</div></div>
+                    <div class="tl-time-box"><div class="tl-time">09:30</div></div>
                     <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
-                    <div class="tl-card" onclick="navigateToMap('South Bank Parklands')">
-                        <div class="tl-nav-icon">🎡</div>
-                        <div class="tl-card-title">南岸公園</div>
-                        <div class="tl-card-desc">Streets Beach 人造沙灘。</div>
+                    <div class="tl-card" onclick="navigateToMap('Queen Street Mall')">
+                        <div class="tl-nav-icon">🚶</div>
+                        <div class="tl-card-title">皇后街購物中心</div>
+                        <div class="tl-card-desc">飯店步行 1 分鐘。參觀歷史悠久的 Brisbane Arcade。</div>
                         <div class="tl-tags"><span class="tag tag-green">景點</span></div>
                     </div>
                 </div>
+
+                <!-- 11:30 步行過橋 -->
                 <div class="tl-row">
-                    <div class="tl-time-box"><div class="tl-time">14:00</div></div>
+                    <div class="tl-time-box"><div class="tl-time">11:30</div></div>
                     <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
-                    <div class="tl-card" onclick="navigateToMap('Brisbane CityHopper')">
-                        <div class="tl-nav-icon">⛴️</div>
-                        <div class="tl-card-title">免費渡輪</div>
-                        <div class="tl-card-desc">CityHopper 紅色小渡輪遊覽布里斯本河。</div>
+                    <div class="tl-card" onclick="navigateToMap('Victoria Bridge, Brisbane')">
+                        <div class="tl-nav-icon">🌉</div>
+                        <div class="tl-card-title">步行前往南岸</div>
+                        <div class="tl-card-desc">經由 Victoria Bridge 過河，約 12-15 分鐘。</div>
                         <div class="tl-tags"><span class="tag tag-blue">交通</span></div>
                     </div>
                 </div>
+
+                <!-- 11:45 午餐 -->
                 <div class="tl-row">
-                    <div class="tl-time-box"><div class="tl-time">18:30</div></div>
+                    <div class="tl-time-box"><div class="tl-time">11:45</div></div>
                     <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
-                    <div class="tl-card" onclick="navigateToMap('Howard Smith Wharves')">
-                        <div class="tl-nav-icon">🍽️</div>
-                        <div class="tl-card-title">Howard Smith Wharves</div>
-                        <div class="tl-card-desc">河岸碼頭晚餐區。</div>
-                        <div class="tl-tags"><span class="tag tag-gold">餐廳</span></div>
+                    <div class="tl-card" onclick="navigateToMap('Julius Pizzeria')">
+                        <div class="tl-nav-icon">🍕</div>
+                        <div class="tl-card-title">午餐：Julius Pizzeria</div>
+                        <div class="tl-card-desc">非常熱門且不接受預約，建議 11:45 抵達排隊。</div>
+                        <div class="tl-tags"><span class="tag tag-gold">午餐</span></div>
                     </div>
                 </div>
+
+                <!-- 13:30 南岸公園 -->
+                <div class="tl-row">
+                    <div class="tl-time-box"><div class="tl-time">13:30</div></div>
+                    <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
+                    <div class="tl-card" onclick="navigateToMap('South Bank Parklands')">
+                        <div class="tl-nav-icon">🎡</div>
+                        <div class="tl-card-title">南岸公園散步</div>
+                        <div class="tl-card-desc">步行 3 分鐘即達。參觀尼泊爾塔、摩天輪、Streets Beach。</div>
+                        <div class="tl-tags"><span class="tag tag-green">景點</span></div>
+                    </div>
+                </div>
+
+                <!-- 16:30 CityHopper -->
+                <div class="tl-row">
+                    <div class="tl-time-box"><div class="tl-time">16:30</div></div>
+                    <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
+                    <div class="tl-card" onclick="navigateToMap('South Bank Terminal 3')">
+                        <div class="tl-nav-icon">⛴️</div>
+                        <div class="tl-card-title">免費渡輪 CityHopper</div>
+                        <div class="tl-card-desc">South Bank Terminal 3 上船。從橋下穿過故事橋，絕佳視角。</div>
+                        <div class="tl-tags"><span class="tag tag-blue">交通</span></div>
+                    </div>
+                </div>
+
+                <!-- 17:00 HSW -->
+                <div class="tl-row">
+                    <div class="tl-time-box"><div class="tl-time">17:00</div></div>
+                    <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
+                    <div class="tl-card" onclick="navigateToMap('Howard Smith Wharves')">
+                        <div class="tl-nav-icon">🥂</div>
+                        <div class="tl-card-title">Howard Smith Wharves</div>
+                        <div class="tl-card-desc">位於故事橋正下方。喝飲品看夕陽，等待橋體點燈。</div>
+                        <div class="tl-tags"><span class="tag tag-gold">晚餐</span></div>
+                    </div>
+                </div>
+
+                <!-- 19:30 回程 -->
+                <div class="tl-row">
+                    <div class="tl-time-box"><div class="tl-time">19:30</div></div>
+                    <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
+                    <div class="tl-card" onclick="navigateToMap('Royal Albert Hotel Brisbane')">
+                        <div class="tl-nav-icon">🚶</div>
+                        <div class="tl-card-title">漫步回飯店</div>
+                        <div class="tl-card-desc">沿河岸步道往市中心走，約 15 分鐘。</div>
+                        <div class="tl-tags"><span class="tag tag-blue">交通</span></div>
+                    </div>
+                </div>
+
                 <div class="daily-memo-box">
                     <textarea class="card-memo-input" data-key="memo_day_1" placeholder="📝 D2 隨手記..."></textarea>
                 </div>
@@ -684,48 +768,15 @@
 
             <!-- Day 6 (移動日) -->
             <div id="day-5" class="day-panel">
-                <div class="section-header"><span class="section-title">📍 黃金海岸市集 & 飛往雪梨</span></div>
-                
-                <!-- 新增：HOTA Sunday Market -->
-                <div class="tl-row">
-                    <div class="tl-time-box"><div class="tl-time">08:00</div></div>
-                    <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
-                    <div class="tl-card" onclick="navigateToMap('HOTA Home of the Arts')">
-                        <div class="tl-nav-icon">🧺</div>
-                        <div class="tl-card-title">HOTA 週日市集</div>
-                        <div class="tl-card-desc">當地人最愛的農夫市集 (06:00-11:30)。享受戶外早餐、現場音樂與湖畔風景。</div>
-                        <div class="tl-tags"><span class="tag tag-gold">市集</span></div>
-                    </div>
-                </div>
-
-                <div class="tl-row">
-                    <div class="tl-time-box"><div class="tl-time">~</div></div>
-                    <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
-                    <div class="tl-card" onclick="navigateToMap('Brisbane Airport Petrol Station')">
-                        <div class="tl-nav-icon">⛽</div>
-                        <div class="tl-card-title">前往布里斯本機場 (加油)</div>
-                        <div class="tl-card-desc">車程約 1.5 小時。還車前請務必在機場附近加滿油。</div>
-                        <div class="tl-tags"><span class="tag tag-blue">交通</span></div>
-                    </div>
-                </div>
-                <div class="tl-row">
-                    <div class="tl-time-box"><div class="tl-time">14:10</div></div>
-                    <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
-                    <div class="tl-card" onclick="navigateToMap('-27.382917, 153.118722')">
-                        <div class="tl-nav-icon">🚗</div>
-                        <div class="tl-card-title">Hertz 國內線還車</div>
-                        <div class="tl-card-desc">指定還車點 (精確座標導航)。</div>
-                        <div class="tl-tags"><span class="tag tag-blue">交通</span></div>
-                    </div>
-                </div>
+                <div class="section-header"><span class="section-title">📍 飛往雪梨</span></div>
                 <div class="tl-row">
                     <div class="tl-time-box"><div class="tl-time">14:30</div></div>
                     <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
-                    <div class="tl-card" onclick="navigateToMap('Brisbane Airport Domestic Terminal')">
-                        <div class="tl-nav-icon">🛫</div>
-                        <div class="tl-card-title">辦理登機</div>
-                        <div class="tl-card-desc">前往 Virgin Australia 櫃台報到。</div>
-                        <div class="tl-tags"><span class="tag tag-blue">機場</span></div>
+                    <div class="tl-card" onclick="navigateToMap('Gold Coast Airport')">
+                        <div class="tl-nav-icon">🚗</div>
+                        <div class="tl-card-title">機場還車</div>
+                        <div class="tl-card-desc">黃金海岸機場還車。</div>
+                        <div class="tl-tags"><span class="tag tag-blue">交通</span></div>
                     </div>
                 </div>
                 <div class="tl-row">
@@ -734,48 +785,122 @@
                     <div class="tl-card" style="background: #E1F5FE; border-left: 4px solid var(--ocean-blue);">
                         <div class="tl-nav-icon">✈️</div>
                         <div class="tl-card-title">VA970 航班</div>
-                        <div class="tl-card-desc">BNE 布里斯本 ➔ SYD 雪梨</div>
+                        <div class="tl-card-desc">黃金海岸 (OOL) ➔ 雪梨 (SYD)</div>
                         <div class="tl-tags"><span class="tag tag-blue">航班</span></div>
                     </div>
                 </div>
                 <div class="tl-row">
                     <div class="tl-time-box"><div class="tl-time">20:30</div></div>
                     <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
-                    <div class="tl-card" onclick="navigateToMap('Holiday Inn Darling Harbour')">
+                    <div class="tl-card" onclick="navigateToMap('Holiday Inn Sydney - Potts Point')">
                         <div class="tl-nav-icon">🏨</div>
-                        <div class="tl-card-title">入住雪梨</div>
-                        <div class="tl-card-desc">Holiday Inn Darling Harbour。</div>
+                        <div class="tl-card-title">入住雪梨 (Potts Point)</div>
+                        <div class="tl-card-desc">Holiday Inn Potts Point。周邊餐廳多，氣氛好。</div>
                         <div class="tl-tags"><span class="tag tag-purple">住宿</span></div>
                     </div>
-                </div>
-                <div class="daily-memo-box">
-                    <textarea class="card-memo-input" data-key="memo_day_5" placeholder="📝 D6 隨手記..."></textarea>
                 </div>
             </div>
 
             <!-- Day 7 -->
             <div id="day-6" class="day-panel">
-                <div class="section-header"><span class="section-title">📍 雪梨市區</span></div>
+                <div class="section-header"><span class="section-title">📍 雪梨市區漫遊</span></div>
+                
+                <!-- 08:45 出發 -->
                 <div class="tl-row">
-                    <div class="tl-time-box"><div class="tl-time">10:00</div></div>
+                    <div class="tl-time-box"><div class="tl-time">08:45</div></div>
                     <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
-                    <div class="tl-card" onclick="navigateToMap('Sydney Opera House')">
-                        <div class="tl-nav-icon">📸</div>
-                        <div class="tl-card-title">雪梨歌劇院</div>
-                        <div class="tl-card-desc">外部參觀拍照，皇家植物園。</div>
-                        <div class="tl-tags"><span class="tag tag-green">地標</span></div>
+                    <div class="tl-card" onclick="navigateToMap('Holiday Inn Sydney - Potts Point')">
+                        <div class="tl-nav-icon">🏨</div>
+                        <div class="tl-card-title">從飯店出發</div>
+                        <div class="tl-card-desc">推薦：步行經 Macquarie St (40分) 享受城市綠蔭，或搭火車 (10分)。</div>
+                        <div class="tl-tags"><span class="tag tag-blue">交通</span></div>
                     </div>
                 </div>
+
+                <!-- 09:30 岩石區 -->
                 <div class="tl-row">
-                    <div class="tl-time-box"><div class="tl-time">14:00</div></div>
+                    <div class="tl-time-box"><div class="tl-time">09:30</div></div>
                     <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
-                    <div class="tl-card" onclick="navigateToMap('The Rocks')">
-                        <div class="tl-nav-icon">🚶</div>
-                        <div class="tl-card-title">岩石區</div>
-                        <div class="tl-card-desc">週末市集與古老巷弄。</div>
+                    <div class="tl-card" onclick="navigateToMap('The Rocks, Sydney')">
+                        <div class="tl-nav-icon">🪨</div>
+                        <div class="tl-card-title">岩石區 (The Rocks)</div>
+                        <div class="tl-card-desc">漫步約 2.5 小時。探索老街、歷史建築，慢慢往港邊走。</div>
                         <div class="tl-tags"><span class="tag tag-green">散步</span></div>
                     </div>
                 </div>
+
+                <!-- 12:00 午餐 -->
+                <div class="tl-row">
+                    <div class="tl-time-box"><div class="tl-time">12:00</div></div>
+                    <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
+                    <div class="tl-card" onclick="navigateToMap('The Squire\'s Landing')">
+                        <div class="tl-nav-icon">🍽️</div>
+                        <div class="tl-card-title">港邊午餐</div>
+                        <div class="tl-card-desc">推薦 The Squire's Landing (港景) 或 The Glenmore (屋頂)。吃完接歌劇院。</div>
+                        <div class="tl-tags"><span class="tag tag-gold">午餐</span></div>
+                    </div>
+                </div>
+
+                <!-- 13:20 拍照 -->
+                <div class="tl-row">
+                    <div class="tl-time-box"><div class="tl-time">13:20</div></div>
+                    <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
+                    <div class="tl-card" onclick="navigateToMap('Sydney Opera House')">
+                        <div class="tl-nav-icon">📸</div>
+                        <div class="tl-card-title">歌劇院外觀拍照</div>
+                        <div class="tl-card-desc">重要！這 25 分鐘拍好正面白帆、大階梯與團體照。</div>
+                        <div class="tl-tags"><span class="tag tag-green">攝影</span></div>
+                    </div>
+                </div>
+
+                <!-- 13:45 導覽 -->
+                <div class="tl-row">
+                    <div class="tl-time-box"><div class="tl-time">13:45</div></div>
+                    <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
+                    <div class="tl-card" onclick="navigateToMap('Sydney Opera House')">
+                        <div class="tl-nav-icon">🎧</div>
+                        <div class="tl-card-title">歌劇院英文導覽</div>
+                        <div class="tl-card-desc">走進世界遺產體驗。沒參加者可周邊自由活動。</div>
+                        <div class="tl-tags"><span class="tag tag-green">導覽</span></div>
+                    </div>
+                </div>
+
+                <!-- 15:00 植物園 -->
+                <div class="tl-row">
+                    <div class="tl-time-box"><div class="tl-time">15:00</div></div>
+                    <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
+                    <div class="tl-card" onclick="navigateToMap('Mrs Macquarie\'s Chair')">
+                        <div class="tl-nav-icon">🌿</div>
+                        <div class="tl-card-title">皇家植物園放鬆</div>
+                        <div class="tl-card-desc">前往 Mrs Macquarie’s Chair 拍攝經典視角。平路好走。</div>
+                        <div class="tl-tags"><span class="tag tag-green">景點</span></div>
+                    </div>
+                </div>
+
+                <!-- 16:45 港灣大橋 -->
+                <div class="tl-row">
+                    <div class="tl-time-box"><div class="tl-time">16:45</div></div>
+                    <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
+                    <div class="tl-card" onclick="navigateToMap('Sydney Harbour Bridge Pedestrian Walkway')">
+                        <div class="tl-nav-icon">🌉</div>
+                        <div class="tl-card-title">港灣大橋步道</div>
+                        <div class="tl-card-desc">記憶點很高的一段！行人步道免費，從 Circular Quay 走到橋南端。</div>
+                        <div class="tl-tags"><span class="tag tag-green">散步</span></div>
+                    </div>
+                </div>
+
+                <!-- 晚餐 -->
+                <div class="tl-row">
+                    <div class="tl-time-box"><div class="tl-time">Dinner</div></div>
+                    <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
+                    <div class="tl-card" onclick="navigateToMap('Opera Bar')">
+                        <div class="tl-nav-icon">🥂</div>
+                        <div class="tl-card-title">晚餐 & 回飯店</div>
+                        <div class="tl-card-desc">選一：Opera Bar 看夜景。選二：搭車回 Potts Point 吃在地餐廳。</div>
+                        <div class="tl-tags"><span class="tag tag-gold">晚餐</span></div>
+                    </div>
+                </div>
+
                 <div class="daily-memo-box">
                     <textarea class="card-memo-input" data-key="memo_day_6" placeholder="📝 D7 隨手記..."></textarea>
                 </div>
@@ -1013,28 +1138,129 @@
 
             <!-- Day 13 -->
             <div id="day-12" class="day-panel">
-                <div class="section-header"><span class="section-title">📍 賦歸</span></div>
+                <div class="section-header"><span class="section-title">📍 賦歸：分組行動日</span></div>
+                
+                <!-- 全體：退房 -->
                 <div class="tl-row">
-                    <div class="tl-time-box"><div class="tl-time">09:00</div></div>
+                    <div class="tl-time-box"><div class="tl-time">AM</div></div>
                     <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
-                    <!-- 更新：Camberwell Sunday Market -->
-                    <div class="tl-card" onclick="navigateToMap('Camberwell Sunday Market')">
-                        <div class="tl-nav-icon">🛍️</div>
-                        <div class="tl-card-title">Camberwell 週日市集</div>
-                        <div class="tl-card-desc">墨爾本最受歡迎的二手跳蚤市場，尋寶好去處。(週日限定)</div>
-                        <div class="tl-tags"><span class="tag tag-green">市集</span></div>
+                    <div class="tl-card" onclick="navigateToMap('Dorsett Melbourne')">
+                        <div class="tl-nav-icon">🛅</div>
+                        <div class="tl-card-title">全體退房 & 寄放行李</div>
+                        <div class="tl-card-desc">將所有大行李寄放在櫃台。輕裝出門，依組別回飯店領取。</div>
+                        <div class="tl-tags"><span class="tag tag-purple">住宿</span></div>
                     </div>
                 </div>
+
+                <!-- Group A 區塊 -->
+                <div style="margin: 30px 0 15px 16px; font-weight: 800; color: var(--ocean-blue); font-size: 18px; border-bottom: 2px solid #E2E8F0; padding-bottom: 8px;">
+                    ✈️ Group A (一家 3 口)
+                </div>
+
                 <div class="tl-row">
-                    <div class="tl-time-box"><div class="tl-time">15:00</div></div>
+                    <div class="tl-time-box"><div class="tl-time">09:30</div></div>
                     <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
-                    <div class="tl-card" onclick="navigateToMap('Melbourne Airport')">
-                        <div class="tl-nav-icon">✈️</div>
-                        <div class="tl-card-title">前往機場</div>
-                        <div class="tl-card-desc">Tullamarine 機場，準備回家。</div>
+                    <div class="tl-card" onclick="navigateToMap('Camberwell Sunday Market')">
+                        <div class="tl-nav-icon">🏺</div>
+                        <div class="tl-card-title">坎伯韋爾週日市集</div>
+                        <div class="tl-card-desc">搭 Uber 前往 (約 25 分)。古董、黑膠尋寶。⚠️ 記得帶現金。</div>
+                        <div class="tl-tags"><span class="tag tag-gold">市集</span></div>
+                    </div>
+                </div>
+
+                <div class="tl-row">
+                    <div class="tl-time-box"><div class="tl-time">11:30</div></div>
+                    <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
+                    <div class="tl-card" onclick="navigateToMap('Dorsett Melbourne')">
+                        <div class="tl-nav-icon">🚗</div>
+                        <div class="tl-card-title">叫車回飯店</div>
+                        <div class="tl-card-desc">準時叫 Uber 回帝盛。上廁所、領行李。</div>
                         <div class="tl-tags"><span class="tag tag-blue">交通</span></div>
                     </div>
                 </div>
+
+                <div class="tl-row">
+                    <div class="tl-time-box"><div class="tl-time">13:10</div></div>
+                    <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
+                    <div class="tl-card" onclick="navigateToMap('Melbourne Airport')">
+                        <div class="tl-nav-icon">🛫</div>
+                        <div class="tl-card-title">抵達機場 (Group A)</div>
+                        <div class="tl-card-desc">搭乘 15:35 班機。Uber 直奔機場。</div>
+                        <div class="tl-tags"><span class="tag tag-blue">機場</span></div>
+                    </div>
+                </div>
+
+                <!-- Group B 區塊 -->
+                <div style="margin: 40px 0 15px 16px; font-weight: 800; color: var(--eucalyptus); font-size: 18px; border-bottom: 2px solid #E2E8F0; padding-bottom: 8px;">
+                    🎡 Group B (親友 9 人)
+                </div>
+
+                <div class="tl-row">
+                    <div class="tl-time-box"><div class="tl-time">10:00</div></div>
+                    <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
+                    <div class="tl-card" onclick="navigateToMap('South Melbourne Market')">
+                        <div class="tl-nav-icon">🦪</div>
+                        <div class="tl-card-title">南墨爾本市場</div>
+                        <div class="tl-card-desc">叫 3 台 Uber。必吃：Agathe 可頌、生蠔、冠軍咖啡。</div>
+                        <div class="tl-tags"><span class="tag tag-gold">早午餐</span></div>
+                    </div>
+                </div>
+
+                <div class="tl-row">
+                    <div class="tl-time-box"><div class="tl-time">13:30</div></div>
+                    <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
+                    <div class="tl-card" onclick="navigateToMap('Luna Park Melbourne')">
+                        <div class="tl-nav-icon">🎢</div>
+                        <div class="tl-card-title">聖基爾達 & 月亮公園</div>
+                        <div class="tl-card-desc">百年遊樂園(大嘴巴)，入場免費。搭 Uber 前往。</div>
+                        <div class="tl-tags"><span class="tag tag-green">景點</span></div>
+                    </div>
+                </div>
+
+                <div class="tl-row">
+                    <div class="tl-time-box"><div class="tl-time">16:00</div></div>
+                    <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
+                    <div class="tl-card" onclick="navigateToMap('Monarch Cakes')">
+                        <div class="tl-nav-icon">🍰</div>
+                        <div class="tl-card-title">阿克蘭街下午茶</div>
+                        <div class="tl-card-desc">蛋糕街散步。推薦 Monarch Cakes 起司蛋糕。</div>
+                        <div class="tl-tags"><span class="tag tag-gold">甜點</span></div>
+                    </div>
+                </div>
+
+                <div class="tl-row">
+                    <div class="tl-time-box"><div class="tl-time">17:30</div></div>
+                    <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
+                    <div class="tl-card" onclick="navigateToMap('St Kilda Pier')">
+                        <div class="tl-nav-icon">🌅</div>
+                        <div class="tl-card-title">聖基爾達碼頭</div>
+                        <div class="tl-card-desc">海景散步、看日落。運氣好可看到小企鵝。</div>
+                        <div class="tl-tags"><span class="tag tag-green">散步</span></div>
+                    </div>
+                </div>
+
+                <div class="tl-row">
+                    <div class="tl-time-box"><div class="tl-time">19:00</div></div>
+                    <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
+                    <div class="tl-card" onclick="navigateToMap('Healeys Lane, Melbourne')">
+                        <div class="tl-nav-icon">🥢</div>
+                        <div class="tl-card-title">市區晚餐 (韓國街)</div>
+                        <div class="tl-card-desc">搭 Uber 回飯店附近 Healeys Lane。吃飽直接推行李上車最順。</div>
+                        <div class="tl-tags"><span class="tag tag-gold">晚餐</span></div>
+                    </div>
+                </div>
+
+                <div class="tl-row">
+                    <div class="tl-time-box"><div class="tl-time">21:00</div></div>
+                    <div class="tl-line-box"><div class="tl-line"></div><div class="tl-dot"></div></div>
+                    <div class="tl-card" onclick="navigateToMap('Melbourne Airport')">
+                        <div class="tl-nav-icon">✈️</div>
+                        <div class="tl-card-title">抵達機場 (Group B)</div>
+                        <div class="tl-card-desc">回飯店領行李後出發。搭乘 00:00 班機。</div>
+                        <div class="tl-tags"><span class="tag tag-blue">機場</span></div>
+                    </div>
+                </div>
+
                 <div class="daily-memo-box">
                     <textarea class="card-memo-input" data-key="memo_day_12" placeholder="📝 D13 隨手記..."></textarea>
                 </div>
@@ -1127,9 +1353,9 @@
         <div class="info-card">
             <div class="info-header"><span class="info-label">SYDNEY</span></div>
             <div class="info-body">
-                <div class="info-sub">Holiday Inn Darling Harbour</div>
+                <div class="info-sub">Holiday Inn Potts Point</div>
                 <div class="info-detail">
-                    <span>📍 Darling Harbour, Sydney</span>
+                    <span>📍 203 Victoria St, Potts Point</span>
                     <span>🕒 Check-in: 15:00</span>
                 </div>
             </div>
@@ -1137,7 +1363,7 @@
             <div class="card-memo-box">
                 <textarea class="card-memo-input" data-key="memo_hotel_syd" placeholder="備註: 訂房確認號、特別需求..."></textarea>
             </div>
-            <div class="info-action" onclick="navigateToMap('Holiday Inn Darling Harbour')">開啟地圖 ↗</div>
+            <div class="info-action" onclick="navigateToMap('Holiday Inn Sydney - Potts Point')">開啟地圖 ↗</div>
         </div>
         
         <div class="info-card">
